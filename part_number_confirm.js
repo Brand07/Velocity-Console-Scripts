@@ -23,8 +23,6 @@ barcode.
 var requiredPartNumber = Screen.getText(3, 6, 8);
 View.toast(requiredPartNumber);
 
-// Attempting to disable the auto-carriage return here
-var autoEnterEnabled = false;
 
 function onScan(event) {
     // Check if the scanned part number matches the required part number
@@ -32,14 +30,6 @@ function onScan(event) {
         // If the part number matches, proceed to the next screen
         Device.beep(50, 50, 50);
         View.toast("Part number confirmed!");
-
-        // Check if auto-enter is enabled
-        if (autoEnterEnabled) {
-            // Send the enter key to proceed to the next screen
-            setTimeout(function() {
-                Device.sendKeys('{return}');
-            }, 150);
-        }
         // Proceed to the next screen
     } else {
         // If the part number does not match, display an error message
