@@ -19,3 +19,21 @@ barcode.
 8/15/2024
 */
 
+// location of the part number displayed on the screen
+var requiredPartNumber = Screen.getText(3, 6, 8);
+View.toast(requiredPartNumber);
+
+function onScan(event) {
+    // Check if the scanned part number matches the required part number
+    if (event.data === requiredPartNumber) {
+        // If the part number matches, proceed to the next screen
+        Device.beep(50, 50, 50);
+        View.toast("Part number confirmed!");
+        // Proceed to the next screen
+        Screen.change("next_screen");
+    } else {
+        // If the part number does not match, display an error message
+        Device.beep(2000, 1000, 50);
+        View.toast("Part number does not match. Please rescan.");
+    }
+}
