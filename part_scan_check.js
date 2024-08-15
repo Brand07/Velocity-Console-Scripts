@@ -7,6 +7,9 @@ error message and prompts the user to rescan the barcode.
 This is simillar to the serial_check.js script, but with
 different length and format requirements.
 
+Note: The keyboard input is disabled on this specific field
+on the screen. The user can only scan the barcode to input.
+
 8-15-2024
 */
 
