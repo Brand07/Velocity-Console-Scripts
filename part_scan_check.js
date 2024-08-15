@@ -30,12 +30,6 @@ function onScan(event) {
             Device.beep(50, 50, 50);
             //View.toast("EAN number scanned.");
         }
-
-    else {
-        Device.beep(2000, 1000, 50);
-        View.toast("Invalid part number format. Please rescan.");
-        event.data = "";
-    }
 }
 
 // Register the onScan function to handle scan events
