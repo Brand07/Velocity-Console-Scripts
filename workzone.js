@@ -9,7 +9,7 @@ message and prompt the user to enter more characters.
 View.toast("Script Working.");
 
 var zoneOne = Screen.getText(4, 6, 4);
-if (zoneOne === "") {
+if (zoneOne === "*") {
     View.toast("Please enter more characters.");
 }
 
