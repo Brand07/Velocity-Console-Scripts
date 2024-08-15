@@ -17,18 +17,18 @@ function onScan(event) {
     // Check if the scanned data is < 12 or > 13 characters long
     if (length < 12 || length > 13) {
         Device.beep(2000, 1000, 50);
-        View.toast("Invalid part number length. Please rescan.");
+        View.toast("Please Scan a valid UPC or EAN number.");
         event.data = "";
     }
     
     else if (length === 12) {
         Device.beep(50, 50, 50);
-        View.toast("UPC number scanned.");
+        //View.toast("UPC number scanned.");
     }
     
         else if (length === 13) {
             Device.beep(50, 50, 50);
-            View.toast("EAN number scanned.");
+            //View.toast("EAN number scanned.");
         }
 
     else {
