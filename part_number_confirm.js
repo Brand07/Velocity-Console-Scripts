@@ -35,6 +35,8 @@ function onScan(event) {
         // If the part number does not match, display an error message
         Device.beep(2000, 1000, 50);
         View.toast("Part number does not match. Please rescan.");
+        // Clear the scanned data
+        event.data = "";
     }
 }
 
