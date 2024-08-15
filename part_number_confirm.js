@@ -37,3 +37,6 @@ function onScan(event) {
         View.toast("Part number does not match. Please rescan.");
     }
 }
+
+// Register the onScan function to handle scan events
+WLEvent.on("Scan", onScan);
