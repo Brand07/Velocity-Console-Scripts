@@ -6,6 +6,10 @@ only enters the wildcard character, the script will display an error
 message and prompt the user to enter more characters.
 */
 
+
+// Test disabling auto-enter
+Scanner.scanTerminator("NoAuto");
+
 View.toast("Script Working.");
 
 var zoneOne = Screen.getText(4, 6);
@@ -14,7 +18,6 @@ if (zoneOne === "*") {
 }
 
 function onScan(event) {
-    
     // Check if something is inserted on 
     // the Workzone field
     if (zoneOne === "") {
