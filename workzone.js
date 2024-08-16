@@ -13,7 +13,5 @@ View.toast("Test");
 function onScan(event) {
     View.toast("Set the cursor position");
     Screen.setCursorPosition(4, 6);
-
-
     }
 WLEvent.on("Scan", onScan);
