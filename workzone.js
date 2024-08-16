@@ -8,8 +8,9 @@ message and prompt the user to enter more characters.
 
 
 // Test disabling auto-enter
+View.toast("Script working");
 
-var position = Screen.getCursorPosition()
+var position = Screen.getCursorPosition();
 
 if(position.row == 4) {
     View.toast("Row 4");
