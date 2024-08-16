@@ -11,8 +11,9 @@ message and prompt the user to enter more characters.
 View.toast("Test");
 
 function onScan(event) {
-    Screen.setCursorPosition(4, 6);
     View.toast("Set the cursor position");
+    Screen.setCursorPosition(4, 6);
+
 
     }
 WLEvent.on("Scan", onScan);
