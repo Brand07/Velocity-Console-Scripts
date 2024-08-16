@@ -11,7 +11,12 @@ message and prompt the user to enter more characters.
 View.toast("Test");
 
 function onScan(event) {
-    View.toast("Set the cursor position");
-    Screen.setCursorPosition(4, 6);
+    try {
+        View.toast("Set the cursor position");
+        Screen.setCursorPosition(4, 6);
+    } catch (error) {
+        View.toast("Error setting cursor position: " + error.message);
     }
+}
+
 WLEvent.on("Scan", onScan);
