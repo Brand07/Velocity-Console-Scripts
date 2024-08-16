@@ -6,4 +6,4 @@ Screen T34
 
 */
 
- Device.sendKeys("1{return}");
+ Device.sendKeys("1");
