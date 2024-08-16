@@ -10,6 +10,7 @@ View.toast("Script Working.");
 
 function onScan(event) {
     var zoneOne = Screen.getText(4, 6);
+    View.toast(zoneOne);
     // Check if the input is only a wildcard character
     if (zoneOne === "*") {
         View.toast("Please enter more characters.");
@@ -17,10 +18,8 @@ function onScan(event) {
         event.data = "";
         return;
     }
-
     // TODO: Add a delay after the scan event
     // to give the scan time to process the data
-
     setTimeout(function() {
         if (zoneOne.length <= 1) {
             View.toast("Step 2 working.");
