@@ -16,6 +16,8 @@ function onScan(event) {
         Screen.setCursorPosition(4, 6);
     } catch (error) {
         View.toast("Error setting cursor position: " + error.message);
+        // Error message indicates that this is not a valid function...
+        // Only available on 3270 and 5250 TE hosts
     }
 }
 
