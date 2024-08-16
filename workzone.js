@@ -11,6 +11,7 @@ message and prompt the user to enter more characters.
 View.toast("Script working");
 
 var position = Screen.getCursorPosition();
+View.toast(position);
 
 if(position.row == 4) {
     View.toast("Row 4");
