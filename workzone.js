@@ -8,26 +8,13 @@ message and prompt the user to enter more characters.
 
 
 // Test disabling auto-enter
-Scanner.scanTerminator("NoAuto");
 
-View.toast("Script Working.");
+var position = Screen.getCursorPosition()
 
-var zoneOne = Screen.getText(4, 6);
-if (zoneOne === "*") {
-    View.toast("Please enter more characters.");
+if(position.row == 4) {
+    View.toast("Row 4");
+} else if (position.row == 5) {
+    View.toast("Row 5");
+} else if (position.row == 6) {
+    View.toast("Row 6");
 }
-
-function onScan(event) {
-    // Check if something is inserted on 
-    // the Workzone field
-    if (zoneOne === "") {
-        View.toast("Step 2 working.");
-        // If the user only enters the wildcard character, display an error message
-        Device.beep(2000, 1000, 50);
-        View.toast("Please enter more characters.");
-        // Clear the scanned data
-        event.data = "";
-    }
-}
-
-WheelEvent.on("Scan", onScan);
