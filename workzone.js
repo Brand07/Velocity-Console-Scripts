@@ -8,9 +8,11 @@ message and prompt the user to enter more characters.
 
 
 // Test disabling auto-enter
+
+
 View.toast("Script working");
 
-var position = Screen.getCursorPosition();
+/*var position = Screen.getCursorPosition();
 View.toast(position);
 
 if(position.row == 4) {
@@ -20,3 +22,7 @@ if(position.row == 4) {
 } else if (position.row == 6) {
     View.toast("Row 6");
 }
+*/
+// Set the cursor position to the Work Zone 1 field.
+Screen.setCursorPosition(4, 6);
+View.toast("Set to WKZ1");
