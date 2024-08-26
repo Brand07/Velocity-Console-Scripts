@@ -14,3 +14,6 @@ function onScan(event) {
         Device.sendKeys("{return}");
     }, 150);
 }
+
+// Register the onScan function to handle scan events
+WLEvent.on("Scan", onScan);
