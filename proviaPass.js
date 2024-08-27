@@ -1,9 +1,8 @@
-/*
-This small script simply passes a '1' and an enter key
-to pass a sub-login screen.
+function onScreenLoad(event) {
+ setTimeout(function() {
+  Device.sendKeys("1");
+ }, 150); // 150ms delay
+}
 
-Screen T34
-
-*/
-
- Device.sendKeys("1");
+// Register the onScreenLoad function to handle the screen load event
+WLEvent.on("ScreenLoad", onScreenLoad);
