@@ -1,5 +1,6 @@
 function onScreenLoad(event) {
  setTimeout(function() {
+  View.toast("Sending '1' key.")
   Device.sendKeys("1");
  }, 150); // 150ms delay
 }
