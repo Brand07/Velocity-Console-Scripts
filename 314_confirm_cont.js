@@ -1,13 +1,15 @@
-//View.toast("Script started");
 function onScan(scanData) {
-    // Process the scan data here
-    Device.beep(50, 50, 50);
-    // After processing the scan data, wait for 1/10th of a second second (100 milliseconds) before sending the tab character
-    setTimeout(function() {
-        //View.toast("Sending Tab Key");
-        Device.sendKeys('{HEX:0009}');
-        //View.toast("Tab Key Sent");
-    }, 100);
+    //Process the scan data
+    if (scanData.startsWith("0000")) {
+        Device.beep(25, 25, 25);
+        setTimeout(function() {
+            Device.sendKeys("{HEX:0009}");
+        }, 100);
+    }
+    else {
+        Device.beep(2000, 1000, 50);
+        View.toast("Invalid scan. Please rescan.");
+        scanData = "";
+    }
 }
-
 WLEvent.on("Scan", onScan);
