@@ -1,3 +1,4 @@
+View.toast("Please scan the container number.");
 function onScan(scanData) {
     // Process the scan data
     if (scanData.startsWith("0000")) {
