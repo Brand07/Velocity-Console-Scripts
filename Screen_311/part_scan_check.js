@@ -27,11 +27,13 @@ function onScan(event) {
     else if (length === 12) {
         Device.beep(50, 50, 50);
         View.toast("UPC number scanned.");
+        Device.sendKeys('{HEX:0009}');
     }
     
         else if (length === 13) {
             Device.beep(50, 50, 50);
             View.toast("EAN number scanned.");
+            Device.sendKeys('{HEX:0009}');
         }
 }
 
