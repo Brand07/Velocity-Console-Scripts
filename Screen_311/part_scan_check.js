@@ -27,8 +27,8 @@ function onScan(event) {
     else if (length === 12) {
         setTimeout(function () {
             //View.toast("Sending Enter Key");
-            Device.beep(50, 50, 50)
-            Device.sendKeys('{return}');
+            Device.beep(200, 100, 50)
+            //Device.sendKeys('{return}');
             //View.toast("Enter Key Sent");
         }, 100);
     }
@@ -36,8 +36,8 @@ function onScan(event) {
         else if (length === 13) {
             setTimeout(function () {
                 //View.toast("Sending Enter Key");
-                Device.beep(50, 50, 50)
-                Device.sendKeys('{return}');
+                Device.beep(200, 100, 50)
+                //Device.sendKeys('{return}');
                 //View.toast("Enter Key Sent");
             }, 100);
         }
