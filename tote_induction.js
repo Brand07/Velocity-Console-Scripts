@@ -2,7 +2,7 @@
 This script applies to a specific screen
 in the application that asks for a barcode,
 scans the barcode, and then sends a tab key
-to move to the next field. There is a sliught
+to move to the next field. There is a slight
 delay between the scan and the auto-entered tab
 key to allow the application to process the scan
 */
