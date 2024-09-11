@@ -19,7 +19,7 @@ function onScan(event) {
         }, 100);
         setTimeout(function() {
             //View.toast("Sending Workzone");
-            Device.sendKeys('*101');
+            Device.sendKeys('*');
             //View.toast("Setting Workzone");
         }, 150);
     }
