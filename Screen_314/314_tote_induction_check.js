@@ -1,6 +1,12 @@
 //View.toast("2nd Script started");
 
 function onScan(event) {
+    var tote_field = Screen.getText(6, 0, 8);
+    if (!(tote_field.substring(0, 3) === 'TOT')) {
+        event.data = "";
+        View.toast("Please scan a valid tote ID.");
+        Device.beep(250, 75, 50);
+    }
     // See if the input matches "TOT"
     if (event.data.startsWith("TOT")) {
         setTimeout(function() {
@@ -14,20 +20,4 @@ function onScan(event) {
     }
 }
 
-// Tote ID field
-var tote_field = Screen.getText(6, 0, 8);
-
-// Make sure the tote ID field doesn't contain "0"
-function toteCheck(event) {
-    // Check that the tote field does not start with "TOT"
-    var tote_field = Screen.getText(6, 0, 8);
-    if (!(tote_field.substring(0, 3) === 'TOT')) {
-        // Add your logic here
-        event.data = "";
-        View.toast("Please scan a valid tote ID.");
-        Device.beep(250, 75, 50);
-    }
-}
-
 WLEvent.on("Scan", onScan);
-WLEvent.on("OnKey<000D>", toteCheck);
