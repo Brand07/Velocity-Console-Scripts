@@ -1,23 +1,20 @@
-//View.toast("2nd Script started");
-
 function onScan(event) {
     var tote_field = Screen.getText(6, 0, 8);
-    if (!(tote_field.substring(0, 3) === 'TOT')) {
+
+    // Check if the tote field starts with "0" or does not start with "TOT"
+    if (tote_field.startsWith("0") || !tote_field.startsWith("TOT")) {
         event.data = "";
         View.toast("Please scan a valid tote ID.");
         Device.beep(250, 75, 50);
-    }
-    // See if the input matches "TOT"
-    if (event.data.startsWith("TOT")) {
-        setTimeout(function() {
-            //View.toast("Sending Enter Key");
-            Device.sendKeys("{return}");
-            //View.toast("Enter Key Sent");
-        }, 100);
+        event.preventDefault();
+        event.stopPropagation();
     } else {
-        View.toast("Not a Tote ID");
-        event.data = "";
+        // If the input matches "TOT", send the Enter key
+        setTimeout(function() {
+            Device.sendKeys("{return}");
+        }, 100);
     }
 }
 
 WLEvent.on("Scan", onScan);
+WLEvent.on("OnKey<000D>", onScan);
