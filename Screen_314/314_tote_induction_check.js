@@ -22,12 +22,10 @@ function toteCheck(event) {
     // Check that the tote field does not start with "TOT"
     var tote_field = Screen.getText(6, 0, 8);
     if (!(tote_field.substring(0, 3) === 'TOT')) {
-        setTimeout(function() {
-            // Add your logic here
-            View.toast("Please scan a valid tote ID.");
-            Device.beep(2000, 1000, 50);
-            event.data = "";
-        }, 1000); // 1-second delay
+        // Add your logic here
+        event.data = "";
+        View.toast("Please scan a valid tote ID.");
+        Device.beep(250, 75, 50);
     }
 }
 
