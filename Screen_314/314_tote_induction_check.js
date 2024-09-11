@@ -8,11 +8,12 @@ function onScan(event) {
         Device.beep(250, 75, 50);
         event.preventDefault();
         event.stopPropagation();
-        WLEvent.off("OnKey<000D>");
+        WLEvent.off("OnKey<000D>", onEnterKey);
     } else {
         // If the input matches "TOT", send the Enter key
         setTimeout(function() {
             Device.sendKeys("{return}");
+            WLEvent.on("OnKey<000D>", onEnterKey);
         }, 100);
     }
 }
@@ -27,7 +28,7 @@ function onEnterKey(event) {
         Device.beep(250, 75, 50);
         event.preventDefault();
         event.stopPropagation();
-        WLEvent.off("OnKey<000D>");
+        WLEvent.off("OnKey<000D>", onEnterKey);
     }
 }
 
