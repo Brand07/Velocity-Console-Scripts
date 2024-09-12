@@ -11,8 +11,6 @@ Author: Brandon Yates
 Date: September 12th, 2024
  */
 
-// Disable the physical keyboard
-Keyboard.enable(false);
 
 // Function to handle the scan event
 function onScan(event) {
