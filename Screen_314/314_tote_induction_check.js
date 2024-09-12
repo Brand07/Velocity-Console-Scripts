@@ -1,6 +1,6 @@
 function onScan(event) {
     var tote_field = Screen.getText(6, 0, 8);
-
+    const length = event.data.length;
     // Check if the tote field starts with "0" or does not start with "TOT"
     if (tote_field.startsWith("0") || !tote_field.startsWith("TOT")) {
         event.data = "";
@@ -23,12 +23,11 @@ function onEnterKey(event) {
 
     // Check if the tote field starts with "0" or does not start with "TOT"
     if (tote_field.startsWith("0") || !tote_field.startsWith("TOT")) {
-        event.data = "";
-        View.toast("Please scan a valid tote ID.");
-        Device.beep(250, 75, 50);
-        event.preventDefault();
-        event.stopPropagation();
-        WLEvent.off("OnKey<000D>", onEnterKey);
+        Prompt.promptOptions("Invalid tote ID. Please scan a valid tote ID.", ["OK"], function() {
+            event.data = "";
+            Device.beep(250, 75, 50);
+            WLEvent.off("OnKey<000D>", onEnterKey);
+        });
     }
 }
 
