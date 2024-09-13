@@ -57,6 +57,11 @@ function disableKeys(keycodes) {
     keycodes.forEach(function(keycode) {
         WLEvent.on(`OnKey<${keycode}>`, function(event) {
             Device.errorBeep(75, 50, 50);
+            Prompt.promptOptions("Alert", "You are not allowed to type in the Tote ID field.", "OK|CLOSE", function(result) {
+                if (result === "OK") {
+                    Device.errorBeep(25, 25,20);
+                }
+            });
             Device.sendKeys("{HEX:0008}");
             event.eventHandled = true;
         });
@@ -68,5 +73,8 @@ if (Screen.getText(0, 0, 3) === "314") {
     disableKeys(numbers);
 }
 
+
+
 // Attach the scan event handler
 WLEvent.on("Scan", onScan);
+
