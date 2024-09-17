@@ -18,7 +18,7 @@ function onScan(event) {
     const length = event.data.length;
 
     // Check if the tote field starts with "0" or does not start with "TOT"
-    if (tote_field.startsWith("0") || !tote_field.startsWith("TOT")) {
+    if (!tote_field.startsWith("TOT")) {
         event.data = "";
         View.toast("Please scan a valid tote ID.");
         Device.beep(250, 75, 50);
