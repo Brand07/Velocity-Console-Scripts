@@ -12,27 +12,27 @@ Date: September 12th, 2024
  */
 
 
-// Function to handle the scan event
 function onScan(event) {
-    var tote_field = Screen.getText(6, 0, 8);
-    const length = event.data.length;
-
-    // Check if the tote field starts with "0" or does not start with "TOT"
-    if (!tote_field.startsWith("TOT")) {
-        event.data = "";
-        View.toast("Please scan a valid tote ID.");
-        Device.beep(250, 75, 50);
-        event.preventDefault();
-        event.stopPropagation();
-        WLEvent.off("OnKey<000D>", onEnterKey);
-    } else {
-        // If the input matches "TOT", send the Enter key
+    // See if the input matches "TOT"
+    if (event.data.startsWith("TOT")) {
         setTimeout(function() {
+            //View.toast("Sending Enter Key");
             Device.sendKeys("{return}");
-            WLEvent.on("OnKey<000D>", onEnterKey);
+            //View.toast("Enter Key Sent");
         }, 100);
+        setTimeout(function() {
+            //View.toast("Sending Workzone");
+            //Device.sendKeys('*');
+            //View.toast("Setting Workzone");
+        }, 150);
+    }
+    else {
+        View.toast("Not a Tote ID");
+        event.data = "";
     }
 }
+
+
 // Disable A-Z (uppercase)
 const uppercaseLetters = [
     "0041", "0042", "0043", "0044", "0045", "0046", "0047", "0048", "0049", "004A",
