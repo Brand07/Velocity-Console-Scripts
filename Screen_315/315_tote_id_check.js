@@ -17,11 +17,6 @@ function onScan(event) {
             Device.sendKeys('{HEX:0009}');
             //View.toast("Enter Key Sent");
         }, 100);
-        setTimeout(function() {
-            //View.toast("Sending Workzone");
-            Device.sendKeys('*');
-            //View.toast("Setting Workzone");
-        }, 150);
     }
     else {
         View.toast("Not a Tote ID");
@@ -30,6 +25,3 @@ function onScan(event) {
 }
 
 WLEvent.on("Scan", onScan);
-
-
-
