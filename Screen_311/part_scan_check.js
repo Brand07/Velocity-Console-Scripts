@@ -20,27 +20,27 @@ function onScan(event) {
     // Check if the scanned data is < 12 or > 13 characters long
     if (length < 12 || length > 13) {
         Device.beep(1000, 50, 50);
-        View.toast("Please Scan a valid UPC or EAN number.");
         event.data = "";
+        View.toast("Please Scan a valid UPC or EAN number.");
     }
-    
+
     else if (length === 12) {
         setTimeout(function () {
             //View.toast("Sending Enter Key");
-            Device.beep(200, 100, 50)
-            //Device.sendKeys('{return}');
+            Device.beep(50, 100, 50)
+            Device.sendKeys('{return}');
             //View.toast("Enter Key Sent");
         }, 100);
     }
-    
-        else if (length === 13) {
-            setTimeout(function () {
-                //View.toast("Sending Enter Key");
-                Device.beep(200, 100, 50)
-                //Device.sendKeys('{return}');
-                //View.toast("Enter Key Sent");
-            }, 100);
-        }
+
+    else if (length === 13) {
+        setTimeout(function () {
+            //View.toast("Sending Enter Key");
+            Device.beep(50, 100, 50)
+            Device.sendKeys('{return}');
+            //View.toast("Enter Key Sent");
+        }, 100);
+    }
 }
 
 // Register the onScan function to handle scan events
