@@ -21,7 +21,7 @@ View.toast("WorkZone Five: " + workZoneFive);
 function onEnterKeyPress(event) {
     View.toast("Checking WorkZones");
     // Check if one of the workzones has at least three characters inserted
-    if (workZoneFive.length > 3) {
+    if (workZoneFive.length === "") {
         setTimeout(function() {
             View.toast("Sending Enter Key");
             Device.sendKeys("{return}");
