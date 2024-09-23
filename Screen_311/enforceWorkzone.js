@@ -12,26 +12,27 @@ Date: 9/23/2024
 //var workZoneTwo = Screen.getText(5,5,4);
 //var workZoneThree = Screen.getText(6,5,4);
 //var workZoneFour = Screen.getText(7,5,4);
-var workZoneFive = Screen.getText(8,6,4);
+var workZoneFive = Screen.getText(8,6,3);
 
 
 View.toast("WorkZone Five: " + workZoneFive);
 
 // Function to check the WorkZone fields on Enter key press
-function onEnterKeyPress(event) {
+function onScan(event) {
     View.toast("Checking WorkZones");
     // Check if one of the workzones has at least three characters inserted
-    if (workZoneFive === "") {
+    if (workZoneFive.length < 3) {
         setTimeout(function() {
-            View.toast("Sending Enter Key");
-            Device.sendKeys("{return}");
-            View.toast("Enter Key Sent");
+            View.toast("Please enter a WorkZone");
+            event.data = "";
         }, 100);
     } else {
-        View.toast("Please enter a WorkZone");
-        event.data = "";
+        View.toast("Sending Enter Key");
+        Device.sendKeys("{return}");
+        View.toast("Enter Key Sent");
+
     }
 }
 
 // Attach the Enter key press event handler
-WLEvent.on("OnKey<000D>", onEnterKeyPress);
+WLEvent.on("Scan", onScan);
