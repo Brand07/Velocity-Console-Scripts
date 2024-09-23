@@ -12,7 +12,7 @@ Date: 9/23/2024
 //var workZoneTwo = Screen.getText(5,5,4);
 //var workZoneThree = Screen.getText(6,5,4);
 //var workZoneFour = Screen.getText(7,5,4);
-var workZoneFive = Screen.getText(8,5,4);
+var workZoneFive = Screen.getText(8,6,4);
 
 
 View.toast("WorkZone Five: " + workZoneFive);
@@ -21,7 +21,7 @@ View.toast("WorkZone Five: " + workZoneFive);
 function onEnterKeyPress(event) {
     View.toast("Checking WorkZones");
     // Check if one of the workzones has at least three characters inserted
-    if (workZoneFive.length === "") {
+    if (workZoneFive === "") {
         setTimeout(function() {
             View.toast("Sending Enter Key");
             Device.sendKeys("{return}");
