@@ -16,6 +16,7 @@ var workZoneFive = Screen.getText(8,5,3);
 
 // Function to check the WorkZone fields on scan
 function onScan(event) {
+    View.toast("Checking WorkZones");
     //Check if one of the workzones has at least three characters inserted
     if (workZoneOne.length >= 3 || workZoneTwo.length >= 3 || workZoneThree.length >= 3 || workZoneFour.length >= 3 || workZoneFive.length >= 3) {
         setTimeout(function() {
@@ -32,4 +33,4 @@ function onScan(event) {
     }
 }
 
-WebGLContextEvent.on("OnScan", onScan);
+WLEvent.on("Scan", onScan);
