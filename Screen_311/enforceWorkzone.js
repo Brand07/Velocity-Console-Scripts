@@ -15,8 +15,10 @@ function onScanTwo(event) {
     if (workZoneFive.trim() === "") {
         setTimeout(function() {
             View.toast("Please enter a WorkZone");
-            event.data = "";
-        }, 1000);
+            event.preventDefault();
+            event.stopPropagation();
+            event.date = "";
+        }, 100);
     } else {
         View.toast("Sending Enter Key");
         Device.sendKeys("{return}");
