@@ -17,24 +17,21 @@ var workZoneFive = Screen.getText(8,6,3);
 
 View.toast("WorkZone Five: " + workZoneFive);
 
-
-
-// Function to check the WorkZone fields on Enter key press
-function onScan(event) {
-    View.toast("Checking WorkZones");
-    // Check if one of the workzones has at least three characters inserted
-    if (workZoneFive.length == 0 || workZoneFour.length == 0) {
+function onScanTwo(event) {
+    //Check if there's something inserted into the WorkZone field
+    var workZoneFive = Screen.getText(8,6,3);
+    if (workZoneFive === "") {
         setTimeout(function() {
             View.toast("Please enter a WorkZone");
             event.data = "";
-        }, 100);
+        }, 1000);
     } else {
         View.toast("Sending Enter Key");
         Device.sendKeys("{return}");
         View.toast("Enter Key Sent");
-
     }
 }
 
+
 // Attach the Enter key press event handler
-WLEvent.on("Scan", onScan);
+WLEvent.on("Scan", onScanTwo);
