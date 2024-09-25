@@ -17,7 +17,7 @@ function onScanTwo(event) {
             View.toast("Please enter a WorkZone");
             event.preventDefault();
             event.stopPropagation();
-            event.date = "";
+            event.data = "";
         }, 100);
     } else {
         View.toast("Sending Enter Key");
