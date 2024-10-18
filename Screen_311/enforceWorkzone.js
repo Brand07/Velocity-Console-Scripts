@@ -12,12 +12,14 @@ function onScanTwo(event) {
     var workZoneFive = Screen.getText(8, 6, 3);
 
     // Check if there's something inserted into the WorkZone field
+    //Currently works, but does not clear the invalid scan data.
     if (workZoneFive.trim() === "") {
         setTimeout(function() {
+            event.data = "";
             View.toast("Please enter a WorkZone");
             event.preventDefault();
             event.stopPropagation();
-            event.data = "";
+
         }, 100);
     } else {
         View.toast("Sending Enter Key");
