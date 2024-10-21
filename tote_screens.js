@@ -62,7 +62,7 @@ function onScan(event) {
             }, 100);
         }
         else {
-            View.toast("Not a damn Tote ID");
+            View.toast("Not a Tote ID");
             event.data = "";
         }
     }
