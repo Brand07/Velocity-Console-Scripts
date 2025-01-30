@@ -5,21 +5,28 @@ Purpose: To prevent a user from overriding a container with a different containe
 Target Screen: "Container_Override"
  */
 
-if (Screen.getText(0, 10, 7) === "Confirm") { //Working
+// Function to disable keys
+function disableKeys(keycodes) {
+    keycodes.forEach(function(keycode) {
+        WLEvent.on(`OnKey<${keycode}>`, function(event) {
+            Device.sendKeys("{BACKSPACE}");
+            event.eventHandled = true;
+        });
+    });
+}
+
+if (Screen.getText(0, 10, 7) === "Confirm") { // Working
     View.toast("Container Override Is NOT Allowed.");
     disableKeys(uppercaseLetters);
     disableKeys(lowercaseLetters);
     disableKeys(numbers);
-    Device.sendKeys("n");
-    Device.sendKeys("{ENTER}");
+    setTimeout(function() {
+        Device.sendKeys("n");
+        Device.sendKeys("{ENTER}");
+    }, 1000); // 1 second delay
 } else {
     View.toast("Are we on the right screen?");
 }
-
-
-/*
-Disable every key on the keyboard. A "No" will be sent automatically to leave the screen
- */
 
 // Disable A-Z (uppercase)
 const uppercaseLetters = [
@@ -39,13 +46,3 @@ const lowercaseLetters = [
 const numbers = [
     "0030", "0031", "0032", "0033", "0034", "0035", "0036", "0037", "0038", "0039"
 ];
-
-// Function to disable keys
-function disableKeys(keycodes) {
-    keycodes.forEach(function(keycode) {
-        WLEvent.on(`OnKey<${keycode}>`, function(event) {
-            Device.sendKeys("{BACKSPACE}");
-            event.eventHandled = true;
-        });
-    });
-}
