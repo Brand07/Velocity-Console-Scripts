@@ -38,6 +38,7 @@ function disableKeys(keycodes) {
 
 if (Screen.getText(0, 10, 7) === "Confirm") { // Working
     View.toast("Container Override Is NOT Allowed.");
+    Scanner.enable(false);
     disableKeys(uppercaseLetters);
     disableKeys(lowercaseLetters);
     disableKeys(numbers);
@@ -47,5 +48,6 @@ if (Screen.getText(0, 10, 7) === "Confirm") { // Working
     }, 1000); // 1 second delay
 } else {
     View.toast("Are we on the right screen?");
+    Scanner.enable(true);
 }
 
