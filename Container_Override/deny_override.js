@@ -29,7 +29,7 @@ const numbers = [
 function disableKeys(keycodes) {
     keycodes.forEach(function(keycode) {
         WLEvent.on(`OnKey<${keycode}>`, function(event) {
-            View.toast("Key Pressed"); //Debugging
+            //View.toast("Key Pressed"); //Debugging
             Device.errorBeep(75, 50, 50);
             event.eventHandled = true;
         });
@@ -45,7 +45,7 @@ if (Screen.getText(0, 10, 7) === "Confirm") { // Working
     setTimeout(function() {
         Device.sendKeys("n");
         Device.sendKeys("{return}");
-    }, 1000); // 1 second delay
+    }, 500); // .5 second delay
 } else {
     View.toast("Are we on the right screen?");
     Scanner.enable(true);
