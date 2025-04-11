@@ -108,11 +108,13 @@ function disableKeys(keycodes) {
         });
     });
 }
+/*
 if (Screen.getText(0, 0, 3) === "314") {
     disableKeys(uppercaseLetters);
     disableKeys(lowercaseLetters);
     disableKeys(numbers);
 }
+*/
 
 // Attach the scan event handler
 WLEvent.on("Scan", onScan);
