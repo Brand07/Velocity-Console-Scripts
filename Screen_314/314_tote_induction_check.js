@@ -19,60 +19,57 @@ function onScan(event) {
     // Retrieve the screen number
     var screenNumber = Screen.getText(0, 0, 3);
     var position = Screen.getCursorPosition();
-    //View.toast("Screen Number: " + screenNumber);
+    View.toast("Screen Number: " + screenNumber);
 
     // Check if the cursor is in the cont field on screen 314
     if (screenNumber === "314" && position.row === 3) {
         // 0,0,3 = "314"
-        if (event.data.startsWith("0000")) {
+        if (event.data.startsWith("0000") && event.data.length >= 7 && event.data.length <= 8) {
             setTimeout(function () {
                 // Disable auto-enter
                 Scanner.scanTerminator("NoAuto");
                 // Send tab key after a short delay
-                Device.sendKeys("{pause:150}{tab}");
+                Device.sendKeys("{pause:300}{tab}");
                 View.toast("Tab Key Sent");
             }, 100);
         } else {
-            View.toast("Not a Container Number");
+            View.toast("Not a Container Number or Invalid Length");
             event.data = "";
         }
     }
-
-
     // Check if we're on screen 314 in the tote id input field
     else if (screenNumber === "314" && position.row === 6) {
-        //0,0,3 = "315"
-        if (event.data.startsWith("TOT")) {
+        // 0,0,3 = "315"
+        if (event.data.startsWith("TOT") && event.data.length >= 7 && event.data.length <= 8) {
             setTimeout(function () {
-                //View.toast("Sending Enter Key");
                 Device.sendKeys("{return}");
-                //View.toast("Enter Key Sent");
+                View.toast("Enter Key Sent");
             }, 100);
-        }
-        else {
-            View.toast("Not a Tote ID");
+        } else {
+            View.toast("Not a Tote ID or Invalid Length");
             event.data = "";
         }
     }
+    // Check if we're on screen 315 in the tote id input field
     else if (screenNumber === "315" && position.row === 3) {
-        //0,0,3 = "315"
-        if (event.data.startsWith("TOT")) {
+        // 0,0,3 = "315"
+        if (event.data.startsWith("TOT") && event.data.length >= 7 && event.data.length <= 8) {
             setTimeout(function () {
-                //View.toast("Sending Enter Key");
                 Device.sendKeys("{tab}");
                 Device.sendKeys("{return}");
-                //View.toast("Enter Key Sent");
+                View.toast("Enter Key Sent");
             }, 100);
-        }
-        else {
-            View.toast("Not a Tote ID");
+        } else {
+            View.toast("Not a Tote ID or Invalid Length");
             event.data = "";
         }
     }
+    // Check if we're on screen 301
     else if (screenNumber === "301") {
         Device.sendKeys("{return}");
     }
 }
+
 
 // Disable A-Z (uppercase)
 const uppercaseLetters = [
