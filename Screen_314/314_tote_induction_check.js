@@ -19,25 +19,26 @@ function onScan(event) {
     // Retrieve the screen number
     var screenNumber = Screen.getText(0, 0, 3);
     var position = Screen.getCursorPosition();
-    View.toast("Screen Number: " + screenNumber);
+    //View.toast("Screen Number: " + screenNumber);
 
     // Check if the cursor is in the cont field on screen 314
     if (screenNumber === "314" && position.row === 3) {
-        //0,0,3 = "314"
+        // 0,0,3 = "314"
         if (event.data.startsWith("0000")) {
             setTimeout(function () {
+                // Disable auto-enter
                 Scanner.scanTerminator("NoAuto");
-                Device.sendKeys("{pause:300}{tab}" );
-                //View.toast("Sending Enter Key");
-                Device.sendKeys("{tab}");
-                //View.toast("Enter Key Sent");
+                // Send tab key after a short delay
+                Device.sendKeys("{pause:150}{tab}");
+                View.toast("Tab Key Sent");
             }, 100);
-        }
-        else {
+        } else {
             View.toast("Not a Container Number");
             event.data = "";
         }
     }
+
+
     // Check if we're on screen 314 in the tote id input field
     else if (screenNumber === "314" && position.row === 6) {
         //0,0,3 = "315"
