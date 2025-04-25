@@ -12,7 +12,7 @@ function onScan(event) {
         }, 100);
     } else {
         event.data = "";
-        View.toast("Not a container number.
+        View.toast("Not a container number");
     }
 }
 
