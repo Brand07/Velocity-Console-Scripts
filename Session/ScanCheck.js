@@ -1,6 +1,12 @@
 //Let's create a function to process the scan
 function onScan(event)
 {
+    if (event.data.length === 0) {
+        // If the scan data is empty, do not send enter.
+        Scanner.scanTerminator("NoAuto");
+        return; // Ensure no further processing occurs
+    }
+
 
     Logger.debug("Scan - Append - Script Beginning: Event = " + JSON.stringify(event) + " | Arguments = " + minLength + ", " + maxLength + ", " + allowedType + ", " + appendData );
 
@@ -14,14 +20,6 @@ function onScan(event)
     //Verify the symbology if it is not "ALL" and does not match then we need to return
     if( allowedType !== "ALL" && allowedType !== type )
         return;
-
-    if (event.data === "") {
-        View.Toast("Scan cannot be blank");
-        // Disable auto-enter
-        Scanner.scanTerminator("NoAuto");
-        return;
-    }
-
 
 
     //This is where we modify the scan data (remove)
@@ -60,7 +58,7 @@ function onScan(event)
     var text2SN = Screen.getText(1,0,5);
     var text3SN = Screen.getText(6,1,5);
 
-//- Start
+// added by Rick - Start
 
     //-------------------------------------------
     //screen: Directed Nest
@@ -82,7 +80,7 @@ function onScan(event)
     //View.toast(text3DN, true);
     //View.toast(text4DN, true);
 
-// - End
+// added by Rick - End
 
     //-------------------------------------------
     //screen: ContainerIDWrkEmpty
@@ -100,7 +98,8 @@ function onScan(event)
 
 
     if(text1 === "311" && text2 === "Conf:" && text3 === "Confirm Pick From" && position.row === 14){
-        Device.sendKeys("{pause:300}{return}" );
+        //Device.sendKeys("{pause:300}{return}" );
+        //View.toast("Auto-Enter Disabled");
     }
 
     //screen: ContainerIDWrkEmpty
@@ -171,18 +170,30 @@ function onScan(event)
     }
     // 704 End
 
-    //else {
-    //    //do nothing, could add append if needed
-    //    //event.data += Device.sendKeys("/0D");
-    //    event.data = event.data
-    //    //View.toast(event.data, false);
-//
-    //    Scanner.scanTerminator("AutoEnter");
-    //    Device.sendKeys("{pause:300}{return}" );
-    //}
-//
-//
-    //Logger.debug("Scan - Append- Script Ending: Event = " +  JSON.stringify(event) );
+
+        // Added by Brandon Yates - April 30th, 2025
+        //Screen -- 402 Relocate Query
+        //0,0,3 = "402"
+        //5,0,4 = "Part"
+
+    else if (Screen.getText(0,0,18) === "402 Relocate Query" && event.data.length > 0){ //Tag Field
+        View.toast("Movinng to the Container Field.");
+        Scanner.scanTerminator("NoAuto");
+        Device.sendKeys("{pause:150}{tab}");
+    }
+
+    else {
+        //do nothing, could add append if needed
+        //event.data += Device.sendKeys("/0D");
+        event.data = event.data
+        //View.toast(event.data, false);
+
+        //Scanner.scanTerminator("AutoEnter");
+        //Device.sendKeys("{pause:300}{return}" );
+    }
+
+
+    Logger.debug("Scan - Append- Script Ending: Event = " +  JSON.stringify(event) );
 }
 
 //Register the onScan function to be called when a scan occurs. Without this it will never run.
