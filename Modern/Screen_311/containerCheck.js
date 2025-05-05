@@ -4,8 +4,6 @@
 - Description: Used to control the logic on the 311 screen.
  */
 
-var screenNumber = Screen.getText(0, 0, 3);
-var position = Screen.getCursorPosition();
 
 function onScan(event) {
     if (event.data.startsWith("0000") && event.data.length === 20) {
