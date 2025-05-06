@@ -1,87 +1,59 @@
 function onScan(event) {
-    // Check the length of the data
     const length = event.data.length;
 
-    // Check if the barcode length is greater than 9
     if (length > 9) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode is too long!");
         //Device.playSound("horn.wav");
-        event.data = "";
-        setTimeout(function() {
-        }, 200);
-
-    }
-    // Check if the barcode length is smaller than 8
-    else if (length < 8) {
+        // event.data = ""; // Not needed
+        setTimeout(function() {}, 200);
+        return;
+    } else if (length < 8) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode is too short!");
-        event.data = "";
         Scanner.scanTerminator("NoAuto");
-        setTimeout(function() {
-        }, 200);
-    }
-    // Check if the barcode starts with "0000"
-    else if (event.data.startsWith("0000")) {
+        setTimeout(function() {}, 200);
+        return;
+    } else if (event.data.startsWith("0000")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a container number.");
-        event.data = "";
-        setTimeout(function() {
-
-        }, 200);
-    }
-
-    else if (event.data.startsWith("1923")) {
+        setTimeout(function() {}, 200);
+        return;
+    } else if (event.data.startsWith("1923")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a UPC number.");
-        event.data = "";
-        setTimeout(function() {
-        }, 200);
-
-    }
-    else if (event.data.startsWith("T")) {
+        setTimeout(function() {}, 200);
+        return;
+    } else if (event.data.startsWith("T")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a Tag number.");
-        event.data = "";
-        setTimeout(function() {
-        }, 200);
-    }
-
-    else if (event.data.startsWith("PLT")) {
+        setTimeout(function() {}, 200);
+        return;
+    } else if (event.data.startsWith("PLT")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a PLT number.");
-        event.data = "";
-        setTimeout(function() {
-        }, 200);
-    }
-
-    else if (event.data.startsWith("PID")) {
+        setTimeout(function() {}, 200);
+        return;
+    } else if (event.data.startsWith("PID")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a PID number.");
-        event.data = "";
-        setTimeout(function() {
-        }, 200);
+        setTimeout(function() {}, 200);
+        return;
     }
 
-    // Check if the barcode contains any special characters
+    // Special character check (should also return if invalid)
     const specialChars = /[!@#$%^&*()_+={}|[\]\\';,.<>/?]/;
     if (specialChars.test(event.data)) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode contains special characters.");
-        event.data = "";
-        setTimeout(function() {
-        }, 200);
-        //return false;
+        setTimeout(function() {}, 200);
+        return;
     }
-        // If all checks pass, the barcode is valid
-        //View.toast("Barcode is valid.");
-    //return true;
 
-    else { setTimeout(function() {
-        Device.sendKeys("{return}")
+    // Only valid scans reach here
+    setTimeout(function() {
+        Device.sendKeys("{return}");
     }, 200);
-    }
 }
 
-// Example usage:
 WLEvent.on("Scan", onScan);
