@@ -17,6 +17,7 @@ function onScan(event) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode is too short!");
         event.data = "";
+        Scanner.scanTerminator("NoAuto");
         setTimeout(function() {
         }, 200);
     }
@@ -62,12 +63,6 @@ function onScan(event) {
         }, 200);
     }
 
-    else if (event.data === "") {
-        View.toast("Blank Scan");
-        event.data = "";
-        setTimeout(function() {
-        },200);
-    }
     // Check if the barcode contains any special characters
     const specialChars = /[!@#$%^&*()_+={}|[\]\\';,.<>/?]/;
     if (specialChars.test(event.data)) {
