@@ -5,38 +5,44 @@ function onScan(event) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode is too long!");
         //Device.playSound("horn.wav");
-        // event.data = ""; // Not needed
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     } else if (length < 8) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode is too short!");
         Scanner.scanTerminator("NoAuto");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     } else if (event.data.startsWith("0000")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a container number.");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     } else if (event.data.startsWith("1923")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a UPC number.");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     } else if (event.data.startsWith("T")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a Tag number.");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     } else if (event.data.startsWith("PLT")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a PLT number.");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     } else if (event.data.startsWith("PID")) {
         Device.beep(2000, 1000, 50);
         View.toast("That's a PID number.");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     }
@@ -46,6 +52,7 @@ function onScan(event) {
     if (specialChars.test(event.data)) {
         Device.beep(2000, 1000, 50);
         View.toast("Barcode contains special characters.");
+        event.data = "";
         setTimeout(function() {}, 200);
         return;
     }
