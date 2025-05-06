@@ -61,6 +61,13 @@ function onScan(event) {
         setTimeout(function() {
         }, 200);
     }
+
+    else if (event.data === "") {
+        View.toast("Blank Scan");
+        event.data = "";
+        setTimeout(function() {
+        },200);
+    }
     // Check if the barcode contains any special characters
     const specialChars = /[!@#$%^&*()_+={}|[\]\\';,.<>/?]/;
     if (specialChars.test(event.data)) {
