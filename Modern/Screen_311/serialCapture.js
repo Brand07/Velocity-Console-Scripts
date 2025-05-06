@@ -68,9 +68,7 @@ function onScan(event) {
         View.toast("Barcode contains special characters.");
         event.data = "";
         setTimeout(function() {
-            // Enable the scanner after the delay
-            Scanner.enable(true);
-        }, 4000);
+        }, 200);
         //return false;
     }
         // If all checks pass, the barcode is valid
@@ -78,9 +76,8 @@ function onScan(event) {
     //return true;
 
     else { setTimeout(function() {
-        // Enable the scanner after the delay
-        Scanner.enable(true);
-    }, 4000);
+        Device.sendKeys("{return}")
+    }, 200);
     }
 }
 
