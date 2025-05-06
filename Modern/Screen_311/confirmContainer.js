@@ -23,7 +23,10 @@ function onScan(event) {
                 // Container mismatch - negative feedback
                 Device.beep(2000, 1000, 50); // Error beep
                 View.toast("Container doesn't match!");
+                //Clear the event data
+                event.data = "";
                 Scanner.scanTerminator("NoAuto");
+
 
                 // Don't modify event.data directly as it may be read-only
                 // Instead just return without triggering further actions
