@@ -1,3 +1,4 @@
+
 function onScan(event) {
     // Process the scan data
     const data = event.data;
@@ -11,7 +12,7 @@ function onScan(event) {
         }, 100);
     } else {
         event.data = "";
-        View.toast("Please scan a container number.");
+        View.toast("Not a container number");
     }
 }
 
