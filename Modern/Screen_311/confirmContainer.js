@@ -17,7 +17,7 @@ function onScan(event) {
         }, 250)
     } else{
         event.data = "";
-        View.toast("Invalid Scan");
+        View.toast("Not the correct container.");
         Scanner.scanTerminator("NoAuto");
     }
 }
