@@ -95,7 +95,7 @@ function disableKeys(keycodes) {
     keycodes.forEach(function(keycode) {
         WLEvent.on(`OnKey<${keycode}>`, function(event) {
             Device.errorBeep(75, 50, 50);
-            Prompt.promptOptions("Alert", "You are not allowed to type in the Tote ID field.", "OK|CLOSE", function(result) {
+            Prompt.promptOptions("Alert", "You are not allowed to type on this screen.", "OK|CLOSE", function(result) {
                 if (result === "OK") {
                     Device.errorBeep(25, 25,20);
                 }
