@@ -19,7 +19,12 @@ const numbers = [
 
 function isBlockedScreen() {
     var screenNumber = Screen.getText(0, 0, 3);
-    return screenNumber === "502" || screenNumber === "501" || screenNumber === "402";
+    if (screenNumber === "501") {
+        var position = Screen.getCursorPosition();
+        // Allow typing only if cursor position is 13
+        return position.row !== 13;
+    }
+    return screenNumber === "502" || screenNumber === "402";
 }
 
 function registerGlobalKeyBlockers(keycodes) {
