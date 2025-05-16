@@ -1,4 +1,4 @@
-# VCConsole_JS_Scripts
+# Velocity Console Scripts
 A collection of Scripts that I have created for use in Velocity Console
 that enhances the workflow of the end-users.
 
