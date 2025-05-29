@@ -1,0 +1,8 @@
+/*
+Author - Brandon Yates
+Date - 5/29/2025
+Purpose - Implements logic to scan a QR code that contains both the SN and SKU.
+*/
+
+
+// Serial Capture Screen
