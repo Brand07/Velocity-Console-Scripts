@@ -9,45 +9,31 @@ function checkSerial(serial) {
 
     //Check against the barcode length
     if (length > 10) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("Incorrect Serial Number!");
-        }, 100);
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("Incorrect Serial Number!");
     } else if(length < 8){
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("Incorrect Serial Number!");
-        }, 100);
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("Incorrect Serial Number!");
     } else if(serial.data.startsWith("1923")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a UPC Number.")
-        }, 100);
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a UPC Number.")
     } else if(serial.data.startsWith("T")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a Tag number.")
-        }, 100);
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a Tag number.")
     } else if(serial.data.startsWith("PLT")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a PLT number.")
-        }, 100);
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a PLT number.")
     } else if(serial.data.startsWith("PID")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a PID.")
-        }, 100);
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a PID.")
     } else {
-        setTimeout(function () {
-            Device.sendKeys("{return}");
-        }, 100);
+        Device.sendKeys("{return}");
     }
 }
 
@@ -92,29 +78,26 @@ function onScan(event) {
 
         // Check if the symbology is a QR Code
         if (type !== "QRCODE") {
-            //View.toast("Not a QR Code: " + type, true);
-            checkSerial({ data: event.data }); // Pass as object with .data
+            checkSerial({ data: event.data }); // Pass as object with .data        
         } else {
-            //View.toast("Raw Data: " + event.data, true);
-
-            // Extract data after SN and before the line break
+            // Extract only the serial number after SN: and before SKU or end
             var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
             if (snMatch && snMatch[1]) {
                 var serialNumber = snMatch[1].trim();
+                event.data = serialNumber;
                 View.toast("Serial Number: " + serialNumber, true);
+                setTimeout(function () {
+                    Device.sendKeys("{return}");
+                }, 100);
                 Logger.debug("Extracted Serial Number: " + serialNumber);
-
-                // Validate the serial number
-                checkSerial({ data: serialNumber });
             } else {
                 Logger.warn("Could not extract serial number after SN:");
                 View.toast("Could not extract serial number from QR.", true);
                 return;
             }
-
-            Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
         }
-        // Part Number check
+        Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
+    // Part Number check
     } else if (text4 === "311 Cluster Pick" && text5 === "FLoc" && text6 === "Confirm Pick From") {
         //Normalize the symbology type
         var type = event.type.replace(/[_\s]/g, "").toUpperCase();
@@ -122,29 +105,27 @@ function onScan(event) {
 
         // Check if it's a QR code
         if (type !== "QRCODE") {
-            //View.toast("Not a QR code: " + type, true);
-            checkPartNumber(event);
+            checkPartNumber(event);        
         } else {
-            //View.toast("Raw Data: " + event.data, true);
-
-            // Extract data after SKU: and before a line break, space, or end of string
+            // Extract only the SKU after SKU:
             var skuMatch = event.data.match(/SKU[:\s]*([A-Za-z0-9\-]+)/i);
             if (skuMatch && skuMatch[1]) {
                 var sku = skuMatch[1].trim();
+                event.data = sku;
+                setTimeout(function () {
+                    Device.sendKeys("{return}");
+                }, 100);
                 View.toast("SKU: " + sku, true);
                 Logger.debug("Extracted SKU: " + sku);
-                // Validate the SKU
-                checkPartNumber({ data: sku });
             } else {
                 View.toast("Unable to extract SKU...");
                 Logger.warn("Could not extract SKU after SKU:");
                 return;
             }
-            Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
         }
+        Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
     } else {
         return;
-
     }
 }
 
