@@ -6,3 +6,13 @@ Purpose - Implements logic to scan a QR code that contains both the SN and SKU.
 
 
 // Serial Capture Screen
+var text1 = Screen.getText(0, 0, 14); // "Serial Capture"
+var text2 = Screen.getText(1, 0, 5); // "Part:"
+var text3 = Screen.getText(6, 1, 5); // "SerN:"
+
+
+// Part Number Capture Screen (311 Cluster Pick)
+var text4 = Screen.getText(0, 0, 16); // "311 Cluster Pick"
+var text5 = Screen.getText(2, 0, 4); // "FLoc"
+var text6 = Screen.getText(15, 0, 17); // "Confirm Pick From"
+
