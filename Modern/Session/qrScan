@@ -100,6 +100,37 @@ function onScan(event) {
 
             Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
         }
+        // Part Number check
+    } else if (text4 === "311 Cluster Pick" && text5 === "FLoc" && text6 === "Confirm Pick From") {
+        //Normalize the symbology type
+        var type = event.type.replace(/[_\s]/g, "").toUpperCase();
+        View.toast("Symbology: " + type, true);
+
+        // Check if it's a QR code
+        if (type !== "QRCODE") {
+            View.toast("Not a QR code: " + type, true);
+            checkPartNumber(event);
+        } else {
+            View.toast("Raw Data: " + event.data, true);
+
+            // Extract data after SKU: and before a line break, space, or end of string
+            var skuMatch = event.data.match(/SKU[:\s]*([A-Za-z0-9\-]+)/i);
+            if (skuMatch && skuMatch[1]) {
+                var sku = skuMatch[1].trim();
+                View.toast("SKU: " + sku, true);
+                Logger.debug("Extracted SKU: " + sku);
+                // Validate the SKU
+                checkPartNumber({ data: sku });
+            } else {
+                View.toast("Unable to extract SKU...");
+                Logger.warn("Could not extract SKU after SKU:");
+                return;
+            }
+            Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
+        }
+    } else {
+        View.toast("Screen validation failed", true);
+
     }
 }
 
