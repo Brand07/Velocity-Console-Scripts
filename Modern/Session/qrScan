@@ -4,15 +4,103 @@ Date - 5/29/2025
 Purpose - Implements logic to scan a QR code that contains both the SN and SKU.
 */
 
+function checkSerial(serial) {
+    const length = serial.data.length;
 
-// Serial Capture Screen
-var text1 = Screen.getText(0, 0, 14); // "Serial Capture"
-var text2 = Screen.getText(1, 0, 5); // "Part:"
-var text3 = Screen.getText(6, 1, 5); // "SerN:"
+    //Check against the barcode length
+    if (length > 10) {
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("Incorrect Serial Number!");
+    } else if(length < 8){
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("Incorrect Serial Number!");
+    } else if(serial.data.startsWith("1923")) {
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a UPC Number.")
+    } else if(serial.data.startsWith("T")) {
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a Tag number.")
+    } else if(serial.data.startsWith("PLT")) {
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a PLT number.")
+    } else if(serial.data.startsWith("PID")) {
+        Device.beep(1000, 1000, 50);
+        serial.data = "";
+        View.toast("That's a PID.")
+    } else {
+        Device.sendKeys("{return}");
+    }
+}
+
+function checkPartNumber(partNumber) {
+    const length = partNumber.data.length;
+
+    //Check if the scanned data is 12 or 13 characters long
+    if (length < 12 || length > 13) {
+        Device.beep(1000, 50, 50);
+        partNumber.data = "";
+        View.toast("Please scan a valid UPC or EAN number.")
+    } else if (length === 12) {
+        setTimeout(function () {
+            Device.beep(50, 100, 50);
+            Device.sendKeys("{return}");
+
+        }, 100);
+    } else if (length === 13) {
+        setTimeout(function () {
+            Device.beep(50, 100, 50);
+            Device.sendKeys("{return}");
+        }, 100);
+    }
 
 
-// Part Number Capture Screen (311 Cluster Pick)
-var text4 = Screen.getText(0, 0, 16); // "311 Cluster Pick"
-var text5 = Screen.getText(2, 0, 4); // "FLoc"
-var text6 = Screen.getText(15, 0, 17); // "Confirm Pick From"
+}
 
+function onScan(event) {
+    // Serial Capture Screen
+    var text1 = Screen.getText(0, 0, 14); // "Serial Capture"
+    var text2 = Screen.getText(1, 0, 5); // "Part:"
+    var text3 = Screen.getText(6, 1, 5); // "SerN:"
+
+    // Part Number Capture Screen (311 Cluster Pick)
+    var text4 = Screen.getText(0, 0, 16); // "311 Cluster Pick"
+    var text5 = Screen.getText(2, 0, 4); // "FLoc"
+    var text6 = Screen.getText(15, 0, 17); // "Confirm Pick From"
+
+    if (text1 === "Serial Capture" && text2 === "Part:" && text3 === "SerN:") {
+        // Normalize the symbology type
+        var type = event.type.replace(/[_\s]/g, "").toUpperCase();
+
+        // Check if the symbology is a QR Code
+        if (type !== "QRCODE") {
+            View.toast("Not a QR Code: " + type, true);
+            checkSerial({ data: event.data }); // Pass as object with .data
+        } else {
+            View.toast("Raw Data: " + event.data, true);
+
+            // Extract data after SN and before the line break
+            var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
+            if (snMatch && snMatch[1]) {
+                var serialNumber = snMatch[1].trim();
+                View.toast("Serial Number: " + serialNumber, true);
+                Logger.debug("Extracted Serial Number: " + serialNumber);
+
+                // Validate the serial number
+                checkSerial({ data: serialNumber });
+            } else {
+                Logger.warn("Could not extract serial number after SN:");
+                View.toast("Could not extract serial number from QR.", true);
+                return;
+            }
+
+            Logger.debug("Scan - Replace - Script Ending: Event = " + JSON.stringify(event));
+        }
+    }
+}
+
+WheelEvent.on("Scan", onScan);
