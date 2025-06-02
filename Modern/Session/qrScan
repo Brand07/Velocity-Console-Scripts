@@ -38,13 +38,11 @@ function checkSerial(serial) {
 }
 
 function checkPartNumber(partNumber) {
-    const length = partNumber.data.length;
-
-    if (length === 32) {
+    const length = partNumber.data.length;    if (length === 32) {
         //Extract the part number from the barcode (skip first 5 chars, take next 12)
-        var partNumber = serial.data.substring(5, 17);
-        serial.data = partNumber;
-        View.toast("Extracted Part Number: " + partNumber, true);
+        var extractedPartNumber = partNumber.data.substring(5, 17);
+        partNumber.data = extractedPartNumber;
+        View.toast("Extracted Part Number: " + extractedPartNumber, true);
         setTimeout(function () {
             Device.sendKeys("{return}");
         }, 100);
