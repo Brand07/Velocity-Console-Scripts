@@ -5,31 +5,51 @@ Purpose - Implements logic to scan a QR code that contains both the SN and SKU.
 */
 
 function checkSerial(serial) {
-    const length = serial.data.length;    //Check against the barcode length
+    const length = serial.data.length;
     
+    //Check against the barcode length
     if (length > 10) {
-        Device.beep(1000, 1000, 50);
-        serial.data = "";
-        View.toast("Incorrect Serial Number!");
+        setTimeout(function () {
+            Device.beep(1000, 1000, 50);
+            serial.data = "";
+            View.toast("Serial Number is too long!");
+            Scanner.scanTerminator("NoAuto");
+        }, 100);
     } else if(length < 8){
-        Device.beep(1000, 1000, 50);
-        serial.data = "";
-        View.toast("Incorrect Serial Number!");
+        setTimeout(function () {
+            Device.beep(1000, 1000, 50);
+            serial.data = "";
+            View.toast("Serial Number is too short!");
+            Scanner.scanTerminator("NoAuto");
+        }, 100);
     } else if(serial.data.startsWith("1923")) {
-        Device.beep(1000, 1000, 50);
-        serial.data = "";
-        View.toast("That's a UPC Number.")
+        setTimeout(function () {
+            Device.beep(1000, 1000, 50);
+            serial.data = "";
+            View.toast("That's a UPC Number.")
+            Scanner.scanTerminator("NoAuto");
+        }, 100);
     } else if(serial.data.startsWith("T")) {
-        Device.beep(1000, 1000, 50);
-        serial.data = "";
-        View.toast("That's a Tag number.")
+        setTimeout(function () {
+            Device.beep(1000, 1000, 50);
+            serial.data = "";
+            View.toast("That's a Tag number.")
+            Scanner.scanTerminator("NoAuto");
+        }, 100);
     } else if(serial.data.startsWith("PLT")) {
-        Device.beep(1000, 1000, 50);
-        serial.data = "";
-        View.toast("That's a PLT number.")    } else if(serial.data.startsWith("PID")) {
-        Device.beep(1000, 1000, 50);
-        serial.data = "";
-        View.toast("That's a PID.")
+        setTimeout(function () {
+            Device.beep(1000, 1000, 50);
+            serial.data = "";
+            View.toast("That's a PLT number.")
+            Scanner.scanTerminator("NoAuto");
+        }, 100);
+    } else if(serial.data.startsWith("PID")) {
+        setTimeout(function () {
+            Device.beep(1000, 1000, 50);
+            serial.data = "";
+            View.toast("That's a PID.")
+            Scanner.scanTerminator("NoAuto");
+        }, 100);
     } else {
         setTimeout(function () {
             Device.sendKeys("{return}");
@@ -38,7 +58,9 @@ function checkSerial(serial) {
 }
 
 function checkPartNumber(partNumber) {
-    const length = partNumber.data.length;    if (length === 32) {
+    const length = partNumber.data.length;    
+    
+    if (length === 32) {
         //Extract the part number from the barcode (skip first 5 chars, take next 12)
         var extractedPartNumber = partNumber.data.substring(5, 17);
         partNumber.data = extractedPartNumber;
