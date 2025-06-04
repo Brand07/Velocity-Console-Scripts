@@ -4,58 +4,7 @@ Date - 5/29/2025
 Purpose - Implements logic to scan a QR code that contains both the SN and SKU.
 */
 
-function checkSerial(serial) {
-    const length = serial.data.length;
-    
-    //Check against the barcode length
-    if (length > 10) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("Serial Number is too long!");
-            Scanner.scanTerminator("NoAuto");
-        }, 100);
-    } else if(length < 8){
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("Serial Number is too short!");
-            Scanner.scanTerminator("NoAuto");
-        }, 100);
-    } else if(serial.data.startsWith("1923")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a UPC Number.")
-            Scanner.scanTerminator("NoAuto");
-        }, 100);
-    } else if(serial.data.startsWith("T")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a Tag number.")
-            Scanner.scanTerminator("NoAuto");
-        }, 100);
-    } else if(serial.data.startsWith("PLT")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a PLT number.")
-            Scanner.scanTerminator("NoAuto");
-        }, 100);
-    } else if(serial.data.startsWith("PID")) {
-        setTimeout(function () {
-            Device.beep(1000, 1000, 50);
-            serial.data = "";
-            View.toast("That's a PID.")
-            Scanner.scanTerminator("NoAuto");
-        }, 100);
-    } else {
-        setTimeout(function () {
-            Device.sendKeys("{return}");
-        }, 100);
-    }
-}
+
 
 function checkPartNumber(partNumber) {
     const length = partNumber.data.length;    
@@ -105,11 +54,64 @@ function onScan(event) {
 
     if (text1 === "Serial Capture" && text2 === "Part:" && text3 === "SerN:") {
         // Normalize the symbology type
-        var type = event.type.replace(/[_\s]/g, "").toUpperCase();
-
-        // Check if the symbology is a QR Code
+        var type = event.type.replace(/[_\s]/g, "").toUpperCase();        // Check if the symbology is a QR Code
         if (type !== "QRCODE") {
-            checkSerial({ data: event.data }); // Pass as object with .data        
+            // Validate the scanned data first
+            const length = event.data.length;
+            
+            if (length > 10) {
+                setTimeout(function () {
+                    Device.beep(1000, 1000, 50);
+                    View.toast("Serial Number is too long!");
+                    Scanner.scanTerminator("NoAuto");
+                }, 100);
+                event.data = "";
+                return;
+            } else if(length < 8){
+                setTimeout(function () {
+                    Device.beep(1000, 1000, 50);
+                    View.toast("Serial Number is too short!");
+                    Scanner.scanTerminator("NoAuto");
+                }, 100);
+                event.data = "";
+                return;
+            } else if(event.data.startsWith("1923")) {
+                setTimeout(function () {
+                    Device.beep(1000, 1000, 50);
+                    View.toast("That's a UPC Number.")
+                    Scanner.scanTerminator("NoAuto");
+                }, 100);
+                event.data = "";
+                return;
+            } else if(event.data.startsWith("T")) {
+                setTimeout(function () {
+                    Device.beep(1000, 1000, 50);
+                    View.toast("That's a Tag number.")
+                    Scanner.scanTerminator("NoAuto");
+                }, 100);
+                event.data = "";
+                return;
+            } else if(event.data.startsWith("PLT")) {
+                setTimeout(function () {
+                    Device.beep(1000, 1000, 50);
+                    View.toast("That's a PLT number.")
+                    Scanner.scanTerminator("NoAuto");
+                }, 100);
+                event.data = "";
+                return;
+            } else if(event.data.startsWith("PID")) {
+                setTimeout(function () {
+                    Device.beep(1000, 1000, 50);
+                    View.toast("That's a PID.")
+                    Scanner.scanTerminator("NoAuto");
+                }, 100);
+                event.data = "";
+                return;
+            } else {
+                setTimeout(function () {
+                    Device.sendKeys("{return}");
+                }, 100);
+            }
         } else {
             // Extract only the serial number after SN: and before SKU or end
             var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
