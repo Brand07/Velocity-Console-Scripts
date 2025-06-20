@@ -18,7 +18,7 @@ function onScan(event) {
     var text1 = Screen.getText(0,0,18); // "402 Relocate Query"
     var position = Screen.getCursorPosition();
 
-    if (text1 === "402 Relocate Query" && position === 2) {
+    if (text1 === "402 Relocate Query" && position.row === 2) {
         View.toast("Script working!")
     }
 }
