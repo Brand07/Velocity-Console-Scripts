@@ -109,18 +109,18 @@ function onScan(event) {
                 return;
             } else {
                 setTimeout(function () {
-                    Device.sendKeys("{return}");
+                    View.toast("Valid Scan")
+                    //Device.sendKeys("{return}");
                 }, 100);
             }
-        } else {
-            // Extract only the serial number after SN: and before SKU or end
+        } else {            // Extract only the serial number after SN: and before SKU or end
             var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
             if (snMatch && snMatch[1]) {
                 var serialNumber = snMatch[1].trim();
                 event.data = serialNumber;
                 View.toast("Serial Number: " + serialNumber, true);
                 setTimeout(function () {
-                    Device.sendKeys("{return}");
+                    //Device.sendKeys("{return}");
                 }, 100);
                 Logger.debug("Extracted Serial Number: " + serialNumber);
             } else {
@@ -139,8 +139,7 @@ function onScan(event) {
         // Check if it's a QR code
         if (type !== "QRCODE") {
             checkPartNumber(event);        
-        } else {
-            // Extract only the SKU after SKU:
+        } else {            // Extract only the SKU after SKU:
             var skuMatch = event.data.match(/SKU[:\s]*([A-Za-z0-9\-]+)/i);
             if (skuMatch && skuMatch[1]) {
                 var sku = skuMatch[1].trim();
