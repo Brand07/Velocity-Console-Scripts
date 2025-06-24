@@ -19,8 +19,8 @@ const numbers = [
 
 function isBlockedScreen() {
     var screenNumber = Screen.getText(0, 0, 4);
-    // Allow typing only on "501 ", block on 501a, 502, and 402
-    return screenNumber.trim() === "501a" || screenNumber.trim() === "502" || screenNumber.trim() === "402";
+    // Allow typing only on "501 ", block on 501a, 502, 402, and 311a
+    return screenNumber.trim() === "501a" || screenNumber.trim() === "502" || screenNumber.trim() === "402" || screenNumber.trim() === "311a";
 }
 
 function registerGlobalKeyBlockers(keycodes) {
