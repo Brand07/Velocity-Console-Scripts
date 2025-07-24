@@ -8,7 +8,8 @@ function onScan(event) {
                 Device.sendKeys("{return}");
             } else {
                 // Check for N##AA### pattern
-                var pattern = /^[0-9][A-Z0-9]{2}[A-Z]{2}[A-Z0-9]{3}$/;
+                // Also accounts for a optional 9th character as a letter - 7/24/2025 
+                var pattern = /^[0-9][A-Z0-9]{2}[A-Z]{2}[A-Z0-9]{3}([A-Z])?$/;
                 if (pattern.test(event.data)) {
                     Device.sendKeys("{return}")
                 } else {
@@ -66,4 +67,5 @@ function registerGlobalKeyBlockers(keycodes) {
 registerGlobalKeyBlockers(uppercaseLetters);
 registerGlobalKeyBlockers(lowercaseLetters);
 registerGlobalKeyBlockers(numbers);
+
 WLEvent.on("Scan", onScan);
