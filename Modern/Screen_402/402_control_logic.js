@@ -5,30 +5,31 @@ Purpose: To speed the 402 -> 401 Process
 */
 
 
-
+// REMEMBER TO DISABLE KEYBOARD INPUT
 
 function onScan(event) {
-    var text1 = Screen.getText(0,0,18); //
+    var text1 = Screen.getText(0,0,4); //
     var text2 = Screen.getText(); // 
     var position = Screen.getCursorPosition();
     var row = position.row;
-    View.toast(event.data);
 
-    setTimeout(function() {
-        if (text1 === "402 Relocate Query" && row === 2) {
-            View.toast("Script working!"); //Remove from Prod
-            if (event.data.startsWith("T")) {
-                View.toast("Scan Validated"); // Remove from Prod
-                Device.sendKeys("{return}");
-            } else if (event.data.startsWith("0000") && row === 3) {
-                View.toast("Container scanned."); // Remove from Prod
-                Device.sendKeys("{return}");
-            } else {
-                event.data = "";
-                View.toast("Invalid Scan.");
-            }
+    if (text1 === "402 " && row === 2){
+        if (event.data.startsWith("T")){
+            View.toast("Valid Tag");
+            Device.sendKeys("{return");
+        }else if(event.data.startsWith("0000") && row ===3){
+            View.toast("Valid Cont.");
+            Device.sendKeys("{return}");
+
+        }else{
+            View.toast("Invalid Scan.");
+            Scanner.scanTerminator("NoAuto");
+            event.data = "";
+            return;
         }
-    }, 250);
+            
+    }
 }
+
 
 WLEvent.on("Scan", onScan);
