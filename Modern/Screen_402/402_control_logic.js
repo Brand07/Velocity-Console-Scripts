@@ -12,43 +12,43 @@ validCharacters = [
 // REMEMBER TO DISABLE KEYBOARD INPUT
 
 function onScan(event) {
-    var text1 = Screen.getText(0,0,4); //
+    var text1 = Screen.getText(0, 0, 4); //
     var text2 = Screen.getText(); // 
     var position = Screen.getCursorPosition();
     var row = position.row;
 
     // Tag field
-    if (text1 === "402 " && row === 2){
-        if(validCharacters.includes(event.data.charAt(0))) {
+    if (text1 === "402 " && row === 2) {
+        if (validCharacters.includes(event.data.charAt(0))) {
             View.toast("Tag Scanned");
             Device.sendKeys("{pause:300}{return}")
 
-        }else{
+        } else {
             View.toast("Invalid Scan");
             event.data = "";
             Scanner.scanTerminator("NoAuto");
         }
-    // Container field
-    }else if(text1 ==="402 " && row === 3){
-        if(event.data.startsWith("0000")){
+        // Container field
+    } else if (text1 === "402 " && row === 3) {
+        if (event.data.startsWith("0000")) {
             View.toast("Container Scanned");
             Device.sendKeys("{pause:300}{return}");
-        }else{
+        } else {
             event.data = "";
             View.toast("Invalid Scan");
             Scanner.scanTerminator("NoAuto");
         }
-    // 402a Relocate Screen
-    }else if(text1 === "402a" && row === 11){
-        if(event.data === ""){
+        // 402a Relocate Screen
+    } else if (text1 === "402a" && row === 11) {
+        if (event.data === "") {
             View.toast("Try again");
             Scanner.scanTerminator("NoAuto");
-        }else{
+        } else {
             Device.sendKeys("{pause:300}{return}");
             View.toast("Valid Scan");
         }
-    // 201a Putaway Comp
-    }else if(text1 === "201a" && row === 13){
+        // 201a Putaway Comp
+    } else if (text1 === "201a" && row === 13) {
         Device.sendKeys("{pause:300}{return}")
         Device.sendKeys("{pause:2000}{F2}")
         Device.sendKeys("{pause:300}{401}{return}")
