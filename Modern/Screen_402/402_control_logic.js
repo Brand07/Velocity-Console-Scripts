@@ -32,6 +32,15 @@ function onScan(event) {
             View.toast("Invalid Scan");
             Scanner.scanTerminator("NoAuto");
         }
+    }else if(text1 === "402a" && row === 11){
+        if(event.data === ""){
+            View.toast("No Scan Data");
+            Scanner.scanTerminator("NoAuto");
+        }else{
+            Device.sendKeys("{pause:300}{return}");
+        }
     }
 }
+
+
 WLEvent.on("Scan", onScan);
