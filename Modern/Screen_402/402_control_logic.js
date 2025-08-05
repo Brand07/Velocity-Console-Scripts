@@ -4,6 +4,10 @@ Date: 8/5/2025
 Purpose: To speed the 402 -> 401 Process
 */
 
+validCharacters = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+]
 
 // REMEMBER TO DISABLE KEYBOARD INPUT
 
@@ -15,7 +19,7 @@ function onScan(event) {
 
     // Tag field
     if (text1 === "402 " && row === 2){
-        if(event.data.startsWith("T")) {
+        if(validCharacters.includes(event.data.charAt(0))) {
             View.toast("Tag Scanned");
             Device.sendKeys("{pause:300}{return}")
 
