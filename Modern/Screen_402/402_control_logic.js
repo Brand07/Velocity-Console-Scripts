@@ -12,7 +12,7 @@ function onScan(event) {
     var text2 = Screen.getText(); // 
     var position = Screen.getCursorPosition();
     var row = position.row;
-
+    // Tag field
     if (text1 === "402 " && row === 2){
         if(event.data.startsWith("T")) {
             View.toast("Tag Scanned");
@@ -23,6 +23,7 @@ function onScan(event) {
             event.data = "";
             Scanner.scanTerminator("NoAuto");
         }
+    // Container field
     }else if(text1 ==="402 " && row === 3){
         if(event.data.startsWith("0000")){
             View.toast("Container Scanned");
@@ -32,6 +33,7 @@ function onScan(event) {
             View.toast("Invalid Scan");
             Scanner.scanTerminator("NoAuto");
         }
+    // 402a Relocate Screen
     }else if(text1 === "402a" && row === 11){
         if(event.data === ""){
             View.toast("No Scan Data");
