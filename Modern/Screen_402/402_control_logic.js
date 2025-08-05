@@ -28,7 +28,7 @@ function onScan(event) {
                 View.toast("Invalid Scan.");
             }
         }
-    }, 1000);
+    }, 250);
 }
 
 WLEvent.on("Scan", onScan);
