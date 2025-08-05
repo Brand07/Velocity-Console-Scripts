@@ -12,6 +12,7 @@ function onScan(event) {
     var text2 = Screen.getText(); // 
     var position = Screen.getCursorPosition();
     var row = position.row;
+
     // Tag field
     if (text1 === "402 " && row === 2){
         if(event.data.startsWith("T")) {
@@ -36,11 +37,17 @@ function onScan(event) {
     // 402a Relocate Screen
     }else if(text1 === "402a" && row === 11){
         if(event.data === ""){
-            View.toast("No Scan Data");
+            View.toast("Try again");
             Scanner.scanTerminator("NoAuto");
         }else{
             Device.sendKeys("{pause:300}{return}");
+            View.toast("Valid Scan");
         }
+    // 201a Putaway Comp
+    }else if(text1 === "201a" && row === 13){
+        Device.sendKeys("{pause:300}{return}")
+        Device.sendKeys("{pause:2000}{F2}")
+        Device.sendKeys("{pause:300}{401}{return}")
     }
 }
 
