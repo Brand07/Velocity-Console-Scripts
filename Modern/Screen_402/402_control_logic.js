@@ -14,22 +14,24 @@ function onScan(event) {
     var row = position.row;
 
     if (text1 === "402 " && row === 2){
-        if (event.data.startsWith("T")){
-            View.toast("Valid Tag");
-            Device.sendKeys("{return");
-        }else if(event.data.startsWith("0000") && row ===3){
-            View.toast("Valid Cont.");
-            Device.sendKeys("{return}");
+        if(event.data.startsWith("T")) {
+            View.toast("Tag Scanned");
+            Device.sendKeys("{pause:300}{return}")
 
         }else{
-            View.toast("Invalid Scan.");
-            Scanner.scanTerminator("NoAuto");
+            View.toast("Invalid Scan");
             event.data = "";
-            return;
+            Scanner.scanTerminator("NoAuto");
         }
-            
+    }else if(text1 ==="402 " && row === 3){
+        if(event.data.startsWith("0000")){
+            View.toast("Container Scanned");
+            Device.sendKeys("{pause:300}{return}");
+        }else{
+            event.data = "";
+            View.toast("Invalid Scan");
+            Scanner.scanTerminator("NoAuto");
+        }
     }
 }
-
-
 WLEvent.on("Scan", onScan);
