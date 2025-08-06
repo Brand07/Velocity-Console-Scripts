@@ -10,6 +10,13 @@ validCharacters = [
 ]
 
 
+function sendEnter(delay = 250) {
+
+    if (typeof delay !== "number" || delay < 0) {
+        console.log("Invalid delay value");
+    }
+    Device.sendKeys(`{pause:${delay}}{return}`);
+}
 
 // REMEMBER TO DISABLE KEYBOARD INPUT
 
@@ -23,7 +30,7 @@ function onScan(event) {
     if (text1 === "402 " && row === 2) {
         if (validCharacters.includes(event.data.charAt(0))) {
             View.toast("Tag Scanned");
-            Device.sendKeys("{pause:300}{return}")
+            sendEnter(300);
             
             // Debug: Check if function exists
             //View.toast("Attempting to send Teams notification...");
@@ -39,7 +46,7 @@ function onScan(event) {
     } else if (text1 === "402 " && row === 3) {
         if (event.data.startsWith("0000")) {
             View.toast("Container Scanned");
-            Device.sendKeys("{pause:300}{return}");
+            sendEnter(300);
             //sendTeamsNotification("Container Successfully Scanned", "Container", event.data);
         } else {
             event.data = "";
@@ -54,14 +61,14 @@ function onScan(event) {
             Scanner.scanTerminator("NoAuto");
             //sendTeamsNotification("Empty Scan on Relocate Screen", "Relocate", "Empty");
         } else {
-            Device.sendKeys("{pause:300}{return}");
+            sendEnter(300);
             View.toast("Valid Scan");
             //sendTeamsNotification("Relocate Scan Completed", "Relocate", event.data);
         }
         // 201a Putaway Comp
     } else if (text1 === "201a" && row === 13) {
-        Device.sendKeys("{pause:300}{return}") // Enter after initial scan
-        Device.sendKeys("{pause:300}{return}") // is this the final dest.?
+        sendEnter(300); // Enter after initial scan
+        sendEnter(300); // is this the final dest.?
         Device.sendKeys("{pause:2000}{F2}") // GOTO Screen
         Device.sendKeys("{pause:300}{401}{return}") // Enter 401
         //sendTeamsNotification("Putaway Process Completed - Navigating to 401", "Putaway", "Process Complete");
