@@ -110,36 +110,36 @@ function onScan(event) {
             
             // Debug: Check if function exists
             //View.toast("Attempting to send Teams notification...");
-            sendTeamsNotification("Tag Successfully Scanned", "Tag", event.data);
+            //sendTeamsNotification("Tag Successfully Scanned", "Tag", event.data);
 
         } else {
             d("Invalid Scan");
             event.data = "";
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Tag Scan", "Tag", event.data);
+            //sendTeamsNotification("Invalid Tag Scan", "Tag", event.data);
         }
         // Container field
     } else if (text1 === "402 " && row === 3) {
         if (event.data.startsWith("0000")) {
             d("Container Scanned")
             sendEnter(300);
-            sendTeamsNotification("Container Successfully Scanned", "Container", event.data);
+            //sendTeamsNotification("Container Successfully Scanned", "Container", event.data);
         } else {
             event.data = "";
             d("Invalid Scan");
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Container Scan", "Container", event.data);
+            //sendTeamsNotification("Invalid Container Scan", "Container", event.data);
         }
         // 402a Relocate Screen
     } else if (text1 === "402a" && row === 11) {
         if (event.data === "") {
             d("Try again");
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Empty Scan on Relocate Screen", "Relocate", "Empty");
+            //sendTeamsNotification("Empty Scan on Relocate Screen", "Relocate", "Empty");
         } else {
             sendEnter(300);
             d("Valid Scan");
-            sendTeamsNotification("Relocate Scan Completed", "Relocate", event.data);
+            //sendTeamsNotification("Relocate Scan Completed", "Relocate", event.data);
         }
         // 201a Putaway Comp
     } else if (text1 === "201a" && row === 13) {
@@ -148,7 +148,7 @@ function onScan(event) {
         Device.beepPlayFile("moving_to_401.mp3");
         Device.sendKeys("{pause:2000}{F2}") // GOTO Screen
         Device.sendKeys("{pause:300}{401}{return}") // Enter 401
-        sendTeamsNotification("Putaway Process Completed - Navigating to 401", "Putaway", "Process Complete");
+        //sendTeamsNotification("Putaway Process Completed - Navigating to 401", "Putaway", "Process Complete");
     }
 }
 
