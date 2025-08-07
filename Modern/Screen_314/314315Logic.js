@@ -10,12 +10,17 @@ function displayMessage(message){
     View.toast(message);
 }
 
-function sendKey(delay = 300, key){
-    Device.sendKeys(`{pause:${delay}}{${key}}`)
+function sendEnter(delay = 300){
+    Device.sendKeys(`{pause:${delay}}{return}`)
+}
+
+function sendTab(delay = 300){
+    Device.sendKeys(`{pause:${delay}}{TAB}`)
 }
 
 d = displayMessage;
-k = sendKey;
+e = sendEnter;
+t = sendTab;
 
 function onScan(event) {
     var screenNumber = Screen.getText(0, 0, 4); //
@@ -26,9 +31,12 @@ function onScan(event) {
         //Container number expected
         if(event.data.startsWith("0000") && row === 3){
             d("Valid Scan");
-            k(300, "TAB");
+            t(300);
+        }else if(event.data.startsWith("TOT") && row === 6){
+            d("Valid Tote ID");
+            e(300);
         }else{
-            d("Scan the container.");
+            d("Invalid Scan");
             event.data = "";
         }
     }
