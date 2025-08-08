@@ -7,7 +7,7 @@ Screen - 311aClusterPick
 
 
 
-const capturedContainer = Screen.getText(8, 6, 20);
+const capturedContainer = Screen.getText(8, 6, 25);
 
 function onScan(event) {
     if (event.data === capturedContainer) {
