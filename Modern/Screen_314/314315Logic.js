@@ -39,6 +39,14 @@ function onScan(event) {
             d("Invalid Scan");
             event.data = "";
         }
+    }else if(screenNumber === "315 "){
+        if(event.data.startsWith("TOT") && row === 3){
+            d("Valid Scan");
+            e(300);
+        }else{
+            d("Invalid Scan");
+            event.data = "";
+        }
     }
 }
 
