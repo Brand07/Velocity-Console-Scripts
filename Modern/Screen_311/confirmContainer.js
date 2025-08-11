@@ -7,9 +7,11 @@ Screen - 311aClusterPick
 
 
 
-const capturedContainer = Screen.getText(8, 6, 20);
+const capturedContainer = Screen.getText(8, 6, 20); //Current Container
 
 function onScan(event) {
+    // Block default handling of all scans; we will manually allow only valid ones
+    event.preventDefault();
     if (event.data.startsWith("0000") && event.data.length === 20 && event.data === capturedContainer) {
         setTimeout(function () {
             View.toast("Container Validated!");
@@ -17,8 +19,10 @@ function onScan(event) {
         }, 300)
     } else {
         event.data = "";
+        Device.beep(500, 500, 500);
         View.toast("Not the correct container.");
         Scanner.scanTerminator("NoAuto");
+        return;
     }
 }
 
