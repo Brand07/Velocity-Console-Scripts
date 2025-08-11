@@ -1,3 +1,7 @@
+/*
+Purpose: Controls the 314 and 315 screen logic
+*/
+
 function onScan(event) {
     setTimeout(function () {
         if (event.data.startsWith("TOT") && event.data.length === 7) {

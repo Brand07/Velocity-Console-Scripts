@@ -29,7 +29,7 @@ function onScan(event) {
 
     if(screenNumber === "314 "){
         //Container number expected
-        if(event.data.startsWith("0000") && row === 3){
+        if(event.data.startsWith("0000") && event.data.length === 20 && row === 3){
             d("Valid Scan");
             t(300);
         }else if(event.data.startsWith("TOT") && row === 6){
