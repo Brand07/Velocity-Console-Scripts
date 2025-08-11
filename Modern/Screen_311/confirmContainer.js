@@ -10,12 +10,12 @@ Screen - 311aClusterPick
 const capturedContainer = Screen.getText(8, 6, 25);
 
 function onScan(event) {
-    if (event.data === capturedContainer) {
+    if (event.data.startsWith("0000") && event.data.length === 20 && event.data === capturedContainer) {
         setTimeout(function () {
             View.toast("Container Validated!");
             Device.sendKeys("{return}");
-        }, 250)
-    } else{
+        }, 300)
+    } else {
         event.data = "";
         View.toast("Not the correct container.");
         Scanner.scanTerminator("NoAuto");
