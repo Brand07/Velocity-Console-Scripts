@@ -16,7 +16,7 @@ function onScan(event){
             View.toast("Tag Validated!");
         } else {
             event.data = ""; //Clear the scan data.
-            Device.playBeepFile("invalid_tag.mp3"); //Play an audio cue
+            Device.beepPlayFile("invalid_tag.mp3"); //Play an audio cue
             View.toast("Invalid Tag");
         }
     }
