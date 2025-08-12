@@ -1,5 +1,6 @@
 /*
 Purpose: Checks the tag scan; only allowing tags to start with "T", "R", or "U". Deny everything else.
+Date: 8/12/2025
 */
 
 const validChars = ["T", "R", "U"];
