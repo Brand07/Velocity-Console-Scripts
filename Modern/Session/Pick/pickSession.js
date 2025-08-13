@@ -86,16 +86,26 @@ function checkScan(event){
         event.data = "";
         View.toast("Container Not Validated!");
        }
-       //311 Cluster Pick (Scanning part number)
+    //311 Cluster Pick (Scanning part number)
     }else if(screenNumber === "311 " && row === 14){
         //Check for ODS2 label
-        if(event.data.legnth === 32){
+        if(event.data.length === 32){
             //Extract the part number from the barcode. (Skip 5, take next 12)
             var extractedPartNumber = event.data.substring(5, 17);
             event.data = extractedPartNumber;
             View.toast("Extracted PN: " + extractedPartNumber, true); //Remove this from Prod
             sendEnter(300);
             return;
+        }
+        //Checking the part number here
+        if(event.data.length < 12 || event.data.length > 13){
+            event.data = "";
+            Scanner.scanTerminator("NoAuto");
+            View.toast("Please scan a valid UPC or EAN number.");
+            //Add a sound file
+        }else if(event.data.length === 12 || event.data.length === 13){
+            View.toast("Valid Part Number.");
+            sendEnter(300);
         }
         //SERIAL NUMBER CHECK
     }else if(screenNumber === "Seri" && row === 7){
@@ -108,26 +118,7 @@ function checkScan(event){
             }else{
                 //Extract the only the serial number after SN:
                 var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
-                if(snMatch && snMatch[1]){
-                    var serialNumber = snMatch[1].trim();
-                    event.data = serialNumber;
-                    View.toast("Serial Number:" + serialNumber);
-                    sendEnter(300);
-                }else{
-                    View.toast("Unable to extract Serial Number!", true);
-                }
             }
-        }
-    //Checking the part number here
-    }else if(screenNumber === "311 " && row === 14){
-        if(event.data.length < 12 || event.data.length > 13){
-            event.data = "";
-            Scanner.scanTerminator("NoAuto");
-            View.toast("Please scan a valid UPC or EAN number.")
-            //Add a sound file
-        }else if(event.data.length === 12 || 13){
-            View.toast("Valid Part Number.");
-            sendEnter(300);
         }
     }
 }
