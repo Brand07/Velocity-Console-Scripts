@@ -38,6 +38,17 @@ function checkScan(event){
         event.data = "";
         View.toast("Container Not Validated!");
        }
+       //311 Cluster Pick (Scanning part number)
+    }else if(screenNumber === "311 " && row === 14){
+        //Check for ODS2 label
+        if(event.data.legnth === 32){
+            //Extract the part number from the barcode. (Skip 5, take next 12)
+            var extractedPartNumber = event.data.substring(5, 17);
+            event.data = extractedPartNumber;
+            View.toast("Extracted PN: " + extractedPartNumber, true); //Remove this from Prod
+            sendEnter(300);
+            return;
+        }
     }
 }
 
