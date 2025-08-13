@@ -9,7 +9,6 @@ function checkContainer(scan_data){
     if(scan_data.length === 20 && scan_data.startsWith("0000")){
         return(scan_data);
     }else{
-        scan_data = "";
         Device.beepPlayFile("not_correct_container.mp3");
     }
 }
@@ -26,6 +25,7 @@ function checkScan(event){
        if(container){
         View.toast("Container Validated!");
        }else{
+        event.data = "";
         View.toast("Container Not Validated!");
        }
     }
