@@ -4,9 +4,12 @@ Date: 8/13/2025
 */
 
 
-//Function to send device keys
-function sendDeviceKeys(delay, key){
-    Device.sendKeys();
+function sendEnter(delay = 300){
+    Device.sendKeys(`{pause:${delay}}{return}`)
+}
+
+function sendTab(delay = 300){
+    Device.sendKeys(`{pause:${delay}}{TAB}`)
 }
 
 //Function to check the container number
@@ -29,6 +32,7 @@ function checkScan(event){
        var container = checkContainer(event.data);
        if(container){
         View.toast("Container Validated!");
+        sendEnter(300)
        }else{
         //Nullify the scan data
         event.data = "";
@@ -36,3 +40,5 @@ function checkScan(event){
        }
     }
 }
+
+WLEvent.on("Scan", checkScan);
