@@ -21,7 +21,7 @@ function checkContainer(scan_data){
     }
 }
 
-function checkPartNumber(scan_data){
+function checkSerialNumber(scan_data){
     
     //Validate the scan data length first
     var length = scan_data.data.length;
@@ -38,7 +38,7 @@ function checkPartNumber(scan_data){
         // Add a sound file
         return;
     //Check against scanning UPC numbers
-    }else if(scan_data.startsWith("1923")){
+    }else if(scan_data.data.startsWith("1923")){
         scan_data.data = "";
         View.toast("That's a UPC Number,");
         Scanner.scanTerminator("NoAuto");
@@ -102,9 +102,9 @@ function checkScan(event){
         //Need to check if the scan data is a QR code.
         var type = event.type.replace(/[_\s]/g, "").toUpperCase();
         if (type !== "QRCODE"){
-            var partNumber = checkPartNumber(event);
-            if(partNumber){
-                View.toast("Valid Part #");
+            var serialNumber = checkSerialNumber(event);
+            if(serialNumber){
+                View.toast("Valid Serial Number");
             }
         }
 
