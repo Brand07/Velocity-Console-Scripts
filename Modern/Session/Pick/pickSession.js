@@ -21,6 +21,54 @@ function checkContainer(scan_data){
     }
 }
 
+function checkPartNumber(scan_data){
+    
+    //Validate the scan data length first
+    var length = scan_data.data.length;
+    if(length > 10){
+        scan_data.data = "";
+        Scanner.scanTerminator("NoAuto");
+        View.toast("Serial # is too long!");
+        // Add a sound file
+        return;
+    }else if(length < 8){
+        scan_data.data = "";
+        View.toast("Serial # is too short!");
+        Scanner.scanTerminator("NoAuto");
+        // Add a sound file
+        return;
+    //Check against scanning UPC numbers
+    }else if(scan_data.startsWith("1923")){
+        scan_data.data = "";
+        View.toast("That's a UPC Number,");
+        Scanner.scanTerminator("NoAuto");
+        // Add a sound file
+        return;
+    //Check against scanning Tags
+    }else if(scan_data.data.startsWith("T")){
+        scan_data.data ="";
+        View.toast("That's a Tag.");
+        Scanner.scanTerminator("NoAuto");
+        // Add a sound file
+    //Check against PLT numbers
+    }else if(scan_data.data.startsWith("PLT")){
+        scan_data.data = "";
+        View.toast("That's a PLT number.");
+        Scanner.scanTerminator("NoAuto");
+        // Add a sound file
+    //Check against PID numbers
+    }else if(scan_data.data.startsWith("PID")){
+        scan_data.data = "";
+        View.toast("That's a PID.");
+        Scanner.scanTerminator("NoAuto");
+        // Add a sound file
+        return;
+    }else{
+        View.toast("Valid Scan!");
+        return(scan_data);
+    }
+}
+
 //Function to check the screen name
 function checkScan(event){
     var screenNumber = Screen.getText(0, 0, 4); //Get the screen number
@@ -54,18 +102,8 @@ function checkScan(event){
         //Need to check if the scan data is a QR code.
         var type = event.type.replace(/[_\s]/g, "").toUpperCase();
         if (type !== "QRCODE"){
-            //Validate the scan data length first
-            var length = event.data.length;
-            if(length > 10){
-                event.data = "";
-                Scanner.scanTerminator("NoAuto");
-                View.toast("Serial # is too long!");
-            }else if(length < 8){
-                event.data = "";
-                View.toast("Serial # is too short!");
-            }
-        }
+    }
+
     }
 }
-
 WLEvent.on("Scan", checkScan);
