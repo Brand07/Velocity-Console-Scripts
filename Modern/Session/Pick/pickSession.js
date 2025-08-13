@@ -102,7 +102,11 @@ function checkScan(event){
         //Need to check if the scan data is a QR code.
         var type = event.type.replace(/[_\s]/g, "").toUpperCase();
         if (type !== "QRCODE"){
-    }
+            var partNumber = checkPartNumber(event);
+            if(partNumber){
+                View.toast("Valid Part #");
+            }
+        }
 
     }
 }
