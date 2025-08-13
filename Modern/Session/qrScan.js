@@ -54,7 +54,7 @@ function onScan(event) {
 
     if (text1 === "Serial Capture" && text2 === "Part:" && text3 === "SerN:") {
         // Normalize the symbology type
-        var type = event.type.replace(/[_\s]/g, "").toUpperCase();        // Check if the symbology is a QR Code
+        var type = event.type.replace(/[_\s]/g, "").toUpperCase();// Check if the symbology is a QR Code
         if (type !== "QRCODE") {
             // Validate the scanned data first
             const length = event.data.length;

@@ -49,6 +49,22 @@ function checkScan(event){
             sendEnter(300);
             return;
         }
+        //SERIAL NUMBER CHECK
+    }else if(screenNumber === "Seri" && row === 7){
+        //Need to check if the scan data is a QR code.
+        var type = event.type.replace(/[_\s]/g, "").toUpperCase();
+        if (type !== "QRCODE"){
+            //Validate the scan data length first
+            var length = event.data.length;
+            if(length > 10){
+                event.data = "";
+                Scanner.scanTerminator("NoAuto");
+                View.toast("Serial # is too long!");
+            }else if(length < 8){
+                event.data = "";
+                View.toast("Serial # is too short!");
+            }
+        }
     }
 }
 
