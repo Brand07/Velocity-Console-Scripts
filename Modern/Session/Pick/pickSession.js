@@ -105,9 +105,31 @@ function checkScan(event){
             var serialNumber = checkSerialNumber(event);
             if(serialNumber){
                 View.toast("Valid Serial Number");
+            }else{
+                //Extract the only the serial number after SN:
+                var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
+                if(snMatch && snMatch[1]){
+                    var serialNumber = snMatch[1].trim();
+                    event.data = serialNumber;
+                    View.toast("Serial Number:" + serialNumber);
+                    sendEnter(300);
+                }else{
+                    View.toast("Unable to extract Serial Number!", true);
+                }
             }
         }
-
+    //Checking the part number here
+    }else if(screenNumber === "311 " && row === 14){
+        if(event.data.length < 12 || event.data.length > 13){
+            event.data = "";
+            Scanner.scanTerminator("NoAuto");
+            View.toast("Please scan a valid UPC or EAN number.")
+            //Add a sound file
+        }else if(event.data.length === 12 || 13){
+            View.toast("Valid Part Number.");
+            sendEnter(300);
+        }
     }
 }
+
 WLEvent.on("Scan", checkScan);
