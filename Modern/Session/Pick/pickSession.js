@@ -4,6 +4,11 @@ Date: 8/13/2025
 */
 
 
+//Function to send device keys
+function sendDeviceKeys(delay, key){
+    Device.sendKeys();
+}
+
 //Function to check the container number
 function checkContainer(scan_data){
     if(scan_data.length === 20 && scan_data.startsWith("0000")){
@@ -25,6 +30,7 @@ function checkScan(event){
        if(container){
         View.toast("Container Validated!");
        }else{
+        //Nullify the scan data
         event.data = "";
         View.toast("Container Not Validated!");
        }
