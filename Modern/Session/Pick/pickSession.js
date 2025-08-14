@@ -146,9 +146,21 @@ function checkScan(event){
         if(!event.data.startsWith("TOT")){
             event.data = "";
             View.toast("Invalid Tote ID");
+            //Insert sound file here
             return;
         }else{
             View.toast("Valid Tote Scanned.");
+            sendEnter(300);
+        }
+    //315 TOTE PICK STARTS HERE
+    }else if(screenNumber === "315 " && row === 3){
+        //Verify that a valid Tote ID is scanned
+        if(!event.data.startsWith("TOT")){
+            event.data = "";
+            View.toast("Scan a valid Tote ID.");
+            //Insert sound file here
+            return;
+        }else{
             sendEnter(300);
         }
     }
