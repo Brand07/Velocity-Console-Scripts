@@ -21,6 +21,8 @@ function checkContainer(scan_data){
     }
 }
 
+
+
 function checkSerialNumber(scan_data){
     
     //Validate the scan data length first
@@ -118,6 +120,14 @@ function checkScan(event){
             }else{
                 //Extract the only the serial number after SN:
                 var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
+                if(snMatch && snMatch[1]){
+                    var serialNumber = snMatch[1].trim();
+                    event.data = serialNumber;
+                    View.toast("Serial Number: " + serialNumber, true);
+                    sendEnter(300);
+                }else{
+                    View.toast("Unable to extract serial.")
+                }
             }
         }
     }
