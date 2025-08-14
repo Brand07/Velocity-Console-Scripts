@@ -138,7 +138,6 @@ function checkScan(event){
             sendTab(300);
         }else{
             event.data = "";
-            Device.beepPlayFile("not_correct_container.mp3");
             View.toast("Invalid Container.")
             return;
         }
@@ -162,6 +161,7 @@ function checkScan(event){
             return;
         }else{
             sendEnter(300);
+            return;
         }
     }
     
