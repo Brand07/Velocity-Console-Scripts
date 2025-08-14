@@ -3,6 +3,10 @@ Purpose: A single file to control all of the scan checks for the Pick devices
 Date: 8/13/2025
 */
 
+function playSound(sound){
+    Device.beepPlayFile(sound);
+}
+
 function sendEnter(delay = 300) {
     Device.sendKeys(`{pause:${delay}}{return}`);
 }
@@ -16,7 +20,7 @@ function checkContainer(scan_data) {
     if (scan_data.length === 20 && scan_data.startsWith("0000")) {
         return scan_data;
     } else {
-        Device.beepPlayFile("not_correct_container.mp3");
+        playSound("not_correct_container.mp3");
     }
 }
 
@@ -166,7 +170,7 @@ function checkScan(event) {
             return;
         } else {
             event.data = "";
-            Device.beepPlayFile("not_correct_container.mp3");
+            playSound("not_correct_container.mp3");
             View.toast("Incorrect Container.");
         }
     }
