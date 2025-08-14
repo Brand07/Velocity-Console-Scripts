@@ -110,24 +110,24 @@ function checkScan(event){
             sendEnter(300);
         }
         //SERIAL NUMBER CHECK
-    }else if(screenNumber === "Seri" && row === 7){
+        }else if(screenNumber === "Seri" && row === 7){
         //Need to check if the scan data is a QR code.
         var type = event.type.replace(/[_\s]/g, "").toUpperCase();
         if (type !== "QRCODE"){
             var serialNumber = checkSerialNumber(event);
             if(serialNumber){
-                View.toast("Valid Serial Number");
+            View.toast("Valid Serial Number");
             }else{
-                //Extract the only the serial number after SN:
-                var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
-                if(snMatch && snMatch[1]){
-                    var serialNumber = snMatch[1].trim();
-                    event.data = serialNumber;
-                    View.toast("Serial Number: " + serialNumber, true);
-                    sendEnter(300);
-                }else{
-                    View.toast("Unable to extract serial.")
-                }
+            //Extract the only the serial number after SN:
+            var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
+            if(snMatch && snMatch[1]){
+                var serialNumber = snMatch[1].trim();
+                event.data = serialNumber;
+                View.toast("Serial Number: " + serialNumber, true);
+                sendEnter(300);
+            }else{
+                View.toast("Unable to extract serial.")
+            }
             }
         }
     }
