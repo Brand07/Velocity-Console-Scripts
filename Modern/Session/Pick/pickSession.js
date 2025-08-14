@@ -166,12 +166,13 @@ function checkScan(event){
     //Verifying the same container is scanned on 311a Confirmation
     }else if(screenNumber === "311a" && row === 11){
         var containerNumber = checkContainer(event.data);
-        if(containerNumber && screen.GetText(8, 6, 20) === containerNumber){
+        if(containerNumber && Screen.getText(8, 6, 20) === containerNumber){
             View.toast("Container Confirmed.");
             sendEnter(300);
             return;
         }else{
             event.data = "";
+            Device.beepPlayFile("not_correct_container.mp3");
             View.toast("Incorrect Container.");
         }
     }
