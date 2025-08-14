@@ -130,7 +130,29 @@ function checkScan(event){
             }
             }
         }
+    //314 STARTS HERE
+    }else if(screenNumber === "314 " && row === 3){
+        //Verify a container number is scanned
+        var containerNumber = checkContainer(event.data);
+        if(containerNumber){
+            sendTab(300);
+        }else{
+            event.data = "";
+            Device.beepPlayFile("not_correct_container.mp3");
+            View.toast("Invalid Container.")
+            return;
+        }
+    }else if(screenNumber === "314 " && row === 6){
+        if(!event.data.startsWith("TOT")){
+            event.data = "";
+            View.toast("Invalid Tote ID");
+            return;
+        }else{
+            View.toast("Valid Tote Scanned.");
+            sendEnter(300);
+        }
     }
+    
 }
 
 WLEvent.on("Scan", checkScan);
