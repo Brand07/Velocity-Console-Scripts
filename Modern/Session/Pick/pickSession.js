@@ -31,39 +31,40 @@ function checkSerialNumber(scan_data) {
         scan_data.data = "";
         Scanner.scanTerminator("NoAuto");
         View.toast("Serial # is too long!");
-        // Add a sound file
+        playSound("invalid_serial.mp3");
         return;
     } else if (length < 8) {
         scan_data.data = "";
         View.toast("Serial # is too short!");
         Scanner.scanTerminator("NoAuto");
-        // Add a sound file
+        playSound("invalid_serial.mp3");
         return;
     } else if (scan_data.data.startsWith("1923")) {
         // Check against scanning UPC numbers
         scan_data.data = "";
         View.toast("That's a UPC Number,");
         Scanner.scanTerminator("NoAuto");
-        // Add a sound file
+        playSound("invalid_serial.mp3");
         return;
     } else if (scan_data.data.startsWith("T")) {
         // Check against scanning Tags
         scan_data.data = "";
         View.toast("That's a Tag.");
         Scanner.scanTerminator("NoAuto");
+        playSound("invalid_serial.mp3");
         // Add a sound file
     } else if (scan_data.data.startsWith("PLT")) {
         // Check against PLT numbers
         scan_data.data = "";
         View.toast("That's a PLT number.");
         Scanner.scanTerminator("NoAuto");
-        // Add a sound file
+        playSound("invalid_serial.mp3");
     } else if (scan_data.data.startsWith("PID")) {
         // Check against PID numbers
         scan_data.data = "";
         View.toast("That's a PID.");
         Scanner.scanTerminator("NoAuto");
-        // Add a sound file
+        playSound("invalid_serial.mp3");
         return;
     } else {
         View.toast("Valid Scan!");
@@ -103,6 +104,7 @@ function checkScan(event) {
             event.data = "";
             Scanner.scanTerminator("NoAuto");
             View.toast("Please scan a valid UPC or EAN number.");
+            playSound("invalid_part.mp3")
             // Add a sound file
         } else if (event.data.length === 12 || event.data.length === 13) {
             View.toast("Valid Part Number.");
@@ -143,7 +145,7 @@ function checkScan(event) {
         if (!event.data.startsWith("TOT")) {
             event.data = "";
             View.toast("Invalid Tote ID");
-            // Insert sound file here
+            playSound("invalid_tote.mp3");
             return;
         } else {
             View.toast("Valid Tote Scanned.");
@@ -155,7 +157,7 @@ function checkScan(event) {
         if (!event.data.startsWith("TOT")) {
             event.data = "";
             View.toast("Scan a valid Tote ID.");
-            // Insert sound file here
+            playSound("invalid_tote.mp3");
             return;
         } else {
             sendEnter(300);
