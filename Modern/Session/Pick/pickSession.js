@@ -21,6 +21,7 @@ function checkContainer(scan_data) {
         return scan_data;
     } else {
         playSound("not_correct_container.mp3");
+        return;
     }
 }
 
