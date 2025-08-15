@@ -173,8 +173,16 @@ function checkScan(event) {
             return;
         } else {
             event.data = "";
-            playSound("not_correct_container.mp3");
             View.toast("Incorrect Container.");
+        }
+    //310 Pick Cont 
+    }else if(screenNumber === "310 " && row === 2){
+        var container = checkContainer(event.data);
+        if(container){
+            sendEnter(300);
+        }else{
+            event.data = "";
+            View.toast('Invalid Container');
         }
     }
 }
