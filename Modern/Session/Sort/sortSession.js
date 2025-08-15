@@ -52,3 +52,5 @@ function onScan(event){
         }
     }
 }
+
+WLEvent.on("Scan", onScan);
