@@ -36,5 +36,19 @@ function onScan(event){
         if(containerNumber){
             sendTab(300);
         }
+    }else if(screenNumber === "704 " && row === 5){
+        if(event.data.startsWith("PID" || "PLT")){
+            //Tab down to the 'Type' field.
+            sendTab(300);
+            Device.sendKeys("PALS");
+            sendEnter(300);
+            return;
+        }else{
+            //Clear the scan data
+            event.data = "";
+            View.toast("Invalid PID/PLT.");
+            //Add sound file
+            return;
+        }
     }
 }
