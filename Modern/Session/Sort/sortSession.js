@@ -46,6 +46,7 @@ function onScan(event){
         }else{
             //Clear the scan data
             event.data = "";
+            Scanner.scanTerminator("NoAuto");
             View.toast("Invalid PID/PLT.");
             //Add sound file
             return;
