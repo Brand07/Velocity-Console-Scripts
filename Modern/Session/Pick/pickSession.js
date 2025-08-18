@@ -3,6 +3,14 @@ Purpose: A single file to control all of the scan checks for the Pick devices
 Date: 8/13/2025
 */
 
+function disableScanner() {
+    //Disable the scanner for 1 second
+    Scanner.enable(false);
+    setTimeout(function() {
+        Scanner.enable(true);
+    }, 1000);
+}
+
 function playSound(sound){
     Device.beepPlayFile(sound);
 }
@@ -185,6 +193,7 @@ function checkScan(event) {
             View.toast('Invalid Container');
         }
     }
+    disableScanner();
 }
 
 WLEvent.on("Scan", checkScan);
