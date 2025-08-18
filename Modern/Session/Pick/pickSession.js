@@ -6,8 +6,10 @@ Date: 8/13/2025
 function disableScanner() {
     //Disable the scanner for 1 second
     Scanner.enable(false);
+    View.toast("Scanner Disabled"); //Remove from Prod
     setTimeout(function() {
         Scanner.enable(true);
+        View.toast("Scanner Enabled"); //Remove from Prod
     }, 1000);
 }
 
