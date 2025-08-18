@@ -91,16 +91,19 @@ function checkScan(event) {
 
     // 311 Cluster Bld/Rls
     if (screenNumber === "311 " && row === 10) {
+        disableScanner();
         var container = checkContainer(event.data);
         if (container) {
             View.toast("Container Validated!");
             sendEnter(300);
         } else {
+            disableScanner();
             // Nullify the scan data
             event.data = "";
             View.toast("Container Not Validated!");
         }
     } else if (screenNumber === "311 " && row === 14) {
+        disableScanner();
         // 311 Cluster Pick (Scanning part number)
         if (event.data.length === 32) {
             // Extract the part number from the barcode. (Skip 5, take next 12)
@@ -114,14 +117,17 @@ function checkScan(event) {
         if (event.data.length < 12 || event.data.length > 13) {
             event.data = "";
             Scanner.scanTerminator("NoAuto");
+            disableScanner();
             View.toast("Please scan a valid UPC or EAN number.");
             playSound("invalid_part.mp3")
             // Add a sound file
         } else if (event.data.length === 12 || event.data.length === 13) {
             View.toast("Valid Part Number.");
+            disableScanner();
             sendEnter(300);
         }
     } else if (screenNumber === "Seri" && row === 7) {
+        disableScanner();
         // SERIAL NUMBER CHECK
         var type = event.type.replace(/[_\s]/g, "").toUpperCase();
         if (type !== "QRCODE") {
@@ -130,6 +136,7 @@ function checkScan(event) {
                 View.toast("Valid Serial Number");
             }
         } else if (type === "QRCODE") {
+            disableScanner();
             // Extract only the serial number after SN:
             var snMatch = event.data.match(/SN[:\s]*([A-Za-z0-9\-]+)(?=\s*SKU:|\r|\n|$)/i);
             if (snMatch && snMatch[1]) {
@@ -142,27 +149,32 @@ function checkScan(event) {
             }
         }
     } else if (screenNumber === "314 " && row === 3) {
+        disableScanner();
         // 314 STARTS HERE
         // Verify a container number is scanned
         var containerNumber = checkContainer(event.data);
         if (containerNumber) {
             sendTab(300);
         } else {
+            disableScanner();
             event.data = "";
             View.toast("Invalid Container.");
             return;
         }
     } else if (screenNumber === "314 " && row === 6) {
+        disableScanner();
         if (!event.data.startsWith("TOT")) {
             event.data = "";
             View.toast("Invalid Tote ID");
             playSound("invalid_tote.mp3");
             return;
         } else {
+            disableScanner();
             View.toast("Valid Tote Scanned.");
             sendEnter(300);
         }
     } else if (screenNumber === "315 " && row === 3) {
+        disableScanner();
         // 315 TOTE PICK STARTS HERE
         // Verify that a valid Tote ID is scanned
         if (!event.data.startsWith("TOT")) {
@@ -171,10 +183,12 @@ function checkScan(event) {
             playSound("invalid_tote.mp3");
             return;
         } else {
+            disableScanner();
             sendEnter(300);
             return;
         }
     } else if (screenNumber === "311a" && row === 11) {
+        disableScanner();
         // Verifying the same container is scanned on 311a Confirmation
         var containerNumber = checkContainer(event.data);
         if (containerNumber && Screen.getText(8, 6, 20) === containerNumber) {
@@ -182,20 +196,22 @@ function checkScan(event) {
             sendEnter(300);
             return;
         } else {
+            disableScanner();
             event.data = "";
             View.toast("Incorrect Container.");
         }
     //310 Pick Cont 
     }else if(screenNumber === "310 " && row === 2){
+        disableScanner();
         var container = checkContainer(event.data);
         if(container){
             sendEnter(300);
         }else{
+            disableScanner();
             event.data = "";
             View.toast('Invalid Container');
         }
     }
-    disableScanner();
 }
 
 WLEvent.on("Scan", checkScan);
