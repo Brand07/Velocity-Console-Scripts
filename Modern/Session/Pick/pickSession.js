@@ -3,13 +3,24 @@ Purpose: A single file to control all of the scan checks for the Pick devices
 Date: 8/13/2025
 */
 
+function normalizeType(type) {
+    if(!type) return "UNKNOWN";
+    const t = type.replace(/[_\s\-]/g, "").toUpperCase();
+    if (["QRCODE", "QRC", "QR", "QRCODEMODEL1", "QRCODEMODEL2"].includes(t)) return "QRCODE";
+    if (["DATAMATRIX", "DM"].includes(t)) return "DATAMATRIX";
+    if (["MICROQR", "MICROQRCODE"].includes(t)) return "MICROQR";
+    if (["AZTEC"].includes(t)) return "AZTEC";
+    if (["PDF417"].includes(t)) return "PDF417";
+    return t;
+}
+
 function disableScanner() {
     //Disable the scanner for 1 second
     Scanner.enable(false);
-    View.toast("Scanner Disabled"); //Remove from Prod
+    //View.toast("Scanner Disabled"); //Remove from Prod
     setTimeout(function() {
         Scanner.enable(true);
-        View.toast("Scanner Enabled"); //Remove from Prod
+        //View.toast("Scanner Enabled"); //Remove from Prod
     }, 1000);
 }
 
@@ -129,7 +140,9 @@ function checkScan(event) {
     } else if (screenNumber === "Seri" && row === 7) {
         disableScanner();
         // SERIAL NUMBER CHECK
-        var type = event.type.replace(/[_\s]/g, "").toUpperCase();
+        var type = normalizeType(event.type);
+        // Show symbology type toast
+        View.toast("Symbology: " + type, true);
         if (type !== "QRCODE") {
             var serialNumber = checkSerialNumber(event);
             if (serialNumber) {
@@ -197,6 +210,7 @@ function checkScan(event) {
             return;
         } else {
             disableScanner();
+            playSound("not_correct_container.mp3");
             event.data = "";
             View.toast("Incorrect Container.");
         }
