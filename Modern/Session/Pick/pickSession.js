@@ -89,6 +89,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         return;
     } else {
+        sendEnter(300);
         View.toast("Valid Scan!");
         return scan_data;
     }
