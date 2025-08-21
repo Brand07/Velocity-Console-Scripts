@@ -5,6 +5,17 @@ Purpose - Implements logic to scan a QR code that contains both the SN and SKU.
 */
 
 
+function normalizeType(type) {
+    if(!type) return "UNKNOWN";
+    const t = type.replace(/[_\s\-]/g, "").toUpperCase();
+    if (["QRCODE", "QRC", "QR", "QRCODEMODEL1", "QRCODEMODEL2"].includes(t)) return "QRCODE";
+    if (["DATAMATRIX", "DM"].includes(t)) return "DATAMATRIX";
+    if (["MICROQR", "MICROQRCODE"].includes(t)) return "MICROQR";
+    if (["AZTEC"].includes(t)) return "AZTEC";
+    if (["PDF417"].includes(t)) return "PDF417";
+    return t;
+}
+
 
 function checkPartNumber(partNumber) {
     const length = partNumber.data.length;    
@@ -54,7 +65,7 @@ function onScan(event) {
 
     if (text1 === "Serial Capture" && text2 === "Part:" && text3 === "SerN:") {
         // Normalize the symbology type
-        var type = event.type.replace(/[_\s]/g, "").toUpperCase();// Check if the symbology is a QR Code
+        var type = normalizeType(event.type);// Check if the symbology is a QR Code
         if (type !== "QRCODE") {
             // Validate the scanned data first
             const length = event.data.length;
