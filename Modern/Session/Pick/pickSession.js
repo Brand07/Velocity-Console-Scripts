@@ -90,7 +90,7 @@ function checkSerialNumber(scan_data) {
         return;
     } else {
         sendEnter(300);
-        View.toast("Valid Scan!");
+        View.toast("Valid Scan!"); // Remove from prod
         return scan_data;
     }
 }
