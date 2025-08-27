@@ -31,6 +31,7 @@ function onScan(event){
     var position = Screen.getCursorPosition(); // Get the cursor position
     var row = position.row; // Get the current row
 
+    //This correctly reflects old session code.
     if(screenNumber === "704 " && row === 3){
         var containerNumber = checkContainer(event.data);
         if(containerNumber){
