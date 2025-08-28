@@ -69,6 +69,7 @@ function onScan(event){
             Device.sendKeys("PALS");
             sendEnter(300);
         }else{
+            View.toast("Invalid Container");
             event.data = "";
 
         }
