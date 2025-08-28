@@ -52,6 +52,23 @@ function onScan(event){
             playSound("invalid_pid.mp3");
             return;
         }
+        //Container Unpack Screen
+    }else if(screenNumber === "702 " && row === 2){
+        if(event.data === ""){
+            View.toast("Blank Scan");
+            Scanner.scanTerminator("NoAuto");
+
+        }else{
+            sendTab(300);
+        }
+    }else if(screenNumber === "702 " && row === 3){
+        var containerNumber = checkContainer(event.data);
+        if(containerNumber){
+            sendTab(300);
+            //Type "PALS" into the 'CnTp' field and hit enter
+            Device.sendKeys("PALS");
+            sendEnter(300);
+        }
     }
 }
 
