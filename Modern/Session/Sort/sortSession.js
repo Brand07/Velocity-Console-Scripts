@@ -68,6 +68,9 @@ function onScan(event){
             //Type "PALS" into the 'CnTp' field and hit enter
             Device.sendKeys("PALS");
             sendEnter(300);
+        }else{
+            event.data = "";
+
         }
     }
 }
