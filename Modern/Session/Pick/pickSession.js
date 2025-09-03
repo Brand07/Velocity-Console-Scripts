@@ -166,13 +166,13 @@ function checkScan(event) {
         disableScanner();
         // 314 STARTS HERE
         // Verify a container number is scanned
-        var containerNumber = checkContainer(event.data);
-        if (containerNumber) {
+        //var containerNumber = checkContainer(event.data);
+        if (event.data.length > 1) {
             sendTab(300);
         } else {
             disableScanner();
             event.data = "";
-            View.toast("Invalid Container.");
+            View.toast("Invalid Scan.");
             return;
         }
     } else if (screenNumber === "314 " && row === 6) {
@@ -226,6 +226,13 @@ function checkScan(event) {
             event.data = "";
             View.toast('Invalid Container');
         }
+    }else if(screenNumber === "301 " && row === 10){
+        //TODO - correct row and implement logic for the 301 screen
+        //They scan the part number here.
+        return;
+    }else if(screenNumber === "301a" && row === 10){
+        //TODO - correct row and implement logic for the 301a screen
+        //Confirming Tote ID here.
     }
 }
 
