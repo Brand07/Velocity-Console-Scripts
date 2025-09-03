@@ -229,10 +229,13 @@ function checkScan(event) {
     }else if(screenNumber === "301 " && row === 10){
         //TODO - correct row and implement logic for the 301 screen
         //They scan the part number here.
+        //TODO - implement sound to signal an invalid UPC/Part Number
         return;
     }else if(screenNumber === "301a" && row === 10){
         //TODO - correct row and implement logic for the 301a screen
         //Confirming Tote ID here.
+        //TODO - add a scan check against the Tote ID already on-screen.
+        return;
     }
 }
 
