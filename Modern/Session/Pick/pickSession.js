@@ -226,13 +226,30 @@ function checkScan(event) {
             event.data = "";
             View.toast('Invalid Container');
         }
-    }else if(screenNumber === "301 " && row === 10){
-        //TODO - correct row and implement logic for the 301 screen
-        //They scan the part number here.
-        //TODO - implement sound to signal an invalid UPC/Part Number
-        return;
-    }else if(screenNumber === "301a" && row === 10){
+        //301 Pick Part From
+    }else if(screenNumber === "301 " && row === 14){
+        if(event.data.length < 12 || event.data.length > 13){
+            event.data = "";
+            disableScanner();
+            playSound("invalid_part.mp3");
+            View.toast("Invalid Part #");
+            Scanner.scanTerminator("NoAuto");
+        }else{
+            sendEnter(300);
+        }
+        //301a Pick Part To
+    }else if(screenNumber === "301a" && row === 14){
         //TODO - correct row and implement logic for the 301a screen
+        var toteId = Screen.getText(14,6,7);
+        if(event.data === toteId){
+            View.toast("Validated!");
+            sendEnter(300);
+        }else{
+            event.data === "";
+            View.toast("Incorrect Tote");
+            playSound("invalid_tote.mp3");
+            Scanner.scanTerminator("NoAuto");
+        }
         //Confirming Tote ID here.
         //TODO - add a scan check against the Tote ID already on-screen.
         return;
