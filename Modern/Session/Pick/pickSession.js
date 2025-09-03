@@ -250,9 +250,6 @@ function checkScan(event) {
             playSound("invalid_tote.mp3");
             Scanner.scanTerminator("NoAuto");
         }
-        //Confirming Tote ID here.
-        //TODO - add a scan check against the Tote ID already on-screen.
-        return;
     }
 }
 
