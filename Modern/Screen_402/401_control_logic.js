@@ -12,8 +12,6 @@ function goToScreen(){
 }
 
 function openPrompt(){
-    View.toast("Function Called.");
-
     /*
     Display a prompt box asking the user
     if they would like to be navigated
@@ -21,11 +19,10 @@ function openPrompt(){
      */
     Prompt.promptOptions("Alert", "Would you like to go back to 402?", "Yes|No", function(result) {
         if (result === "Yes") {
-            View.toast("Yes");
+            View.toast("Navigating to 402.");
             goToScreen();
-            // TODO: Add navigation to 402 screen here, e.g. Screen.goto("402");
         } else if (result === "No") {
-            View.toast("No");
+            View.toast("Not going back to 402.");
         }
     });
     View.toast("After prompt.")
