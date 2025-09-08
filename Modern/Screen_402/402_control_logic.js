@@ -106,7 +106,7 @@ function onScan(event) {
     if (text1 === "402 " && row === 2) {
         if (validCharacters.includes(event.data.charAt(0))) {
             d("Valid Scan");
-            sendEnter(300);
+            //sendEnter(300); //Remove Enter at prod's request - 9/8/2025
             
             // Debug: Check if function exists
             //View.toast("Attempting to send Teams notification...");
@@ -121,7 +121,7 @@ function onScan(event) {
         // Container field
     } else if (text1 === "402 " && row === 3) {
         if (event.data.startsWith("0000")) {
-            d("Container Scanned")
+            d("Container Scanned");
             sendEnter(300);
             //sendTeamsNotification("Container Successfully Scanned", "Container", event.data);
         } else {
