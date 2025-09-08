@@ -6,6 +6,11 @@ Purpose: To give the user an option to return to the 402 screen after using 401.
 
 View.toast("On the 401a screen.")
 
+function goToScreen(){
+    Device.sendKeys("{pause:2000}{F2}"); // GOTO Screen
+    Device.sendKeys("{pause:300}{402}{return}");
+}
+
 function openPrompt(){
     View.toast("Function Called.");
 
@@ -17,6 +22,7 @@ function openPrompt(){
     Prompt.promptOptions("Alert", "Would you like to go back to 402?", "Yes|No", function(result) {
         if (result === "Yes") {
             View.toast("Yes");
+            goToScreen();
             // TODO: Add navigation to 402 screen here, e.g. Screen.goto("402");
         } else if (result === "No") {
             View.toast("No");
