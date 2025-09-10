@@ -30,7 +30,7 @@ function isBlockedScreen() {
     // Disable keyboard on various pick department screens/fields
     //return screenNumber.trim() === "311a";
     //Check if the screen is in the list of blocked screens
-    return screenNumbers.includes(screenNumber.trim());
+    return screenNumbers.includes(screenNumber);
 }
 
 function registerGlobalKeyBlockers(keycodes) {
