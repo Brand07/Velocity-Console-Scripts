@@ -146,8 +146,8 @@ function onScan(event) {
         sendEnter(300); // Enter after initial scan
         sendEnter(300); // is this the final dest.?
         Device.beepPlayFile("moving_to_401.mp3");
-        Device.sendKeys("{pause:2000}{F2}") // GOTO Screen
-        Device.sendKeys("{pause:300}{401}{return}") // Enter 401
+        Device.sendKeys("{pause:2000}{F2}"); // GOTO Screen
+        Device.sendKeys("{pause:300}{401}{return}"); // Enter 401
         //sendTeamsNotification("Putaway Process Completed - Navigating to 401", "Putaway", "Process Complete");
     }
 }
