@@ -17,10 +17,20 @@ const numbers = [
     "0030", "0031", "0032", "0033", "0034", "0035", "0036", "0037", "0038", "0039"
 ];
 
+/*
+Disabled on the following screens:
+-Confirm container screen.
+-Part Number capture screen.
+-Serial capture screen.
+ */
+const screenNumbers = ["311a","311 ", "Seri"];
+
 function isBlockedScreen() {
     var screenNumber = Screen.getText(0, 0, 4);
     // Disable keyboard on various pick department screens/fields
-    return screenNumber.trim() === "311a";
+    //return screenNumber.trim() === "311a";
+    //Check if the screen is in the list of blocked screens
+    return screenNumbers.includes(screenNumber.trim());
 }
 
 function registerGlobalKeyBlockers(keycodes) {
