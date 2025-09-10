@@ -20,10 +20,9 @@ const numbers = [
 /*
 Disabled on the following screens:
 -Confirm container screen.
--Part Number capture screen.
 -Serial capture screen.
  */
-const screenNumbers = ["311a","311 ", "Seri"];
+const screenNumbers = ["311a","Seri"];
 
 function isBlockedScreen() {
     var screenNumber = Screen.getText(0, 0, 4);
