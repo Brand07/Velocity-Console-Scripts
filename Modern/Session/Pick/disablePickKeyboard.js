@@ -26,6 +26,8 @@ const screenNumbers = ["311a","Seri"];
 
 function isBlockedScreen() {
     var screenNumber = Screen.getText(0, 0, 4);
+    var position = Screen.getCursorPosition();
+    var row = position.row;
     // Disable keyboard on various pick department screens/fields
     //return screenNumber.trim() === "311a";
     //Check if the screen is in the list of blocked screens
