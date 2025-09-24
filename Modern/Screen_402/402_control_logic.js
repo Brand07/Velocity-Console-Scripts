@@ -11,7 +11,6 @@ validCharacters = [
 
 // Teams webhook URL - Replace with your actual webhook URL
 const TEAMS_WEBHOOK_URL = "";
-
 // Function to send Teams notification
 function sendTeamsNotification(message, scanType, scanData) {
     // Debug: Show that function was called
@@ -19,11 +18,44 @@ function sendTeamsNotification(message, scanType, scanData) {
     
     // Teams message format for webhook
     var payload = {
-        "text": "**Scan Completed - Screen 402**\n\n" +
-               "**Time:** " + new Date().toLocaleString() + "\n" +
-               "**Scan Type:** " + scanType + "\n" +
-               "**Scan Data:** " + scanData + "\n" +
-               "**Status:** " + message
+        "attachments": [
+            {
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "type": "AdaptiveCard",
+                    "version": "1.0",
+                    "body": [
+                        {
+                            "type": "TextBlock",
+                            "text": "**Scan Completed - Screen 402**",
+                            "weight": "Bolder",
+                            "size": "Medium"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Time: " + new Date().toLocaleString(),
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Scan Type: " + scanType,
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Scan Data: " + scanData,
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Status: " + message,
+                            "wrap": true
+                        }
+                    ]
+                }
+            }
+        ]
     };
 
     // Callback for successful completion
@@ -116,7 +148,7 @@ function onScan(event) {
             d("Invalid Scan");
             event.data = "";
             Scanner.scanTerminator("NoAuto");
-            //sendTeamsNotification("Invalid Tag Scan", "Tag", event.data);
+            sendTeamsNotification("Invalid Tag Scan", "Tag", event.data);
         }
         // Container field
     } else if (text1 === "402 " && row === 3) {
