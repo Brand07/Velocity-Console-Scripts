@@ -61,4 +61,59 @@ function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
         ]
     };
 
+    // Callback for successful completion
+    function completeCallback(response, textStatus) {
+        if (response != null) {
+            showMessage("Teams notification sent successfully!", true); //Remove from prod
+            showMessage("Response: " + response.data, true); //Remove from prod
+        } else {
+            showMessage("Teams notification failed: " + textStatus, true); //Remove from prod
+        }
+    }
+
+    // Callback for errors
+    function errorCallback(response) {
+        View.toast("Teams notification error: " + response.status, true);
+    }
+
+    try {
+        // Check what's available
+        if (typeof Network !== 'undefined') {
+            showMessage("Network object exists", true); //Remove from prod
+
+            if (Network.sendWebRequest) {
+                showMessage("sendWebRequest method exists - sending...", true); //Remove from prod
+
+                // Use the correct Network.sendWebRequest syntax from documentation
+                Network.sendWebRequest(TEAMS_WEBHOOK_URL, {
+                    method: "POST",
+                    data: JSON.stringify(payload),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 8000,
+                    complete: completeCallback,
+                    statusCode: {
+                        404: errorCallback,
+                        400: errorCallback,
+                        500: errorCallback
+                    }
+                });
+
+                showMessage("Teams webhook request initiated", true); //Remove from prod
+            } else {
+                showMessage("sendWebRequest method NOT available", true); //Remove from prod
+            }
+        } else {
+            showMessage("Network object NOT available", true); //Remove from prod
+        }
+    } catch (error) {
+        showMessage("Teams notification ERROR: " + error.toString(), true); //Remove from prod
+        // Use Logger if available
+        if (typeof Logger !== 'undefined') {
+            Logger.debug("Teams webhook error: " + error.toString());
+        }
+    }
+
+
 }
+
