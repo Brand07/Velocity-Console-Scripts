@@ -3,6 +3,116 @@ Purpose: A single file to control all of the scan checks for the Pick devices
 Date: 8/13/2025
 */
 
+//Custom functions for remapping methods.
+function showMessage(message){
+    View.toast(message);
+}
+
+const TEAMS_WEBHOOK_URL = "" //Insert the URL here.
+
+function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
+    //Debug messages to be removed from prod
+    showMessage("Send To Teams function called.");
+
+    //Format the message the way the webhook wants
+    var payload = {
+        "attachments": [
+            {
+                "contentType": "application/vnd.microsoft.card.adaptive",
+                "content": {
+                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                    "type": "AdaptiveCard",
+                    "version": "1.0",
+                    "body": [
+                        {
+                            "type": "TextBlock",
+                            "text": {screen},
+                            "weight": "Bolder",
+                            "size": "Medium"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Time: " + new Date().toLocaleString(),
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Scan Type: " + scanType,
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Scan Data: " + scanData,
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "Status: " + message,
+                            "wrap": true
+                        }
+                    ]
+                }
+            }
+        ]
+    };
+
+    // Callback for successful completion
+    function completeCallback(response, textStatus) {
+        if (response != null) {
+            showMessage("Teams notification sent successfully!", true); //Remove from prod
+            showMessage("Response: " + response.data, true); //Remove from prod
+        } else {
+            showMessage("Teams notification failed: " + textStatus, true); //Remove from prod
+        }
+    }
+
+    // Callback for errors
+    function errorCallback(response) {
+        View.toast("Teams notification error: " + response.status, true);
+    }
+
+    try {
+        // Check what's available
+        if (typeof Network !== 'undefined') {
+            showMessage("Network object exists", true); //Remove from prod
+
+            if (Network.sendWebRequest) {
+                showMessage("sendWebRequest method exists - sending...", true); //Remove from prod
+
+                // Use the correct Network.sendWebRequest syntax from documentation
+                Network.sendWebRequest(TEAMS_WEBHOOK_URL, {
+                    method: "POST",
+                    data: JSON.stringify(payload),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 8000,
+                    complete: completeCallback,
+                    statusCode: {
+                        404: errorCallback,
+                        400: errorCallback,
+                        500: errorCallback
+                    }
+                });
+
+                showMessage("Teams webhook request initiated", true); //Remove from prod
+            } else {
+                showMessage("sendWebRequest method NOT available", true); //Remove from prod
+            }
+        } else {
+            showMessage("Network object NOT available", true); //Remove from prod
+        }
+    } catch (error) {
+        showMessage("Teams notification ERROR: " + error.toString(), true); //Remove from prod
+        // Use Logger if available
+        if (typeof Logger !== 'undefined') {
+            Logger.debug("Teams webhook error: " + error.toString());
+        }
+    }
+
+
+
+}
+
 function normalizeType(type) {
     if(!type) return "UNKNOWN";
     const t = type.replace(/[_\s\-]/g, "").toUpperCase();
@@ -54,12 +164,14 @@ function checkSerialNumber(scan_data) {
         Scanner.scanTerminator("NoAuto");
         View.toast("Serial # is too long!");
         playSound("invalid_serial.mp3");
+        sendTeamsNotification("Invalid Serial Scanned", "Serial Capture", scan_data)
         return;
     } else if (length < 8) {
         scan_data.data = "";
         View.toast("Serial # is too short!");
         Scanner.scanTerminator("NoAuto");
         playSound("invalid_serial.mp3");
+        sendTeamsNotification("Invalid Serial Scanned", "Serial Capture", scan_data)
         return;
     } else if (scan_data.data.startsWith("1923")) {
         // Check against scanning UPC numbers
@@ -67,6 +179,7 @@ function checkSerialNumber(scan_data) {
         View.toast("That's a UPC Number,");
         Scanner.scanTerminator("NoAuto");
         playSound("invalid_serial.mp3");
+        sendTeamsNotification("Invalid Serial Scanned", "Serial Capture", scan_data)
         return;
     } else if (scan_data.data.startsWith("T")) {
         // Check against scanning Tags
@@ -74,6 +187,7 @@ function checkSerialNumber(scan_data) {
         View.toast("That's a Tag.");
         Scanner.scanTerminator("NoAuto");
         playSound("invalid_serial.mp3");
+        sendTeamsNotification("Invalid Serial Scanned", "Serial Capture", scan_data)
         // Add a sound file
     } else if (scan_data.data.startsWith("PLT")) {
         // Check against PLT numbers
@@ -81,12 +195,14 @@ function checkSerialNumber(scan_data) {
         View.toast("That's a PLT number.");
         Scanner.scanTerminator("NoAuto");
         playSound("invalid_serial.mp3");
+        sendTeamsNotification("Invalid Serial Scanned", "Serial Capture", scan_data)
     } else if (scan_data.data.startsWith("PID")) {
         // Check against PID numbers
         scan_data.data = "";
         View.toast("That's a PID.");
         Scanner.scanTerminator("NoAuto");
         playSound("invalid_serial.mp3");
+        sendTeamsNotification("Invalid Serial Scanned", "Serial Capture", scan_data)
         return;
     } else {
         sendEnter(300);
@@ -132,6 +248,7 @@ function checkScan(event) {
             disableScanner();
             View.toast("Please scan a valid UPC or EAN number.");
             playSound("invalid_part.mp3")
+            sendTeamsNotification("Invalid Part Number Scanned", "Part Number Capture", event.data)
             // Add a sound file
         } else if (event.data.length === 12 || event.data.length === 13) {
             View.toast("Valid Part Number.");
@@ -173,6 +290,7 @@ function checkScan(event) {
             disableScanner();
             event.data = "";
             View.toast("Invalid Scan.");
+            sendTeamsNotification("Invalid Batch ID Scanned", "Tote Induction", event.data)
             return;
         }
     } else if (screenNumber === "314 " && row === 6) {
@@ -181,6 +299,7 @@ function checkScan(event) {
             event.data = "";
             View.toast("Invalid Tote ID");
             playSound("invalid_tote.mp3");
+            sendTeamsNotification("Invalid Tote ID Scanned", "Tote Induction", event.data)
             return;
         } else {
             disableScanner();
@@ -195,6 +314,7 @@ function checkScan(event) {
             event.data = "";
             View.toast("Scan a valid Tote ID.");
             playSound("invalid_tote.mp3");
+            sendTeamsNotification("Invalid Tote ID Scanned", "Tote Pick", event.data)
             return;
         } else {
             disableScanner();
@@ -213,6 +333,7 @@ function checkScan(event) {
             disableScanner();
             playSound("not_correct_container.mp3");
             event.data = "";
+            sendTeamsNotification("Wrong Container Scanned", "Confirm Container", event.data)
             View.toast("Incorrect Container.");
         }
     //310 Pick Cont 
@@ -234,6 +355,7 @@ function checkScan(event) {
             playSound("invalid_part.mp3");
             View.toast("Invalid Part #");
             Scanner.scanTerminator("NoAuto");
+            sendTeamsNotification("Invalid Part Number Scanned", "301 Pick Part From", event.data)
         }else{
             sendEnter(300);
         }
