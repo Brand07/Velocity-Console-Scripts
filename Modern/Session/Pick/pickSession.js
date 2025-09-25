@@ -10,9 +10,25 @@ function showMessage(message){
 
 const TEAMS_WEBHOOK_URL = "" //Insert the URL here.
 
-function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
+//Function to get the MAC of the device.
+function getHardwareId(){
+    var address = Network.getWifiIPAddress();
+    return address;
+}
+
+function sendTeamsNotification(message, scanData = "Null", screen = "Null", deviceIp) {
     //Debug messages to be removed from prod
     showMessage("Send To Teams function called.");
+
+    // Ensure scanData is a string (ES5 compatible)
+    var scanDataString;
+    if (typeof scanData === "object") {
+        scanDataString = JSON.stringify(scanData);
+    } else {
+        scanDataString = String(scanData);
+    }
+
+    var ipDisplay = deviceIp ? deviceIp : "Unknown";
 
     //Format the message the way the webhook wants
     var payload = {
@@ -26,7 +42,7 @@ function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
                     "body": [
                         {
                             "type": "TextBlock",
-                            "text": {screen},
+                            "text": "Scan Completed - Screen " + screen,
                             "weight": "Bolder",
                             "size": "Medium"
                         },
@@ -37,12 +53,12 @@ function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
                         },
                         {
                             "type": "TextBlock",
-                            "text": "Scan Type: " + scanType,
+                            "text": "Device IP: " + ipDisplay,
                             "wrap": true
                         },
                         {
                             "type": "TextBlock",
-                            "text": "Scan Data: " + scanData,
+                            "text": "Scan Data: " + scanDataString,
                             "wrap": true
                         },
                         {
@@ -108,8 +124,6 @@ function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
             Logger.debug("Teams webhook error: " + error.toString());
         }
     }
-
-
 
 }
 
@@ -216,6 +230,8 @@ function checkScan(event) {
     var screenNumber = Screen.getText(0, 0, 4); // Get the screen number
     var position = Screen.getCursorPosition(); // Get the cursor position
     var row = position.row; // Get the current row
+    var mac_address = getHardwareId();
+    //View.toast(mac_address);
 
     // 311 Cluster Bld/Rls
     if (screenNumber === "311 " && row === 10) {
@@ -243,12 +259,13 @@ function checkScan(event) {
         }
         // Checking the part number here
         if (event.data.length < 12 || event.data.length > 13) {
+            var originalScanData = event.data; // Save before overwriting
             event.data = "";
             Scanner.scanTerminator("NoAuto");
             disableScanner();
             View.toast("Please scan a valid UPC or EAN number.");
             playSound("invalid_part.mp3")
-            sendTeamsNotification("Invalid Part Number Scanned", "Part Number Capture", event.data)
+            sendTeamsNotification("Invalid Part Number Scanned", originalScanData, "Part Number Capture")
             // Add a sound file
         } else if (event.data.length === 12 || event.data.length === 13) {
             View.toast("Valid Part Number.");
@@ -350,12 +367,13 @@ function checkScan(event) {
         //301 Pick Part From
     }else if(screenNumber === "301 " && row === 14){
         if(event.data.length < 12 || event.data.length > 13){
+            var originalScanData = event.data;
             event.data = "";
             disableScanner();
             playSound("invalid_part.mp3");
             View.toast("Invalid Part #");
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Part Number Scanned", "301 Pick Part From", event.data)
+            sendTeamsNotification("Invalid Part Number Scanned", originalScanData, "301 Pick Part From")
         }else{
             sendEnter(300);
         }
