@@ -11,9 +11,17 @@ function showMessage(message){
 const TEAMS_WEBHOOK_URL = "" //Insert the URL here.
 
 //Function to get the MAC of the device.
-function getHardwareId(){
-    var address = Network.getWifiIPAddress();
-    return address;
+function getDeviceIp(){
+    var ip = Network.getWifiIPAddress();
+    //View.toast("Device IP fetched: " + ip, true); // Debug output
+    if (!ip || ip === "0.0.0.0") {
+        // Try alternative method if available
+        if (Network.getIPAddress) {
+            ip = Network.getIPAddress();
+            //View.toast("Fallback IP: " + ip, true);
+        }
+    }
+    return ip;
 }
 
 function sendTeamsNotification(message, scanData = "Null", screen = "Null", deviceIp) {
@@ -230,7 +238,7 @@ function checkScan(event) {
     var screenNumber = Screen.getText(0, 0, 4); // Get the screen number
     var position = Screen.getCursorPosition(); // Get the cursor position
     var row = position.row; // Get the current row
-    var mac_address = getHardwareId();
+    var deviceIp = getDeviceIp();
     //View.toast(mac_address);
 
     // 311 Cluster Bld/Rls
@@ -265,7 +273,7 @@ function checkScan(event) {
             disableScanner();
             View.toast("Please scan a valid UPC or EAN number.");
             playSound("invalid_part.mp3")
-            sendTeamsNotification("Invalid Part Number Scanned", originalScanData, "Part Number Capture")
+            sendTeamsNotification("Invalid Part Number Scanned", originalScanData, "Part Number Capture", deviceIp);
             // Add a sound file
         } else if (event.data.length === 12 || event.data.length === 13) {
             View.toast("Valid Part Number.");
@@ -373,7 +381,7 @@ function checkScan(event) {
             playSound("invalid_part.mp3");
             View.toast("Invalid Part #");
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Part Number Scanned", originalScanData, "301 Pick Part From")
+            sendTeamsNotification("Invalid Part Number Scanned", originalScanData, "301 Pick Part From", deviceIp);
         }else{
             sendEnter(300);
         }
