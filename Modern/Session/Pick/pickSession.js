@@ -305,6 +305,7 @@ function checkScan(event) {
             }
         }
     } else if (screenNumber === "314 " && row === 3) {
+        var originalScanData = event.data; // Save before overwriting
         disableScanner();
         // 314 STARTS HERE
         // Verify a container number is scanned
@@ -313,7 +314,7 @@ function checkScan(event) {
             sendTab(300);
         } else {
             disableScanner();
-            sendTeamsNotification("Invalid Batch ID Scanned", event.data, "Part Number Capture", deviceIp);
+            sendTeamsNotification("Invalid Batch ID Scanned", originalScanData, "Part Number Capture", deviceIp);
             event.data = "";
             View.toast("Invalid Scan.");
             return;
@@ -394,6 +395,7 @@ function checkScan(event) {
             View.toast("Validated!");
             sendEnter(300);
         }else{
+            sendTeamsNotification("Invalid Tote Confirmation", event.data, "301a Pick Part To", deviceIp)
             event.data === "";
             View.toast("Incorrect Tote");
             playSound("invalid_tote.mp3");
