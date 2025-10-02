@@ -313,18 +313,18 @@ function checkScan(event) {
             sendTab(300);
         } else {
             disableScanner();
+            sendTeamsNotification("Invalid Batch ID Scanned", event.data, "Part Number Capture", deviceIp);
             event.data = "";
             View.toast("Invalid Scan.");
-            sendTeamsNotification("Invalid Batch ID Scanned", "Tote Induction", event.data)
             return;
         }
     } else if (screenNumber === "314 " && row === 6) {
         disableScanner();
         if (!event.data.startsWith("TOT")) {
+            sendTeamsNotification("Invalid Tote ID Scanned", event.data, "314 Tote Induction", deviceIp);
             event.data = "";
             View.toast("Invalid Tote ID");
             playSound("invalid_tote.mp3");
-            sendTeamsNotification("Invalid Tote ID Scanned", "Tote Induction", event.data)
             return;
         } else {
             disableScanner();
@@ -336,10 +336,10 @@ function checkScan(event) {
         // 315 TOTE PICK STARTS HERE
         // Verify that a valid Tote ID is scanned
         if (!event.data.startsWith("TOT")) {
+            sendTeamsNotification("Invalid Tote ID Scanned", event.data, "Tote Induction", deviceIp);
             event.data = "";
             View.toast("Scan a valid Tote ID.");
             playSound("invalid_tote.mp3");
-            sendTeamsNotification("Invalid Tote ID Scanned", "Tote Pick", event.data)
             return;
         } else {
             disableScanner();
@@ -356,9 +356,9 @@ function checkScan(event) {
             return;
         } else {
             disableScanner();
+            sendTeamsNotification("Container Mismatch", event.data, "Confirm Container (311a)", deviceIp);
             playSound("not_correct_container.mp3");
             event.data = "";
-            sendTeamsNotification("Wrong Container Scanned", "Confirm Container", event.data)
             View.toast("Incorrect Container.");
         }
     //310 Pick Cont 
@@ -368,6 +368,7 @@ function checkScan(event) {
         if(container){
             sendEnter(300);
         }else{
+            sendTeamsNotification("Container Mismatch", event.data, "Confirm Container (310)", deviceIp);
             disableScanner();
             event.data = "";
             View.toast('Invalid Container');
