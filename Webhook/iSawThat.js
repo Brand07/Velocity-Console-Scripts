@@ -15,6 +15,8 @@ function getScreen(){
     return screen;
 }
 
+const TEAMS_WEBHOOK_URL = "" //Insert the URL here.
+
 function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
     //Debug messages to be removed from prod
     showMessage("Send To Teams function called.");
@@ -113,6 +115,7 @@ function sendTeamsNotification(message,scanData ="Null", screen = "Null"){
             Logger.debug("Teams webhook error: " + error.toString());
         }
     }
+
 
 
 }
