@@ -19,7 +19,139 @@ Screens Covered:
 
 */
 
-View.toast("")
+const TEAMS_WEBHOOK_URL = ""; //Insert the URL here.
+
+//Function to get the MAC of the device.
+function getDeviceIp() {
+  var ip = Network.getWifiIPAddress();
+  //View.toast("Device IP fetched: " + ip, true); // Debug output
+  if (!ip || ip === "0.0.0.0") {
+    // Try alternative method if available
+    if (Network.getIPAddress) {
+      ip = Network.getIPAddress();
+      //View.toast("Fallback IP: " + ip, true);
+    }
+  }
+  return ip;
+}
+
+function sendTeamsNotification(
+  message,
+  scanData = "Null",
+  screen = "Null",
+  deviceIp,
+) {
+  //Debug messages to be removed from prod
+  //showMessage("Send To Teams function called.");
+
+  // Ensure scanData is a string (ES5 compatible)
+  var scanDataString;
+  if (typeof scanData === "object") {
+    scanDataString = JSON.stringify(scanData);
+  } else {
+    scanDataString = String(scanData);
+  }
+
+  var ipDisplay = deviceIp ? deviceIp : "Unknown";
+
+  //Format the message the way the webhook wants
+  var payload = {
+    attachments: [
+      {
+        contentType: "application/vnd.microsoft.card.adaptive",
+        content: {
+          $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.0",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Scan Completed - Screen " + screen,
+              weight: "Bolder",
+              size: "Medium",
+            },
+            {
+              type: "TextBlock",
+              text: "Time: " + new Date().toLocaleString(),
+              wrap: true,
+            },
+            {
+              type: "TextBlock",
+              text: "Device IP: " + ipDisplay,
+              wrap: true,
+            },
+            {
+              type: "TextBlock",
+              text: "Scan Data: " + scanDataString,
+              wrap: true,
+            },
+            {
+              type: "TextBlock",
+              text: "Status: " + message,
+              wrap: true,
+            },
+          ],
+        },
+      },
+    ],
+  };
+
+  // Callback for successful completion
+  function completeCallback(response, textStatus) {
+    if (response != null) {
+      //showMessage("Teams notification sent successfully!", true); //Remove from prod
+      //showMessage("Response: " + response.data, true); //Remove from prod
+    } else {
+      showMessage("Teams notification failed: " + textStatus, true); //Remove from prod
+    }
+  }
+
+  // Callback for errors
+  function errorCallback(response) {
+    View.toast("Teams notification error: " + response.status, true);
+  }
+
+  try {
+    // Check what's available
+    if (typeof Network !== "undefined") {
+      //showMessage("Network object exists", true); //Remove from prod
+
+      if (Network.sendWebRequest) {
+        //showMessage("sendWebRequest method exists - sending...", true); //Remove from prod
+
+        // Use the correct Network.sendWebRequest syntax from documentation
+        Network.sendWebRequest(TEAMS_WEBHOOK_URL, {
+          method: "POST",
+          data: JSON.stringify(payload),
+          contentType: "application/json",
+          cache: false,
+          timeout: 8000,
+          complete: completeCallback,
+          statusCode: {
+            404: errorCallback,
+            400: errorCallback,
+            500: errorCallback,
+          },
+        });
+
+        //showMessage("Teams webhook request initiated", true); //Remove from prod
+      } else {
+        showMessage("sendWebRequest method NOT available", true); //Remove from prod
+      }
+    } else {
+      showMessage("Network object NOT available", true); //Remove from prod
+    }
+  } catch (error) {
+    showMessage("Teams notification ERROR: " + error.toString(), true); //Remove from prod
+    // Use Logger if available
+    if (typeof Logger !== "undefined") {
+      Logger.debug("Teams webhook error: " + error.toString());
+    }
+  }
+}
+
+
+
 
 function playSound(sound) {
   Device.beepPlayFile(sound);
@@ -39,6 +171,7 @@ function checkContainer(scan_data) {
     return scan_data;
   } else {
     playSound("not_correct_container.mp3");
+    sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp)
     return;
   }
 }
@@ -49,12 +182,15 @@ function onScan(event) {
   var row = position.row; // Get the current row
 
   // ========= 704 Start =========
-  
+  var deviceIP = getDeviceIp();
   //This correctly reflects old session code.
   if (screenNumber === "704 " && row === 3) {
     var containerNumber = checkContainer(event.data);
     if (containerNumber) {
       sendTab(300);
+    }else{
+        sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp);
+        event.data = "";
     }
   } else if (screenNumber === "704 " && row === 5) {
     if (event.data.startsWith("PID" || "PLT")) {
@@ -77,7 +213,7 @@ function onScan(event) {
     // ========= 702 Start =========
     //Container Unpack Screen
   } else if (screenNumber === "702 " && row === 2) {
-    if (event.data === "") {
+    if (event.data = "") {
       View.toast("Blank Scan");
       Scanner.scanTerminator("NoAuto");
     } else {
@@ -136,7 +272,7 @@ function onScan(event) {
       sendEnter(300);
     }else{
       //Clear the scan data and notify the user.
-      event.data === "";
+      event.data = "";
       View.toast("Invalid Container");
     }
     // ========= 703 END =========
@@ -168,6 +304,8 @@ function onScan(event) {
     }else{
       View.toast("Blank Scan."); // remove from PROD.
     }
+    // ========= 402b End =========
+    // The next screen is 310a - Logic for this screen is handled by the pickSession.js file.
   }
   
 }
