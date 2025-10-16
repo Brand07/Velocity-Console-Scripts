@@ -5,7 +5,7 @@ Date: 8/15/2025
 
 /*
 Screens Covered:
-- 701
+- 701 - DONE
 - 702 - DONE
 - 703
 - 704 - DONE
@@ -97,8 +97,32 @@ function onScan(event) {
       Scanner.scanTerminator("NoAuto");
       View.toast("Invalid Scan.");
     }
+    // ========= 702 End =========
+  
+     // ========= 701 Start =========
+  } else if (screenNumber === "701 " && row === 2){
+    //Container field
+    var containerNumber = checkContainer(event.data);
+    //Check if the scan is a container, a 'PLT', or a 'PID'
+    if (containerNumber || event.data.startsWith("PLT") || event.data.startsWith("PID")) {
+      //Tab down to the 'Cont. Type' field
+      sendTab(300);
+      //Send 'PALS' as the container Type
+      Device.sendkeys("PALS");
+      //Tab down to the 'location' field
+      sendTab(300);
+    }else{
+      //Don't proceed
+      Scanner.scanTerminator("NoAuto");
+      //Clear the scan data
+      event.data = "";
+      //Notify the User
+      View.toast("Invalid Scan.");
+    }
   }
-  // ========= 702 End =========
+  
+  
+ 
 }
 
 WLEvent.on("Scan", onScan);
