@@ -9,8 +9,8 @@ Screens Covered:
 - 702 - DONE
 - 703 - DONE
 - 704 - DONE
-- 705
-- 706
+- 705 - NOT USED
+- 706 - NOT USED
 */
 
 View.toast("")
