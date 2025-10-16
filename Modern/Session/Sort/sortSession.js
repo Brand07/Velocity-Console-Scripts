@@ -11,6 +11,12 @@ Screens Covered:
 - 704 - DONE
 - 705 - NOT USED
 - 706 - NOT USED
+- 402 - 
+- 402b - 
+- 310a -
+- 401 - 
+
+
 */
 
 View.toast("")
@@ -133,8 +139,37 @@ function onScan(event) {
       event.data === "";
       View.toast("Invalid Container");
     }
+    // ========= 703 END =========
+    // 
+    // ========= 402 Start =========
+  } else if (screenNumber === "402" && row === 3){
+    var containerNumber = checkContainer(event.data);
+    if (containerNumber){
+      sendEnter(300);
+    }else{
+      //Clear the scan data and notify the user, don't tab or enter
+      event.data = "";
+      View.toast("Invalid Container.");
+    }
+    // ========= 402b Start =========
+  }else if (screenNumber === "402b" && row === 2){
+    var containerNumber = checkContainer(event.data);
+    if (containerNumber) {
+      sendTab(300);
+    }else{
+      //Clear the scan data, notfiy the user, don't send tab or enter
+      event.data = "";
+      View.toast("Invalid Scan.");
+    }
+  }else if (screenNumber === "402b" && row === 4){
+    //Send an enter if the scan data isn't blank.
+    if (!event.data === ""){
+      sendEnter(300);
+    }else{
+      View.toast("Blank Scan."); // remove from PROD.
+    }
   }
-  // ========= 703 END =========
+  
 }
 
 WLEvent.on("Scan", onScan);
