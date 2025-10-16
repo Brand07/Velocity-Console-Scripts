@@ -7,7 +7,7 @@ Date: 8/15/2025
 Screens Covered:
 - 701 - DONE
 - 702 - DONE
-- 703
+- 703 - DONE
 - 704 - DONE
 - 705
 - 706
@@ -119,10 +119,22 @@ function onScan(event) {
       //Notify the User
       View.toast("Invalid Scan.");
     }
+    // ========= 701 END =========
+    // 
+    // ========= 703 Start =========
+    
+    //Container field
+  }else if (screenNumber === "703 " && row === 2){
+    var containerNumber = checkContainer(event.data);
+    if (containerNumber){
+      sendEnter(300);
+    }else{
+      //Clear the scan data and notify the user.
+      event.data === "";
+      View.toast("Invalid Container");
+    }
   }
-  
-  
- 
+  // ========= 703 END =========
 }
 
 WLEvent.on("Scan", onScan);
