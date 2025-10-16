@@ -3,6 +3,18 @@ Purpose: Controls all the logic for the Sort related screens.
 Date: 8/15/2025
 */
 
+/*
+Screens Covered:
+- 701
+- 702 - DONE
+- 703
+- 704 - DONE
+- 705
+- 706
+*/
+
+View.toast("")
+
 function playSound(sound) {
   Device.beepPlayFile(sound);
 }
@@ -30,6 +42,8 @@ function onScan(event) {
   var position = Screen.getCursorPosition(); // Get the cursor position
   var row = position.row; // Get the current row
 
+  // ========= 704 Start =========
+  
   //This correctly reflects old session code.
   if (screenNumber === "704 " && row === 3) {
     var containerNumber = checkContainer(event.data);
@@ -51,6 +65,10 @@ function onScan(event) {
       playSound("invalid_pid.mp3");
       return;
     }
+    
+    // ========= 704 End =========
+
+    // ========= 702 Start =========
     //Container Unpack Screen
   } else if (screenNumber === "702 " && row === 2) {
     if (event.data === "") {
@@ -80,6 +98,7 @@ function onScan(event) {
       View.toast("Invalid Scan.");
     }
   }
+  // ========= 702 End =========
 }
 
 WLEvent.on("Scan", onScan);
