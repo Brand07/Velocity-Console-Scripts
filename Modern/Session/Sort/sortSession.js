@@ -166,34 +166,38 @@ function sendTab(delay = 300) {
 }
 
 // Function to check the container number
-function checkContainer(scan_data) {
+function checkContainer(scan_data, deviceIp) {
+  if (typeof scan_data !== "string") scan_data = String(scan_data || "");
   if (scan_data.length === 20 && scan_data.startsWith("0000")) {
     return scan_data;
   } else {
     playSound("not_correct_container.mp3");
-    sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp)
+    sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp);
     return;
   }
 }
 
 function onScan(event) {
-  var screenNumber = Screen.getText(0, 0, 4); // Get the screen number
+  var screenNumber = (Screen.getText(0, 0, 4) || "").trim(); // Get the screen number
   var position = Screen.getCursorPosition(); // Get the cursor position
   var row = position.row; // Get the current row
 
-  // ========= 704 Start =========
   var deviceIP = getDeviceIp();
-  //This correctly reflects old session code.
-  if (screenNumber === "704 " && row === 3) {
-    var containerNumber = checkContainer(event.data);
+  // Normalize scan data
+  var scanData = event && event.data !== undefined ? event.data : "";
+  if (typeof scanData !== "string") scanData = String(scanData || "");
+
+  // ========= 704 Start =========
+  if (screenNumber === "704" && row === 3) {
+    var containerNumber = checkContainer(scanData, deviceIP);
     if (containerNumber) {
       sendTab(300);
-    }else{
-        sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp);
-        event.data = "";
+    } else {
+      sendTeamsNotification("Invalid Container", scanData, "704", deviceIP);
+      scanData = "";
     }
-  } else if (screenNumber === "704 " && row === 5) {
-    if (event.data.startsWith("PID" || "PLT")) {
+  } else if (screenNumber === "704" && row === 5) {
+    if (scanData.startsWith("PID") || scanData.startsWith("PLT")) {
       //Tab down to the 'Type' field.
       sendTab(300);
       Device.sendKeys("PALS");
@@ -201,26 +205,24 @@ function onScan(event) {
       return;
     } else {
       //Clear the scan data
-      event.data = "";
+      scanData = "";
       Scanner.scanTerminator("NoAuto");
       View.toast("Invalid PID/PLT.");
       playSound("invalid_pid.mp3");
       return;
     }
-    
     // ========= 704 End =========
-
     // ========= 702 Start =========
     //Container Unpack Screen
-  } else if (screenNumber === "702 " && row === 2) {
-    if (event.data = "") {
+  } else if (screenNumber === "702" && row === 2) {
+    if (scanData === "") {
       View.toast("Blank Scan");
       Scanner.scanTerminator("NoAuto");
     } else {
       sendTab(300);
     }
-  } else if (screenNumber === "702 " && row === 3) {
-    var containerNumber = checkContainer(event.data);
+  } else if (screenNumber === "702" && row === 3) {
+    var containerNumber = checkContainer(scanData, deviceIP);
     if (containerNumber) {
       sendTab(300);
       //Type "PALS" into the 'CnTp' field and hit enter
@@ -228,78 +230,72 @@ function onScan(event) {
       sendEnter(300);
     } else {
       View.toast("Invalid Container");
-      event.data = "";
+      scanData = "";
     }
     //702a Unpack Container
     // User can scan either the container, PID, or PLT.
   } else if (screenNumber === "702a" && row === 5) {
-    if (event.data.startsWith("PID" || "PLT" || "0000")) {
+    if (scanData.startsWith("PID") || scanData.startsWith("PLT") || scanData.startsWith("0000")) {
       sendEnter(300);
     } else {
       Scanner.scanTerminator("NoAuto");
       View.toast("Invalid Scan.");
     }
     // ========= 702 End =========
-  
-     // ========= 701 Start =========
-  } else if (screenNumber === "701 " && row === 2){
-    //Container field
-    var containerNumber = checkContainer(event.data);
+    // ========= 701 Start =========
+  } else if (screenNumber === "701" && row === 2){
+    var containerNumber = checkContainer(scanData, deviceIP);
     //Check if the scan is a container, a 'PLT', or a 'PID'
-    if (containerNumber || event.data.startsWith("PLT") || event.data.startsWith("PID")) {
+    if (containerNumber || scanData.startsWith("PLT") || scanData.startsWith("PID")) {
       //Tab down to the 'Cont. Type' field
       sendTab(300);
       //Send 'PALS' as the container Type
-      Device.sendkeys("PALS");
+      Device.sendKeys("PALS");
       //Tab down to the 'location' field
       sendTab(300);
     }else{
       //Don't proceed
       Scanner.scanTerminator("NoAuto");
       //Clear the scan data
-      event.data = "";
+      scanData = "";
       //Notify the User
       View.toast("Invalid Scan.");
     }
     // ========= 701 END =========
-    // 
     // ========= 703 Start =========
-    
-    //Container field
-  }else if (screenNumber === "703 " && row === 2){
-    var containerNumber = checkContainer(event.data);
+  }else if (screenNumber === "703" && row === 2){
+    var containerNumber = checkContainer(scanData, deviceIP);
     if (containerNumber){
       sendEnter(300);
     }else{
       //Clear the scan data and notify the user.
-      event.data = "";
+      scanData = "";
       View.toast("Invalid Container");
     }
     // ========= 703 END =========
-    // 
     // ========= 402 Start =========
   } else if (screenNumber === "402" && row === 3){
-    var containerNumber = checkContainer(event.data);
+    var containerNumber = checkContainer(scanData, deviceIP);
     if (containerNumber){
       sendEnter(300);
     }else{
       //Clear the scan data and notify the user, don't tab or enter
-      event.data = "";
+      scanData = "";
       View.toast("Invalid Container.");
     }
     // ========= 402b Start =========
   }else if (screenNumber === "402b" && row === 2){
-    var containerNumber = checkContainer(event.data);
+    var containerNumber = checkContainer(scanData, deviceIP);
     if (containerNumber) {
       sendTab(300);
     }else{
-      //Clear the scan data, notfiy the user, don't send tab or enter
-      event.data = "";
+      //Clear the scan data, notify the user, don't send tab or enter
+      scanData = "";
       View.toast("Invalid Scan.");
     }
   }else if (screenNumber === "402b" && row === 4){
     //Send an enter if the scan data isn't blank.
-    if (!event.data === ""){
+    if (scanData !== ""){
       sendEnter(300);
     }else{
       View.toast("Blank Scan."); // remove from PROD.
@@ -307,7 +303,6 @@ function onScan(event) {
     // ========= 402b End =========
     // The next screen is 310a - Logic for this screen is handled by the pickSession.js file.
   }
-  
 }
 
 WLEvent.on("Scan", onScan);
