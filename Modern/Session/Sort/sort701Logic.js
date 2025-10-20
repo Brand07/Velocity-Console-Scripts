@@ -38,3 +38,31 @@ function showDebugMessage(message) {
 
 d = showDebugMessage;
 
+
+//Main scan function
+
+function onScan(scanData){
+    var screenNumber = Screen.getText(0, 0, 4); //Get the screen number
+    var position = Screen.getCursorPosition(); //Get the cursor position
+    var row = position.row; //Get the row
+
+    //701 Start
+    if (screenNumber === "701" && row === 2){
+        //Check for container, PLT, or PID
+        if(scanData.startsWith("0000") || scanData.startsWith("PLT") || scanData.startsWith("PID")){
+            //Tab down to the 'Cont. Type' field
+            sendTab(300);
+            //Send "PALS"
+            Device.sendKeys("PALS");
+            //Tab down to the location field
+            sendTab(300);
+        }else{
+            //Interrupt the auto-tab/enter and clear the scan data
+            Scanner.scanTerminator("NoAuto");
+            scanData.data = "";
+            d("Invalid Scan!");
+        }
+    }
+}
+
+WLEvent.on("Scan", onScan);
