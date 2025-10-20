@@ -238,6 +238,7 @@ function onScan(event) {
       Device.sendKeys("PALS");
       sendEnter(300);
     } else {
+        sendTeamsNotification("Invalid Container", scanData, "702", deviceIP);
       View.toast("Invalid Container");
       clearScanBuffer(event);
     }
@@ -247,6 +248,7 @@ function onScan(event) {
     if (scanData.startsWith("PID") || scanData.startsWith("PLT") || scanData.startsWith("0000")) {
       sendEnter(300);
     } else {
+      sendTeamsNotification("Invalid Scan", scanData, "702a", deviceIP);
       clearScanBuffer(event);
       View.toast("Invalid Scan.");
     }
@@ -263,6 +265,7 @@ function onScan(event) {
       //Tab down to the 'location' field
       sendTab(300);
     }else{
+      sendTeamsNotification("Invalid Scan", scanData, "701", deviceIP);
       clearScanBuffer(event);
       View.toast("Invalid Scan.");
     }
