@@ -214,6 +214,7 @@ function onScan(event) {
       sendEnter(300);
       return;
     } else {
+      sendTeamsNotification("Invalid PID/PLT", scanData, "704", deviceIP);
       clearScanBuffer(event);
       View.toast("Invalid PID/PLT.");
       playSound("invalid_pid.mp3");
