@@ -276,6 +276,7 @@ function onScan(event) {
     if (containerNumber){
       sendEnter(300);
     }else{
+      sendTeamsNotification("Invalid Container", scanData, "703", deviceIP);
       clearScanBuffer(event);
       View.toast("Invalid Container");
     }
@@ -286,6 +287,7 @@ function onScan(event) {
     if (containerNumber){
       sendEnter(300);
     }else{
+      sendTeamsNotification("Invalid Container", scanData, "402", deviceIP);
       clearScanBuffer(event);
       View.toast("Invalid Container.");
     }
@@ -295,6 +297,7 @@ function onScan(event) {
     if (containerNumber) {
       sendTab(300);
     }else{
+      sendTeamsNotification("Invalid Container", scanData, "402b", deviceIP);
       clearScanBuffer(event);
       View.toast("Invalid Scan.");
     }
