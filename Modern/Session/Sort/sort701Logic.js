@@ -2,32 +2,31 @@
 Purpose: Controls the logic on the 701 Screen
 Date: 10/20/2025
 Author: Brandon Yates
+Screen: @701ContPack
  */
 
-//Function to get the IP of the device
 function getDeviceIp(){
-    var ip = Network.getWifiAddress();
+    var ip = Network.getWifiAddress && Network.getWifiAddress();
     if (!ip || ip === "0.0.0.0"){
-        //Try alternative method
         if (Network.getIPAddress){
             ip = Network.getIPAddress();
         }
     }
-    return ip;
+    return ip || "Unknown";
 }
 
 function sendEnter(delay = 250) {
-
     if (typeof delay !== "number" || delay < 0) {
         console.log("Invalid delay value");
+        return;
     }
     Device.sendKeys(`{pause:${delay}}{return}`);
 }
 
-
 function sendTab(delay = 300){
     if (typeof delay !== "number" || delay < 0){
         console.log("Invalid delay value");
+        return;
     }
     Device.sendKeys(`{pause:${delay}}{TAB}`);
 }
@@ -35,32 +34,39 @@ function sendTab(delay = 300){
 function showDebugMessage(message) {
     View.toast(message);
 }
+const d = showDebugMessage; // declared properly
 
-d = showDebugMessage;
-
-
-//Main scan function
+// normalize scan data to a string
+function normalizeScan(scanData){
+    if (scanData == null) return "";
+    if (typeof scanData === "string") return scanData;
+    if (typeof scanData === "object"){
+        if (typeof scanData.data === "string") return scanData.data;
+        if (typeof scanData.value === "string") return scanData.value;
+        try { return JSON.stringify(scanData); } catch(e){ return String(scanData); }
+    }
+    return String(scanData);
+}
 
 function onScan(scanData){
-    var screenNumber = Screen.getText(0, 0, 4); //Get the screen number
-    var position = Screen.getCursorPosition(); //Get the cursor position
-    var row = position.row; //Get the row
+    var screenNumber = Screen.getText(0, 0, 4);
+    var position = Screen.getCursorPosition();
+    var row = position.row;
 
-    //701 Start
-    if (screenNumber === "701" && row === 2){
-        //Check for container, PLT, or PID
-        if(scanData.startsWith("0000") || scanData.startsWith("PLT") || scanData.startsWith("PID")){
-            //Tab down to the 'Cont. Type' field
+    var scanString = normalizeScan(scanData);
+
+    if (screenNumber === "701 " && row === 2){
+        if (scanString.startsWith("0000") || scanString.startsWith("PLT") || scanString.startsWith("PID")){
             sendTab(300);
-            //Send "PALS"
             Device.sendKeys("PALS");
-            //Tab down to the location field
             sendTab(300);
-        }else{
-            //Interrupt the auto-tab/enter and clear the scan data
+        } else {
             Scanner.scanTerminator("NoAuto");
-            scanData.data = "";
+            if (scanData && typeof scanData === "object" && "data" in scanData){
+                scanData.data = "";
+            }
             d("Invalid Scan!");
+            return;
         }
     }
 }
