@@ -39,7 +39,7 @@ function sendTeamsNotification(
   message,
   scanData = "Null",
   screen = "Null",
-  deviceIp,
+  deviceIp
 ) {
   //Debug messages to be removed from prod
   //showMessage("Send To Teams function called.");
@@ -172,9 +172,19 @@ function checkContainer(scan_data, deviceIp) {
     return scan_data;
   } else {
     playSound("not_correct_container.mp3");
+    Scanner.scanTerminator("NoAuto");
     sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp);
     return;
   }
+}
+
+function clearScanBuffer(event) {
+  // Try to clear event.data if possible
+  if (event && typeof event === "object" && "data" in event) {
+    try { event.data = ""; } catch (e) {}
+  }
+  // Always call scanner API as fallback
+  try { Scanner.scanTerminator("NoAuto"); } catch (e) {}
 }
 
 function onScan(event) {
@@ -194,7 +204,7 @@ function onScan(event) {
       sendTab(300);
     } else {
       sendTeamsNotification("Invalid Container", scanData, "704", deviceIP);
-      scanData = "";
+      clearScanBuffer(event);
     }
   } else if (screenNumber === "704" && row === 5) {
     if (scanData.startsWith("PID") || scanData.startsWith("PLT")) {
@@ -204,9 +214,7 @@ function onScan(event) {
       sendEnter(300);
       return;
     } else {
-      //Clear the scan data
-      scanData = "";
-      Scanner.scanTerminator("NoAuto");
+      clearScanBuffer(event);
       View.toast("Invalid PID/PLT.");
       playSound("invalid_pid.mp3");
       return;
@@ -217,7 +225,7 @@ function onScan(event) {
   } else if (screenNumber === "702" && row === 2) {
     if (scanData === "") {
       View.toast("Blank Scan");
-      Scanner.scanTerminator("NoAuto");
+      clearScanBuffer(event);
     } else {
       sendTab(300);
     }
@@ -230,7 +238,7 @@ function onScan(event) {
       sendEnter(300);
     } else {
       View.toast("Invalid Container");
-      scanData = "";
+      clearScanBuffer(event);
     }
     //702a Unpack Container
     // User can scan either the container, PID, or PLT.
@@ -238,7 +246,7 @@ function onScan(event) {
     if (scanData.startsWith("PID") || scanData.startsWith("PLT") || scanData.startsWith("0000")) {
       sendEnter(300);
     } else {
-      Scanner.scanTerminator("NoAuto");
+      clearScanBuffer(event);
       View.toast("Invalid Scan.");
     }
     // ========= 702 End =========
@@ -254,11 +262,7 @@ function onScan(event) {
       //Tab down to the 'location' field
       sendTab(300);
     }else{
-      //Don't proceed
-      Scanner.scanTerminator("NoAuto");
-      //Clear the scan data
-      scanData = "";
-      //Notify the User
+      clearScanBuffer(event);
       View.toast("Invalid Scan.");
     }
     // ========= 701 END =========
@@ -268,8 +272,7 @@ function onScan(event) {
     if (containerNumber){
       sendEnter(300);
     }else{
-      //Clear the scan data and notify the user.
-      scanData = "";
+      clearScanBuffer(event);
       View.toast("Invalid Container");
     }
     // ========= 703 END =========
@@ -279,8 +282,7 @@ function onScan(event) {
     if (containerNumber){
       sendEnter(300);
     }else{
-      //Clear the scan data and notify the user, don't tab or enter
-      scanData = "";
+      clearScanBuffer(event);
       View.toast("Invalid Container.");
     }
     // ========= 402b Start =========
@@ -289,8 +291,7 @@ function onScan(event) {
     if (containerNumber) {
       sendTab(300);
     }else{
-      //Clear the scan data, notify the user, don't send tab or enter
-      scanData = "";
+      clearScanBuffer(event);
       View.toast("Invalid Scan.");
     }
   }else if (screenNumber === "402b" && row === 4){
