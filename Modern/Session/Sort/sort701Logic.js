@@ -29,7 +29,7 @@ function sendTab(delay = 300){
     if (typeof delay !== "number" || delay < 0){
         console.log("Invalid delay value");
     }
-    Device.sendKeys(`{pause:${delay}}{tab}`);
+    Device.sendKeys(`{pause:${delay}}{TAB}`);
 }
 
 function showDebugMessage(message) {
