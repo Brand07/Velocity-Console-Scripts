@@ -243,14 +243,14 @@ function onScan(event) {
     }
   } else if (screenNumber === "702" && row === 3) {
     var containerNumber = checkContainer(scanData);
-    if (containerNumber) {
+    if (containerNumber || scanData.startsWith("PLT") || scanData.startsWith("PID")) {
       sendTab(300);
       //Type "PALS" into the 'CnTp' field and hit enter
       Device.sendKeys("PALS");
       sendEnter(300);
     } else {
-        sendTeamsNotification("Invalid Container", scanData, "702", deviceIP);
-      View.toast("Invalid Container");
+        sendTeamsNotification("Invalid Entry", scanData, "702", deviceIP);
+      View.toast("Invalid Entry");
       clearScanBuffer(event);
     }
     //702a Unpack Container
