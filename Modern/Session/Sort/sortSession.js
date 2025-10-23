@@ -321,6 +321,24 @@ function onScan(event) {
     }
     // ========= 402b End =========
     // The next screen is 310a - Logic for this screen is handled by the pickSession.js file.
+  //402 Row 5
+  }else if(screenNumber === "402" && row === 5){
+      if(scanData.startsWith("PID")|| scanData.startsWith("PLT")){
+          sendEnter(300);
+      }else{
+          View.toast("Invalid PID/PLT!");
+          clearScanBuffer(event);
+          sendTeamsNotification("Invalid PID/PLT", scanData, "402", deviceIP)
+      }
+      //401 Pallet ID Field
+  }else if(screenNumber === "401" && row === 6){
+      if(scanData.startsWith("PID") || scanData.startsWith("PLT")){
+          sendEnter(300);
+      }else{
+          View.toast("Invalid Entry!");
+          clearScanBuffer(event);
+          sendTeamsNotification("Invalid Entry", scanData, "401 - Pallet ID", deviceIP);
+      }
   }
 }
 
