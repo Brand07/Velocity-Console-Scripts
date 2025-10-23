@@ -293,15 +293,23 @@ function onScan(event) {
     }
     // ========= 703 END =========
     // ========= 402 Start =========
-  } else if (screenNumber === "402" && row === 3){
-    var containerNumber = checkContainer(scanData);
-    if (containerNumber){
-      sendEnter(300);
-    }else{
-      sendTeamsNotification("Invalid Container", scanData, "402", deviceIP);
-      clearScanBuffer(event);
-      View.toast("Invalid Container.");
-    }
+  } else if (screenNumber === "402" && row === 3) {
+      var containerNumber = checkContainer(scanData);
+      if (containerNumber) {
+          sendEnter(300);
+      } else {
+          sendTeamsNotification("Invalid Container", scanData, "402", deviceIP);
+          clearScanBuffer(event);
+          View.toast("Invalid Container.");
+      }
+  }else if(screenNumber === "402" && row === 5){
+      if(scanData.startsWith("PID")|| scanData.startsWith("PLT")){
+          sendEnter(300);
+      }else{
+          View.toast("Invalid PID/PLT!");
+          clearScanBuffer(event);
+          sendTeamsNotification("Invalid PID/PLT", scanData, "402", deviceIP)
+      }
     // ========= 402b Start =========
   }else if (screenNumber === "402b" && row === 2){
     var containerNumber = checkContainer(scanData);
@@ -321,15 +329,6 @@ function onScan(event) {
     }
     // ========= 402b End =========
     // The next screen is 310a - Logic for this screen is handled by the pickSession.js file.
-  //402 Row 5
-  }else if(screenNumber === "402" && row === 5){
-      if(scanData.startsWith("PID")|| scanData.startsWith("PLT")){
-          sendEnter(300);
-      }else{
-          View.toast("Invalid PID/PLT!");
-          clearScanBuffer(event);
-          sendTeamsNotification("Invalid PID/PLT", scanData, "402", deviceIP)
-      }
       //401 Pallet ID Field
   }else if(screenNumber === "401" && row === 6){
       if(scanData.startsWith("PID") || scanData.startsWith("PLT")){
