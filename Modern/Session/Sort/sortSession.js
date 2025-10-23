@@ -11,8 +11,8 @@ Screens Covered:
 - 704 - DONE
 - 705 - NOT USED
 - 706 - NOT USED
-- 402 - 
-- 402b - 
+- 402 - DONE
+- 402b - DONE
 - 310a -
 - 401 - 
 
