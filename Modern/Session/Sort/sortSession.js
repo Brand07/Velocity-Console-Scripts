@@ -183,7 +183,7 @@ function checkContainer(scan_data) {
   if (scan_data.length === 20 && scan_data.startsWith("0000")) {
     return scan_data;
   } else {
-    playSound("not_correct_container.mp3");
+    //playSound("not_correct_container.mp3");
     Scanner.scanTerminator("NoAuto");
     return null;
   }
