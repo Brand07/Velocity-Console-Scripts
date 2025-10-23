@@ -348,6 +348,14 @@ function onScan(event) {
           d("Invalid Entry!");
           sendTeamsNotification("Invalid Entry", scanData, "401 - Container", deviceIP);
       }
+  }else if(screenNumber === "401" && row === 2){
+      if(scanData.length !== 0){
+          sendEnter(300);
+      }else{
+          d("Invalid Entry!");
+          clearScanBuffer(event);
+          sendTeamsNotification("Invalid Entry", scanData, "401 - Tag", deviceIP);
+      }
   }
 }
 
