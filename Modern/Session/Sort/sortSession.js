@@ -323,18 +323,30 @@ function onScan(event) {
     if (scanData !== ""){
       sendEnter(300);
     }else{
-      View.toast("Blank Scan."); // remove from PROD.
+      d("Blank Scan."); // remove from PROD.
     }
     // ========= 402b End =========
     // The next screen is 310a - Logic for this screen is handled by the pickSession.js file.
+
+
       //401 Pallet ID Field
   }else if(screenNumber === "401" && row === 6){
       if(scanData.startsWith("PID") || scanData.startsWith("PLT")){
           sendEnter(300);
       }else{
-          View.toast("Invalid Entry!");
+          d("Invalid Entry!");
           clearScanBuffer(event);
           sendTeamsNotification("Invalid Entry", scanData, "401 - Pallet ID", deviceIP);
+      }
+      //Container field on the 401 screen
+  }else if(screenNumber === "401" && row === 3){
+      var containerNumber = checkContainer(scanData);
+      if(containerNumber){
+          sendEnter(300);
+      }else{
+          clearScanBuffer(event);
+          d("Invalid Entry!");
+          sendTeamsNotification("Invalid Entry", scanData, "401 - Container", deviceIP);
       }
   }
 }
