@@ -162,9 +162,6 @@ function sendTeamsNotification(
   }
 }
 
-
-
-
 function playSound(sound) {
   Device.beepPlayFile(sound);
 }
