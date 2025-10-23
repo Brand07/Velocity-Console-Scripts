@@ -298,13 +298,13 @@ function onScan(event) {
       } else {
           sendTeamsNotification("Invalid Container", scanData, "402", deviceIP);
           clearScanBuffer(event);
-          View.toast("Invalid Container.");
+          showMessage("Invalid Container.");
       }
   }else if(screenNumber === "402" && row === 5){
       if(scanData.startsWith("PID")|| scanData.startsWith("PLT")){
           sendEnter(300);
       }else{
-          View.toast("Invalid PID/PLT!");
+          showMessage("Invalid PID/PLT!");
           clearScanBuffer(event);
           sendTeamsNotification("Invalid PID/PLT", scanData, "402", deviceIP)
       }
@@ -316,14 +316,14 @@ function onScan(event) {
     }else{
       sendTeamsNotification("Invalid Container", scanData, "402b", deviceIP);
       clearScanBuffer(event);
-      View.toast("Invalid Scan.");
+      showMessage("Invalid Scan.");
     }
   }else if (screenNumber === "402b" && row === 4){
     //Send an enter if the scan data isn't blank.
     if (scanData !== ""){
       sendEnter(300);
     }else{
-      d("Blank Scan."); // remove from PROD.
+      showMessage("Blank Scan."); // remove from PROD.
     }
     // ========= 402b End =========
     // The next screen is 310a - Logic for this screen is handled by the pickSession.js file.
@@ -334,29 +334,30 @@ function onScan(event) {
       if(scanData.startsWith("PID") || scanData.startsWith("PLT")){
           sendEnter(300);
       }else{
-          d("Invalid Entry!");
+          showMessage("Invalid Entry!");
           clearScanBuffer(event);
           sendTeamsNotification("Invalid Entry", scanData, "401 - Pallet ID", deviceIP);
       }
       //Container field on the 401 screen
-  }else if(screenNumber === "401" && row === 3){
+  }else if(screenNumber === "401" && row === 4){
       var containerNumber = checkContainer(scanData);
       if(containerNumber){
           sendEnter(300);
       }else{
           clearScanBuffer(event);
-          d("Invalid Entry!");
+          showMessage("Invalid Entry!");
           sendTeamsNotification("Invalid Entry", scanData, "401 - Container", deviceIP);
       }
-  }else if(screenNumber === "401" && row === 2){
-      if(scanData.length !== 0){
+  }else if (screenNumber === "401" && row === 2) {
+      if (scanData !== "") {
           sendEnter(300);
-      }else{
-          d("Invalid Entry!");
+      } else {
+          showMessage("Invalid Entry!");
           clearScanBuffer(event);
-          sendTeamsNotification("Invalid Entry", scanData, "401 - Tag", deviceIP);
+          sendTeamsNotification("Invalid Entry", scanData, "401 - Tag", deviceIp);
       }
   }
+
 }
 
 WLEvent.on("Scan", onScan);
