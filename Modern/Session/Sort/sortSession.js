@@ -53,8 +53,38 @@ function sendTeamsNotification(
   }
 
   var ipDisplay = deviceIp ? deviceIp : "Unknown";
+  var deviceUrl = deviceIp ? "http://" + deviceIp + ":8080/#/device-control/index" : null;
 
   //Format the message the way the webhook wants
+  var cardBody = [
+    {
+      type: "TextBlock",
+      text: "Scan Issue On " + screen,
+      weight: "Bolder",
+      size: "Medium",
+    },
+    {
+      type: "TextBlock",
+      text: "Time: " + new Date().toLocaleString(),
+      wrap: true,
+    },
+    {
+      type: "TextBlock",
+      text: "Device IP: " + ipDisplay,
+      wrap: true,
+    },
+    {
+      type: "TextBlock",
+      text: "Scan Data: " + scanDataString,
+      wrap: true,
+    },
+    {
+      type: "TextBlock",
+      text: "Status: " + message,
+      wrap: true,
+    }
+  ].filter(Boolean);
+
   var payload = {
     attachments: [
       {
@@ -63,34 +93,16 @@ function sendTeamsNotification(
           $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
           type: "AdaptiveCard",
           version: "1.0",
-          body: [
-            {
-              type: "TextBlock",
-              text: "Scan Completed - Screen " + screen,
-              weight: "Bolder",
-              size: "Medium",
-            },
-            {
-              type: "TextBlock",
-              text: "Time: " + new Date().toLocaleString(),
-              wrap: true,
-            },
-            {
-              type: "TextBlock",
-              text: "Device IP: " + ipDisplay,
-              wrap: true,
-            },
-            {
-              type: "TextBlock",
-              text: "Scan Data: " + scanDataString,
-              wrap: true,
-            },
-            {
-              type: "TextBlock",
-              text: "Status: " + message,
-              wrap: true,
-            },
-          ],
+          body: cardBody,
+          actions: deviceUrl
+            ? [
+                {
+                  type: "Action.OpenUrl",
+                  title: "Open Device Control",
+                  url: deviceUrl,
+                },
+              ]
+            : [],
         },
       },
     ],
@@ -166,15 +178,14 @@ function sendTab(delay = 300) {
 }
 
 // Function to check the container number
-function checkContainer(scan_data, deviceIp) {
+function checkContainer(scan_data) {
   if (typeof scan_data !== "string") scan_data = String(scan_data || "");
   if (scan_data.length === 20 && scan_data.startsWith("0000")) {
     return scan_data;
   } else {
     playSound("not_correct_container.mp3");
     Scanner.scanTerminator("NoAuto");
-    sendTeamsNotification("Invalid Container", scan_data, "704", deviceIp);
-    return;
+    return null;
   }
 }
 
@@ -199,7 +210,7 @@ function onScan(event) {
 
   // ========= 704 Start =========
   if (screenNumber === "704" && row === 3) {
-    var containerNumber = checkContainer(scanData, deviceIP);
+    var containerNumber = checkContainer(scanData);
     if (containerNumber) {
       sendTab(300);
     } else {
@@ -231,7 +242,7 @@ function onScan(event) {
       sendTab(300);
     }
   } else if (screenNumber === "702" && row === 3) {
-    var containerNumber = checkContainer(scanData, deviceIP);
+    var containerNumber = checkContainer(scanData);
     if (containerNumber) {
       sendTab(300);
       //Type "PALS" into the 'CnTp' field and hit enter
@@ -255,7 +266,7 @@ function onScan(event) {
     // ========= 702 End =========
     // ========= 701 Start =========
   } else if (screenNumber === "701" && row === 2){
-    var containerNumber = checkContainer(scanData, deviceIP);
+    var containerNumber = checkContainer(scanData);
     //Check if the scan is a container, a 'PLT', or a 'PID'
     if (containerNumber || scanData.startsWith("PLT") || scanData.startsWith("PID")) {
       //Tab down to the 'Cont. Type' field
@@ -272,7 +283,7 @@ function onScan(event) {
     // ========= 701 END =========
     // ========= 703 Start =========
   }else if (screenNumber === "703" && row === 2){
-    var containerNumber = checkContainer(scanData, deviceIP);
+    var containerNumber = checkContainer(scanData);
     if (containerNumber){
       sendEnter(300);
     }else{
@@ -283,7 +294,7 @@ function onScan(event) {
     // ========= 703 END =========
     // ========= 402 Start =========
   } else if (screenNumber === "402" && row === 3){
-    var containerNumber = checkContainer(scanData, deviceIP);
+    var containerNumber = checkContainer(scanData);
     if (containerNumber){
       sendEnter(300);
     }else{
@@ -293,7 +304,7 @@ function onScan(event) {
     }
     // ========= 402b Start =========
   }else if (screenNumber === "402b" && row === 2){
-    var containerNumber = checkContainer(scanData, deviceIP);
+    var containerNumber = checkContainer(scanData);
     if (containerNumber) {
       sendTab(300);
     }else{
