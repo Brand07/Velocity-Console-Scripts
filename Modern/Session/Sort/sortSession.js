@@ -242,6 +242,7 @@ function onScan(event) {
       sendTab(300);
     }
   } else if (screenNumber === "702" && row === 3) {
+    //Allow the user to scan either the container, PID, or PLT in the 'container' field.
     var containerNumber = checkContainer(scanData);
     if (containerNumber || scanData.startsWith("PLT") || scanData.startsWith("PID")) {
       sendTab(300);
