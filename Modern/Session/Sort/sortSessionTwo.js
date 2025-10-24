@@ -201,9 +201,26 @@ function onScan(event){
         }
 
         /*
-        402 Start
-
+        402/402b Start
+        Tag - Row 2
+        Container - Row 3
          */
+    }else if(screenNumber === "402 " && row === 2){
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan!");
+        }
+    }else if(screenNumber === "402 " && row === 3){
+        //Ensure a container number is scanned.
+        if(event.data.startsWith("0000") && event.data.length === 20 || event.data.startsWith("PID") || event.data.startsWith("PLT")){
+            sendEnter(300);
+        }else{
+            //Clear the scan and notify the user/send message
+            event.data = "";
+            Scanner.scanTerminator("NoAuto");
+            sendTeamsNotification("Invalid Entry - Container Field", event.data, "402", deviceIp);
+        }
     }
 }
 
