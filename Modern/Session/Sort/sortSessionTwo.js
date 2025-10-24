@@ -218,6 +218,7 @@ function onScan(event){
         }else{
             //Clear the scan and notify the user/send message
             event.data = "";
+            View.toast("Invalid Entry!");
             Scanner.scanTerminator("NoAuto");
             sendTeamsNotification("Invalid Entry - Container Field", event.data, "402", deviceIp);
         }
