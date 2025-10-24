@@ -141,13 +141,14 @@ function sendTeamsNotification(
     }
 }
 
-function sendEnter(delay = 300){
-    Device.sendKeys(`{pause:${delay}{return}`);
+function sendEnter(delay = 300) {
+    Device.sendKeys(`{pause:${delay}}{return}`);
 }
 
-function sendTab(delay = 300){
-    Device.sendKeys(`{pause:${delay}{TAB}`);
+function sendTab(delay = 300) {
+    Device.sendKeys(`{pause:${delay}}{TAB}`);
 }
+
 
 function showMessage(message){
     View.toast(message);
@@ -166,11 +167,11 @@ function onScan(event){
 
     /*
     401 Start
-    Tag - Row 2
-    Container - Row 4
+    Tag - Row 2 - WORKING
+    Container - Row 4 - WORKING
     Pallet ID - Row 6
      */
-    if(screenNumber === "401" && row === 2){
+    if(screenNumber === "401 " && row === 2){
         //Ensure something is scanned into the tag field (no blank scans)
         if(event.data !== ""){
             sendEnter(300);
@@ -179,5 +180,31 @@ function onScan(event){
             showMessage("Blank Scan!");
             //Not going to send a message here.
         }
+    }else if(screenNumber === "401 " && row === 4){
+        //Make sure a 'PLT', 'PID', or 'Container' is scanned here.
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("0000")){
+            sendEnter(300);
+        }else{
+            //Clear the scan data
+            event.data = "";
+            Scanner.scanTerminator("NoAuto");
+            sendTeamsNotification("Invalid Entry - Container Field", event.data, screenNumber, deviceIp);
+            showMessage("Invalid Entry!");
+        }
+    }else if(screenNumber === "401 " && row === 6){
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT")){
+            sendEnter(300);
+        }else{
+            event.data = "";
+            sendTeamsNotification("Invalid Entry - Pallet ID", event.data, screenNumber, deviceIp);
+            showMessage("Invalid Entry!");
+        }
+
+        /*
+        402 Start
+
+         */
     }
 }
+
+WLEvent.on("Scan", onScan);
