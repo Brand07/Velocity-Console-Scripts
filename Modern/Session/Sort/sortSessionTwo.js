@@ -149,3 +149,35 @@ function sendTab(delay = 300){
     Device.sendKeys(`{pause:${delay}{TAB}`);
 }
 
+function showMessage(message){
+    View.toast(message);
+}
+
+
+//Main event function
+function onScan(event){
+    //Get the screen number and cursor row
+    var screenNumber = Screen.getText(0, 0, 4);
+    var position = Screen.getCursorPosition();
+    var row = position.row;
+
+    //Get the device's IP
+    var deviceIp = getDeviceIp();
+
+    /*
+    401 Start
+    Tag - Row 2
+    Container - Row 4
+    Pallet ID - Row 6
+     */
+    if(screenNumber === "401" && row === 2){
+        //Ensure something is scanned into the tag field (no blank scans)
+        if(event.data !== ""){
+            sendEnter(300);
+            showMessage("Valid Scan"); //remove from prod
+        }else{
+            showMessage("Blank Scan!");
+            //Not going to send a message here.
+        }
+    }
+}
