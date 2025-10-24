@@ -202,8 +202,12 @@ function onScan(event){
 
         /*
         402/402b Start
-        Tag - Row 2
-        Container - Row 3
+        Tag - Row 2 - WORKING
+        Container - Row 3 - WORKING
+        Part - Row 5 - WORKING
+
+        402b
+        Location - Row 4
          */
     }else if(screenNumber === "402 " && row === 2){
         if(event.data !== ""){
@@ -222,6 +226,43 @@ function onScan(event){
             Scanner.scanTerminator("NoAuto");
             sendTeamsNotification("Invalid Entry - Container Field", event.data, "402", deviceIp);
         }
+    }else if(screenNumber === "402 " && row === 5){
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan!");
+            //Not sending a message here.
+        }
+    }else if(screenNumber === "402b" && row === 4){
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan!");
+            //Not sending a message here.
+        }
+        /*
+        701 Start
+        Container - Row 2
+        Location - Row 4
+         */
+    }else if(screenNumber === "701" && row === 2){
+        if(event.data.startsWith("0000") && event.data.length === 20){
+            sendTab(300);
+            //Set the container type as 'PALS'
+            Device.sendKeys("PALS");
+            sendTab(300);
+        }else{
+            event.data = "";
+            showMessage("Invalid Container!");
+            Scanner.scanTerminator("NoAuto");
+            sendTeamsNotification("Invalid Entry - Container", event.data, "701", deviceIp);
+        }
+        /*
+        702 Start
+        Location - Row 2
+        Container - Row 3
+        Location - Row 4
+         */
     }
 }
 
