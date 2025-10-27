@@ -242,8 +242,8 @@ function onScan(event){
         }
         /*
         701 Start
-        Container - Row 2 - DONE
-        Location - Row 4 - DONE
+        Container - Row 2 - DONE - WORKING
+        Location - Row 4 - DONE - WORKING
          */
     }else if(screenNumber === "701 " && row === 2){
         if(event.data.startsWith("0000") && event.data.length === 20){
@@ -267,9 +267,9 @@ function onScan(event){
         }
         /*
         702 Start
-        Location - Row 2 - DONE
-        Container - Row 3 - DONE
-        Location - Row 4 - DONE
+        Location - Row 2 - DONE - WORKING
+        Container - Row 3 - DONE - WORKING
+        Location - Row 4 - DONE - WORKING
          */
 
     }else if(screenNumber === "702 " && row === 2){
@@ -290,6 +290,62 @@ function onScan(event){
             event.data = "";
             showMessage("Invalid Entry!");
             sendTeamsNotification("702 - Container Field", event.data, "702", deviceIp);
+        }
+        /*
+        703 Start
+        Tag or Container - Row 2 - DONE
+        Location - Row 3 - DONE
+        LFmt(?) - Row 5 - Not applicable
+         */
+    }else if(screenNumber === "703 " && row === 2){
+        //Scanning a Tag or a Container here
+        if(event.data !== ""){
+            sendTab(300);
+        }else{
+            showMessage("Blank Scan!");
+        }
+    }else if(screenNumber === "703 " && row === 3){
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan!");
+        }
+
+        /*
+        704 Start
+        Tag - Row 2 (Not Used)
+        Container - Row 3 - DONE
+        Confirm - Row 5 - DONE
+        To Location - Row 8
+         */
+    }else if(screenNumber === "704 " && row === 3){
+        //Container, PID, or PLT is scanned here
+        if(event.data.startsWith("0000") || event.data.startsWith("PLT") || event.data.startsWith("PID")){
+            sendTab(300);
+        }else{
+            showMessage("Invalid Entry!");
+            event.data = "";
+            sendTeamsNotification("704 - Invalid Entry", event.data, "704", deviceIp);
+        }
+    }else if(screenNumber === "704 " && row === 5){
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT")){
+            sendTab(300);
+            //Send 'PALS' into the 'Type' field
+            Device.Sendkeys("PALS");
+            //Send a Tab to move to the 'Location Field'
+            sendTab(300);
+        }else{
+            showMessage("Invalid Scan!");
+            event.data = "";
+            sendTeamsNotification("704 - Confirm", event.data, "704", deviceIp);
+        }
+    }else if(screenNumber === "704 " && row === 8){
+        if(!event.data.startsWith("0000")){
+            sendEnter(300);
+        }else{
+            event.data = "";
+            showMessage("Invalid Scan!");
+            sendTeamsNotification("704 - To location", event.data, "704", deviceIp);
         }
     }
 }
