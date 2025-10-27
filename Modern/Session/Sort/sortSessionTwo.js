@@ -242,10 +242,10 @@ function onScan(event){
         }
         /*
         701 Start
-        Container - Row 2
-        Location - Row 4
+        Container - Row 2 - DONE
+        Location - Row 4 - DONE
          */
-    }else if(screenNumber === "701" && row === 2){
+    }else if(screenNumber === "701 " && row === 2){
         if(event.data.startsWith("0000") && event.data.length === 20){
             sendTab(300);
             //Set the container type as 'PALS'
@@ -257,12 +257,40 @@ function onScan(event){
             Scanner.scanTerminator("NoAuto");
             sendTeamsNotification("Invalid Entry - Container", event.data, "701", deviceIp);
         }
+
+    }else if(screenNumber === "701 " && row === 4){
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan!");
+            //No need to send a message here
+        }
         /*
         702 Start
-        Location - Row 2
-        Container - Row 3
-        Location - Row 4
+        Location - Row 2 - DONE
+        Container - Row 3 - DONE
+        Location - Row 4 - DONE
          */
+
+    }else if(screenNumber === "702 " && row === 2){
+        if(event.data !== ""){
+            sendTab(300);
+        }else{
+            showMessage("Blank Scan!");
+            //No need to send a message
+        }
+    }else if(screenNumber === "702 " && row === 3){
+        //check for valid container/PID/PLT
+        if(event.data.startsWith("0000") || event.data.startsWith("PID") || event.data.startsWith("PLT")){
+            //Send a tab and then send 'PALS' into the 'CnTp' field, then send enter.
+            sendTab(300);
+            Device.sendKeys("PALS");
+            sendEnter(300);
+        }else{
+            event.data = "";
+            showMessage("Invalid Entry!");
+            sendTeamsNotification("702 - Container Field", event.data, "702", deviceIp);
+        }
     }
 }
 
