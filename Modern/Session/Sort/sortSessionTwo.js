@@ -358,10 +358,17 @@ function onScan(event){
             sendTeamsNotification("704 - To location", event.data, "704", deviceIp);
         }
     }else if(screenNumber === "310a" && row === 12){
-        if(event.data !== "");
-        sendEnter(300);
-    }else{
-        showMessage("Blank Scan!");
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan!");
+        }
+    } else if (screenNumber === "310" && row === 7) {
+        if (event.data !== "") {
+            sendEnter(300);
+        } else {
+            showMessage("Invalid Scan!");
+        }
     }
 }
 
