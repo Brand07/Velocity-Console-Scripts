@@ -294,7 +294,22 @@ function onScan(event){
 
     }else if(screenNumber === "702a" && row === 5) {
         if(event.data.startsWith("0000") || event.data.startsWith("PLT") || event.data.startsWith("PID")) {
-            sendEnter(300);
+            //Check if 'All Contents' is set to "Y" or "N".
+            if(Screen.getText(7,7,1) === "Y"){
+                Device.beep(200, 200, 50);
+                //Prompt the user to make sure they get the desired result
+                Prompt.promptOptions("Alert!", "Are you sure you want to unpack the entire PID/PLT?", "YES|NO", function(result){
+                    if(result === "YES"){
+                        sendEnter(150);
+                    }else{
+                        sendTab(150);
+                        Device.sendKeys("N");
+                        sendEnter(150);
+                    }
+                });
+            }else{
+                sendEnter(300);
+            }
         }else{
             showMessage("Invalid Entry!");
             event.data = "";
