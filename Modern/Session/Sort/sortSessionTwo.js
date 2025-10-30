@@ -315,6 +315,12 @@ function onScan(event){
             event.data = "";
             sendTeamsNotification("702a - Container Field", event.data, "702a", deviceIp);
         }
+    } else if (screenNumber === "702b" && row === 4) {
+        if (event.data !== "") {
+            sendEnter(150);
+        } else {
+            showMessage("Blank Scan!");
+        }
 
         /*
         703 Start
