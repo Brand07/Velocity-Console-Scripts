@@ -378,7 +378,7 @@ function onScan(event){
         }else{
             showMessage("Blank Scan!");
         }
-    } else if (screenNumber === "310" && row === 7) {
+    } else if (screenNumber === "310 " && row === 7) {
         if (event.data !== "") {
             sendEnter(300);
         } else {
