@@ -281,7 +281,7 @@ function onScan(event){
         }
     }else if(screenNumber === "702 " && row === 3) {
         //check for valid container/PID/PLT
-        if (event.data.startsWith("0000") || event.data.startsWith("PID") || event.data.startsWith("PLT")) {
+        if (event.data !== ""){
             //Send a tab and then send 'PALS' into the 'CnTp' field, then send enter.
             sendTab(300);
             Device.sendKeys("PALS");
@@ -293,7 +293,7 @@ function onScan(event){
         }
 
     }else if(screenNumber === "702a" && row === 5) {
-        if(event.data.startsWith("0000") || event.data.startsWith("PLT") || event.data.startsWith("PID")) {
+        if (event.data !== ""){
             //Check if 'All Contents' is set to "Y" or "N".
             if(Screen.getText(7,7,1) === "Y"){
                 Device.beep(200, 200, 50);
@@ -356,9 +356,9 @@ function onScan(event){
         if(event.data.startsWith("PID") || event.data.startsWith("PLT")){
             sendTab(300);
             //Send 'PALS' into the 'Type' field
-            Device.Sendkeys("PALS");
+            Device.sendKeys("PALS");
             //Send a Tab to move to the 'Location Field'
-            sendTab(300);
+            sendEnter(150);
         }else{
             showMessage("Invalid Scan!");
             event.data = "";
@@ -366,7 +366,7 @@ function onScan(event){
         }
     }else if(screenNumber === "704 " && row === 8){
         if(!event.data.startsWith("0000")){
-            sendEnter(300);
+            sendEnter(150);
         }else{
             event.data = "";
             showMessage("Invalid Scan!");
