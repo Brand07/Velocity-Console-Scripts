@@ -181,8 +181,8 @@ function onScan(event){
             //Not going to send a message here.
         }
     }else if(screenNumber === "401 " && row === 4){
-        //Make sure a 'PLT', 'PID', or 'Container' is scanned here.
-        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("0000")){
+        //Make sure a 'PLT', 'PID' 'Container' or trailer # is scanned here.
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("0000") || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
             sendEnter(300);
         }else{
             //Clear the scan data
@@ -192,7 +192,7 @@ function onScan(event){
             showMessage("Invalid Entry!");
         }
     }else if(screenNumber === "401 " && row === 6){
-        if(event.data.startsWith("PID") || event.data.startsWith("PLT")){
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
             sendEnter(300);
         }else{
             event.data = "";
