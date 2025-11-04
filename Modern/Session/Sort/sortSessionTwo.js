@@ -1,5 +1,4 @@
-const TEAMS_WEBHOOK_URL = ""; //Insert the URL here.
-
+const TEAMS_WEBHOOK_URL = "";
 //Function to get the MAC of the device.
 function getDeviceIp() {
     var ip = Network.getWifiIPAddress();
@@ -182,8 +181,8 @@ function onScan(event){
         }
     }else if(screenNumber === "401 " && row === 4){
         //Make sure a 'PLT', 'PID' 'Container' or trailer # is scanned here.
-        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("0000") 
-          || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("0000")
+            || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
             sendEnter(300);
         }else{
             //Clear the scan data
@@ -193,8 +192,8 @@ function onScan(event){
             showMessage("Invalid Entry!");
         }
     }else if(screenNumber === "401 " && row === 6){
-        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("T") 
-          || event.data.startsWith("FEDZ")){
+        if(event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("T")
+            || event.data.startsWith("FEDZ")){
             sendEnter(300);
         }else{
             event.data = "";
@@ -219,8 +218,8 @@ function onScan(event){
         }
     }else if(screenNumber === "402 " && row === 3){
         //Ensure a container number is scanned.
-        if(event.data.startsWith("0000") && event.data.length === 20 || event.data.startsWith("PID") 
-          || event.data.startsWith("PLT") || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
+        if(event.data.startsWith("0000") && event.data.length === 20 || event.data.startsWith("PID")
+            || event.data.startsWith("PLT") || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
             sendEnter(300);
         }else{
             //Clear the scan and notify the user/send message
