@@ -217,7 +217,7 @@ function onScan(event){
         }
     }else if(screenNumber === "402 " && row === 3){
         //Ensure a container number is scanned.
-        if(event.data.startsWith("0000") && event.data.length === 20 || event.data.startsWith("PID") || event.data.startsWith("PLT")){
+        if(event.data.startsWith("0000") && event.data.length === 20 || event.data.startsWith("PID") || event.data.startsWith("PLT") || event.data.startsWith("T") || event.data.startsWith("FEDZ")){
             sendEnter(300);
         }else{
             //Clear the scan and notify the user/send message
