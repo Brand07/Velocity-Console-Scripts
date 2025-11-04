@@ -418,6 +418,7 @@ function checkScan(event) {
       event.data = "";
       View.toast("Incorrect Container.");
     }
+    /*
     //310 Pick Cont
   } else if (screenNumber === "310 " && row === 2) {
     disableScanner();
@@ -435,6 +436,7 @@ function checkScan(event) {
       event.data = "";
       View.toast("Invalid Container");
     }
+    */
     //301 Pick Part From
   } else if (screenNumber === "301 " && row === 14) {
     if (event.data.length < 12 || event.data.length > 13) {
