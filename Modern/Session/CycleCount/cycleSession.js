@@ -44,6 +44,27 @@ function onScan(event){
         }else{
             sendEnter(300);
         }
+        //901u Starts Here
+    }else if(screenNumber === "901u" && row === 9){
+        if(event.data !== ""){
+            sendEnter(150);
+        }else{
+            showMessage("Blank Scan!");
+        }
+        //901u Ends Here
+        //901n Starts Here
+    }else if(screenNumber === "901n" && row === 4){
+        if(event.data !== ""){
+            sendEnter(150);
+        }else{
+            showMessage("Blank Scan!");
+        }
+    }else if(screenNumber === "901n" && row === 5){
+        if(event.data !== ""){
+            sendEnter(150);
+        }else{
+            showMessage("Blank Scan!");
+        }
     }
 }
 
