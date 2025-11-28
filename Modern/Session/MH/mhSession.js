@@ -13,3 +13,10 @@ function sendTab(delay=300){
     Device.sendKeys(`{pause:${delay}}{tab}`);
 }
 
+function onScan(event){
+    var screenNumber = Screen.getText(0, 0, 4);
+    var position = Screen.getCursorPosition();
+    var row = position.row;
+
+
+}
