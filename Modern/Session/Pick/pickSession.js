@@ -295,7 +295,7 @@ function checkScan(event) {
             return;
         }
         // Checking the part number here
-        if (event.data.length < 12 || event.data.length > 13) {
+        if (event.data.length < 12 || event.data.length > 14) {
             var originalScanData = event.data; // Save before overwriting
             event.data = "";
             Scanner.scanTerminator("NoAuto");
@@ -312,6 +312,9 @@ function checkScan(event) {
         } else if (event.data.length === 12 || event.data.length === 13) {
             View.toast("Valid Part Number.");
             disableScanner();
+            sendEnter(300);
+        } else if (event.data.length === 14) {
+            event.data = event.data.substring(1, 13);
             sendEnter(300);
         }
     } else if (screenNumber === "Seri" && row === 7) {
