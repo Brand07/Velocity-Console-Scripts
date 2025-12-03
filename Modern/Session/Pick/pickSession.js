@@ -25,7 +25,6 @@ function getDeviceIp() {
 }
 
 function sendTeamsNotification(
-    message,
     scanData = "Null",
     screen = "Null",
     deviceIp
