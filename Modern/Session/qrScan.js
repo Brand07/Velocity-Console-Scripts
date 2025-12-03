@@ -32,7 +32,7 @@ function checkPartNumber(partNumber) {
     }
 
     //Check if the scanned data is 12 or 13 characters long
-    if (length < 12 || length > 13) {
+    if (length < 12 || length > 14) {
         Device.beep(1000, 50, 50);
         partNumber.data = "";
         View.toast("Please scan a valid UPC or EAN number.")
@@ -44,6 +44,11 @@ function checkPartNumber(partNumber) {
         }, 100);
     } else if (length === 13) {
         setTimeout(function () {
+            Device.beep(50, 100, 50);
+            Device.sendKeys("{return}");
+        }, 100);
+    }else if (length === 14){
+        setTimeout(function (){
             Device.beep(50, 100, 50);
             Device.sendKeys("{return}");
         }, 100);
