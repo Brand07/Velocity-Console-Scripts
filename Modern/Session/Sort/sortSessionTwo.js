@@ -392,6 +392,15 @@ function onScan(event){
         } else {
             showMessage("Invalid Scan!");
         }
+        /*
+        401 Part Number addition (12/4/2025)
+         */
+    }else if (screenNumber === "401 " && row === 8){
+        if(event.data !== ""){
+            sendEnter(300);
+        }else{
+            showMessage("Blank Scan.");
+        }
     }
 }
 
