@@ -25,6 +25,7 @@ function getDeviceIp() {
 }
 
 function sendTeamsNotification(
+    message,
     scanData = "Null",
     screen = "Null",
     deviceIp
@@ -41,6 +42,7 @@ function sendTeamsNotification(
     }
 
     var ipDisplay = deviceIp ? deviceIp : "Unknown";
+    var deviceUrl = deviceIp ? "http://" + deviceIp + ":8080/#/device-control/index" : null;
 
     //Format the message the way the webhook wants
     var payload = {
@@ -79,6 +81,15 @@ function sendTeamsNotification(
                             wrap: true,
                         },
                     ],
+                    actions: deviceUrl
+                        ? [
+                            {
+                                type: "Action.OpenUrl",
+                                title: "Open Device Control",
+                                url: deviceUrl,
+                            },
+                        ]
+                        : [],
                 },
             },
         ],
