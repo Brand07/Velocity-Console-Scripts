@@ -275,7 +275,7 @@ function checkSerialNumber(scan_data) {
         return;
     } else {
         sendEnter(300);
-        View.toast("Valid Scan!"); // Remove from prod
+        //View.toast("Valid Scan!"); // Remove from prod
         return scan_data.data;
     }
 }
@@ -293,7 +293,7 @@ function checkScan(event) {
         disableScanner();
         var container = checkContainer(event.data);
         if (container) {
-            View.toast("Container Validated!");
+            //View.toast("Container Validated!");
             sendEnter(300);
         } else {
             disableScanner();
@@ -328,7 +328,7 @@ function checkScan(event) {
             );
             // Add a sound file
         } else if (event.data.length === 12 || event.data.length === 13) {
-            View.toast("Valid Part Number.");
+            //View.toast("Valid Part Number.");
             disableScanner();
             sendEnter(300);
         } else if (event.data.length === 14) {
@@ -344,7 +344,7 @@ function checkScan(event) {
         if (type !== "QRCODE") {
             var serialNumber = checkSerialNumber(event);
             if (serialNumber) {
-                View.toast("Valid Serial Number");
+                //View.toast("Valid Serial Number");
             }
         } else if (type === "QRCODE") {
             disableScanner();
@@ -424,7 +424,7 @@ function checkScan(event) {
         // Verifying the same container is scanned on 311a Confirmation
         var containerNumber = checkContainer(event.data);
         if (containerNumber && Screen.getText(8, 6, 20) === containerNumber) {
-            View.toast("Container Confirmed.");
+            //View.toast("Container Confirmed.");
             sendEnter(300);
             return;
         } else {
@@ -472,7 +472,7 @@ function checkScan(event) {
         //TODO - correct row and implement logic for the 301a screen
         var toteId = Screen.getText(14, 6, 7);
         if (event.data === toteId) {
-            View.toast("Validated!");
+            //View.toast("Validated!");
             sendEnter(300);
         } else {
             sendTeamsNotification(
