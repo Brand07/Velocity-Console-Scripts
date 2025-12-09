@@ -194,6 +194,7 @@ function checkContainer(scan_data) {
 }
 
 function checkSerialNumber(scan_data) {
+    var originalScanData = scan_data.data;
     deviceIp = getDeviceIp();
     // Validate the scan data length first
     var length = scan_data.data.length;
@@ -204,7 +205,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
-            scan_data,
+            originalScanData,
             "Serial Capture",
             deviceIp
         );
@@ -216,7 +217,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
-            scan_data,
+            originalScanData,
             "Serial Capture",
             deviceIp
         );
@@ -229,7 +230,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
-            scan_data,
+            originalScanData,
             "Serial Capture",
             deviceIp
         );
@@ -242,7 +243,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
-            scan_data,
+            originalScanData,
             "Serial Capture",
             deviceIp
         );
@@ -255,7 +256,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
-            scan_data,
+            originalScanData,
             "Serial Capture",
             deviceIp
         );
@@ -267,7 +268,7 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
-            scan_data,
+            originalScanData,
             "Serial Capture",
             deviceIp
         );
@@ -275,7 +276,7 @@ function checkSerialNumber(scan_data) {
     } else {
         sendEnter(300);
         View.toast("Valid Scan!"); // Remove from prod
-        return scan_data;
+        return scan_data.data;
     }
 }
 
