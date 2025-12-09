@@ -62,7 +62,7 @@ function sendTeamsNotification(
                         },
                         {
                             type: "TextBlock",
-                            text: "Time: " + new Date().toLocaleString(),
+                            text: "Time: " + new Date().toISOString().slice(0, 10),
                             wrap: true,
                         },
                         {
@@ -194,6 +194,7 @@ function checkContainer(scan_data) {
 }
 
 function checkSerialNumber(scan_data) {
+    deviceIp = getDeviceIp();
     // Validate the scan data length first
     var length = scan_data.data.length;
     if (length > 10) {
@@ -203,8 +204,9 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
+            scan_data,
             "Serial Capture",
-            scan_data
+            deviceIp
         );
         return;
     } else if (length < 8) {
@@ -214,8 +216,9 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
+            scan_data,
             "Serial Capture",
-            scan_data
+            deviceIp
         );
         return;
     } else if (scan_data.data.startsWith("1923")) {
@@ -226,8 +229,9 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
+            scan_data,
             "Serial Capture",
-            scan_data
+            deviceIp
         );
         return;
     } else if (scan_data.data.startsWith("T")) {
@@ -238,8 +242,9 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
+            scan_data,
             "Serial Capture",
-            scan_data
+            deviceIp
         );
         // Add a sound file
     } else if (scan_data.data.startsWith("PLT")) {
@@ -250,8 +255,9 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
+            scan_data,
             "Serial Capture",
-            scan_data
+            deviceIp
         );
     } else if (scan_data.data.startsWith("PID")) {
         // Check against PID numbers
@@ -261,8 +267,9 @@ function checkSerialNumber(scan_data) {
         playSound("invalid_serial.mp3");
         sendTeamsNotification(
             "Invalid Serial Scanned",
+            scan_data,
             "Serial Capture",
-            scan_data
+            deviceIp
         );
         return;
     } else {
