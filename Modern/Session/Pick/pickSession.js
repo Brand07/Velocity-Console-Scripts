@@ -435,7 +435,6 @@ function checkScan(event) {
                 "Confirm Container (311a)",
                 deviceIp
             );
-            playSound("not_correct_container.mp3");
             event.data = "";
             View.toast("Incorrect Container.");
         }
