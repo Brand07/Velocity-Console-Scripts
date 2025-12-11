@@ -356,6 +356,14 @@ function onScan(event) {
           clearScanBuffer(event);
           sendTeamsNotification("Invalid Entry", scanData, "401 - Tag", deviceIp);
       }
+      //12-9-2025 - Add logic to scan serial numbers.
+  }else if (screenNumber === "401" && row === 14){
+    if (scanData !== ""){
+      sendEnter(300);
+    }else{
+      clearScanBuffer(event);
+    }
+
   }
 
 }
