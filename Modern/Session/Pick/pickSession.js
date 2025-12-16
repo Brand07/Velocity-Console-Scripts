@@ -33,6 +33,11 @@ function sendTeamsNotification(
     //Debug messages to be removed from prod
     //showMessage("Send To Teams function called.");
 
+    //Prevent empty or blank scans data from sending a notification
+    if (!scanData || (typeof scanData === "string" && scanData.trim() === "")){
+        return;
+    }
+
     // Ensure scanData is a string (ES5 compatible)
     var scanDataString;
     if (typeof scanData === "object") {
@@ -286,6 +291,7 @@ function checkScan(event) {
     var position = Screen.getCursorPosition(); // Get the cursor position
     var row = position.row; // Get the current row
     var deviceIp = getDeviceIp();
+    var originalScanData = event.data;
     //View.toast(mac_address);
 
     // 311 Cluster Bld/Rls
@@ -483,6 +489,21 @@ function checkScan(event) {
             event.data === "";
             View.toast("Incorrect Tote");
             playSound("invalid_tote.mp3");
+            Scanner.scanTerminator("NoAuto");
+        }
+        // 12-16-2025 - Add code to auto enter after a valid check digit is scanned.
+    } else if (screenNumber === "310a" && row === 12){
+        if(event.data === "TMG"){
+            sendEnter(300);
+        }else{
+            sendTeamsNotification(
+                "Invalid Check Digit",
+                event.data,
+                "310a Pick Cont To",
+                deviceIp
+            );
+            event.data = "";
+            showMessage("Invalid Check Digit.");
             Scanner.scanTerminator("NoAuto");
         }
     }
