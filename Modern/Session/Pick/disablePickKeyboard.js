@@ -22,7 +22,7 @@ Disabled on the following screens:
 -Confirm container screen.
 -Serial capture screen.
  */
-const screenNumbers = ["311a","Seri"];
+const screenNumbers = ["311a","Seri", "314 "];
 
 function isBlockedScreen() {
     var screenNumber = Screen.getText(0, 0, 4);
