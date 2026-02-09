@@ -188,7 +188,7 @@ function onScan(event){
             //Clear the scan data
             event.data = "";
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Entry - Container Field", event.data, screenNumber, deviceIp);
+            //sendTeamsNotification("Invalid Entry - Container Field", event.data, screenNumber, deviceIp);
             showMessage("Invalid Entry!");
         }
     }else if(screenNumber === "401 " && row === 6){
@@ -197,7 +197,7 @@ function onScan(event){
             sendEnter(300);
         }else{
             event.data = "";
-            sendTeamsNotification("Invalid Entry - Pallet ID", event.data, screenNumber, deviceIp);
+            //sendTeamsNotification("Invalid Entry - Pallet ID", event.data, screenNumber, deviceIp);
             showMessage("Invalid Entry!");
         }
 
@@ -226,7 +226,7 @@ function onScan(event){
             event.data = "";
             View.toast("Invalid Entry!");
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Entry - Container Field", event.data, "402", deviceIp);
+            //sendTeamsNotification("Invalid Entry - Container Field", event.data, "402", deviceIp);
         }
     }else if(screenNumber === "402 " && row === 5){
         if(event.data !== ""){
@@ -251,13 +251,13 @@ function onScan(event){
         if(event.data.startsWith("0000") && event.data.length === 20){
             sendTab(300);
             //Set the container type as 'PALS'
-            Device.sendKeys("PALS");
+            //Device.sendKeys("PALS");
             sendTab(300);
         }else{
             event.data = "";
             showMessage("Invalid Container!");
             Scanner.scanTerminator("NoAuto");
-            sendTeamsNotification("Invalid Entry - Container", event.data, "701", deviceIp);
+            //sendTeamsNotification("Invalid Entry - Container", event.data, "701", deviceIp);
         }
 
     }else if(screenNumber === "701 " && row === 4){
@@ -286,12 +286,12 @@ function onScan(event){
         if (event.data !== ""){
             //Send a tab and then send 'PALS' into the 'CnTp' field, then send enter.
             sendTab(300);
-            Device.sendKeys("PALS");
+            //Device.sendKeys("PALS");
             sendEnter(300);
         } else {
             event.data = "";
             showMessage("Invalid Entry!");
-            sendTeamsNotification("702 - Container Field", event.data, "702", deviceIp);
+            //sendTeamsNotification("702 - Container Field", event.data, "702", deviceIp);
         }
 
     }else if(screenNumber === "702a" && row === 5) {
@@ -315,7 +315,7 @@ function onScan(event){
         }else{
             showMessage("Invalid Entry!");
             event.data = "";
-            sendTeamsNotification("702a - Container Field", event.data, "702a", deviceIp);
+            //sendTeamsNotification("702a - Container Field", event.data, "702a", deviceIp);
         }
     } else if (screenNumber === "702b" && row === 4) {
         if (event.data !== "") {
@@ -358,7 +358,7 @@ function onScan(event){
         }else{
             showMessage("Invalid Entry!");
             event.data = "";
-            sendTeamsNotification("704 - Invalid Entry", event.data, "704", deviceIp);
+            //sendTeamsNotification("704 - Invalid Entry", event.data, "704", deviceIp);
         }
     }else if(screenNumber === "704 " && row === 5){
         if(event.data.startsWith("PID") || event.data.startsWith("PLT")){
@@ -370,7 +370,7 @@ function onScan(event){
         }else{
             showMessage("Invalid Scan!");
             event.data = "";
-            sendTeamsNotification("704 - Confirm", event.data, "704", deviceIp);
+            //sendTeamsNotification("704 - Confirm", event.data, "704", deviceIp);
         }
     }else if(screenNumber === "704 " && row === 8){
         if(!event.data.startsWith("0000")){
@@ -378,7 +378,7 @@ function onScan(event){
         }else{
             event.data = "";
             showMessage("Invalid Scan!");
-            sendTeamsNotification("704 - To location", event.data, "704", deviceIp);
+            //sendTeamsNotification("704 - To location", event.data, "704", deviceIp);
         }
     }else if(screenNumber === "310a" && row === 12){
         if(event.data !== ""){
