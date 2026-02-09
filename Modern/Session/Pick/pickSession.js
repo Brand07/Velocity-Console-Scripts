@@ -106,7 +106,7 @@ function sendTeamsNotification(
             //showMessage("Teams notification sent successfully!", true); //Remove from prod
             //showMessage("Response: " + response.data, true); //Remove from prod
         } else {
-            showMessage("Teams notification failed: " + textStatus, true); //Remove from prod
+            //showMessage("Teams notification failed: " + textStatus, true); //Remove from prod
         }
     }
 
