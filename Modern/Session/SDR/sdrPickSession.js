@@ -39,7 +39,7 @@ function disableScanner(){
 
 // ============ Variables ============
 
-
+let valid_numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 // ============ End Variables ============
 
@@ -120,14 +120,12 @@ function checkScan(scan_data){
         }
         // === 301a Pick Part To START ====
     }else if(screenNumber === "301a" && row === 14){
-        //Check if the Tote ID on-screen matches the tote ID scanned
-        var toteId = Screen.getText(14,6,12);
-        if(scan_data.data !== toteId){
-            disableScanner();
-            scan_data.data = "";
-            showMessage("Tote ID doesn't match.");
+        if(scan_data.data.startsWith("TOT")){
+            sendEnter(150);
         }else{
             sendEnter(150);
+            scan_data.data = "";
+            showMessage("Tote ID doesn't match.");
         }
     }
 }
