@@ -54,7 +54,7 @@ function checkScan(scan_data){
 
     //Container/Batch ID Field
     if (screenNumber === "314 " && row === 3){
-        if (scan_data.data.length === 20 || scan_data.data.length === 4){
+        if (scan_data.data.length <= 20){
             sendTab(150);
         }else{
             disableScanner()
