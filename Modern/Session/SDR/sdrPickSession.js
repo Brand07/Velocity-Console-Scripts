@@ -117,7 +117,17 @@ function checkScan(scan_data){
             }
             // ==== 301 Pick Part From End ====
 
-            // === 301a Pick Part To START ====
+        }
+        // === 301a Pick Part To START ====
+    }else if(screenNumber === "301a" && row === 14){
+        //Check if the Tote ID on-screen matches the tote ID scanned
+        var toteId = Screen.getText(14,6,12);
+        if(scan_data.data !== toteId){
+            disableScanner();
+            scan_data.data = "";
+            showMessage("Tote ID doesn't match.");
+        }else{
+            sendEnter(150);
         }
     }
 }
