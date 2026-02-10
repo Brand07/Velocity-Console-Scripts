@@ -123,7 +123,6 @@ function checkScan(scan_data){
         if(scan_data.data.startsWith("TOT")){
             sendEnter(150);
         }else{
-            sendEnter(150);
             scan_data.data = "";
             showMessage("Tote ID doesn't match.");
         }
