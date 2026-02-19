@@ -252,7 +252,7 @@ function onScan(event){
             sendTab(300);
             //Set the container type as 'PALS'
             //Device.sendKeys("PALS");
-            sendTab(300);
+            //sendTab(300); Disabled at production's request
         }else{
             event.data = "";
             showMessage("Invalid Container!");
@@ -286,7 +286,7 @@ function onScan(event){
         if (event.data !== ""){
             //Send a tab and then send 'PALS' into the 'CnTp' field, then send enter.
             sendTab(300);
-            //Device.sendKeys("PALS");
+            Device.sendKeys("PALS");
             sendEnter(300);
         } else {
             event.data = "";
