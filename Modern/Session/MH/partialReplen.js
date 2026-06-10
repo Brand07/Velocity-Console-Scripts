@@ -20,7 +20,7 @@ if (
     position.row === 14 &&
     parseInt(text4, 10) < parseInt(text5, 10)
 ) {
-    Device.beep(2000, 1000, 50);
+    Device.beep(1000, 1000, 50);
 
     Prompt.promptOptions(
         "Alert",
