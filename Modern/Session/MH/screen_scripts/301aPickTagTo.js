@@ -30,8 +30,21 @@ function checkContainer(scan_data) {
         return scan_data;
     } else {
         disableScanner();
-        scan_data.data = "";
         showMessage("Invalid Scan!");
     }
 }
 
+// ==== End Custom Functions =====
+
+// ===== Variables =====
+var screenNumber = Screen.getText(0, 0, 4); // Gets the screen number
+var position = Screen.getCursorPosition(); // Get the cursor position
+var row = position.row; // Get the current row
+// ===== End Variables =====
+
+if (screenNumber === "301a" && row === 14) {
+    var container = checkContainer(event.data);
+    if (!container) {
+        event.data = "";
+    }
+}
