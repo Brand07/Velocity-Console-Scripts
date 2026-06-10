@@ -1,6 +1,7 @@
 /*
 Purpose: To Prevent bad entry on the 301aPickTagTo screen
 Date: 6/10/2026
+Screen: 
 */
 
 //Custom Functions for remapping methods
@@ -42,9 +43,15 @@ var position = Screen.getCursorPosition(); // Get the cursor position
 var row = position.row; // Get the current row
 // ===== End Variables =====
 
-if (screenNumber === "301a" && row === 14) {
-    var container = checkContainer(event.data);
-    if (!container) {
-        event.data = "";
+function checkScan(event) {
+    if (screenNumber === "301a" && row === 14) {
+        var container = checkContainer(event.data);
+        if (!container) {
+            event.data = "";
+        } else {
+            sendEnter(150);
+        }
     }
 }
+
+WLEvent.on("Scan", checkScan);
