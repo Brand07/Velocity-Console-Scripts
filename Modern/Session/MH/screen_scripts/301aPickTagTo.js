@@ -25,3 +25,13 @@ function sendTab(delay=300) {
     Device.sendKeys(`{pause:${delay}}{return}`)
 }
 
+function checkContainer(scan_data) {
+    if (scan_data.length === 20 && scan_data.startsWith("0000")) {
+        return scan_data;
+    } else {
+        disableScanner();
+        scan_data.data = "";
+        showMessage("Invalid Scan!");
+    }
+}
+
