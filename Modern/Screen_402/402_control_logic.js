@@ -120,7 +120,7 @@ function onScan(event) {
         }
         // Container field
     } else if (text1 === "402 " && row === 3) {
-        if (event.data.startsWith("0000") || event.data.startsWith("PID")) {
+        if (event.data.startsWith("0000") || event.data.startsWith("PID") || event.data.startsWith("PLT")) {
             d("Valid Scan");
             //sendEnter(300);
             //sendTeamsNotification("Container Successfully Scanned", "Container", event.data);
